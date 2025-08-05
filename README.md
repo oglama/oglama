@@ -8,15 +8,15 @@
 
 ### Installation
 
-#### Latest release
+#### ✨ Latest release
 
-Create an account at [Oglama](https://oglama.com/) and follow the on-screen instructions.
+Create an account at [Oglama](https://oglama.com/?ref=github) and follow the on-screen instructions.
 
-#### Older release
+#### 📦 Older release
 
 To install an older version, visit the [Releases](https://github.com/oglama/oglama/releases) page and download the appropriate installer.
 
-#### Nightly build
+#### 🌙 Nightly build
 
 To run the latest (unreleased) version of Oglama, clone this repository and run the following commands:
 
@@ -25,10 +25,10 @@ npm install
 npm start
 ```
 
-### Documentation
+### Development
 
 Building Oglama modules is easy:
 
-1. Visit the [Oglama SDK Reference](https://oglama.com/docs/)
+1. Visit the [Oglama SDK Reference](https://oglama.com/docs/?ref=github)
 2. Copy-paste it into your favorite LLM (Gemini / ChatGPT etc.)
 3. Ask the LLM to automate your tedious task with Oglama
