@@ -2,7 +2,7 @@
 
 <p align="center">
     <a href="https://oglama.com/?ref=github">
-        <img src="https://raw.githubusercontent.com/oglama/oglama/refs/heads/main/docs/banner.png"/>
+        <img src="https://raw.githubusercontent.com/oglama/oglama/refs/heads/main/docs/github-banner.png"/>
     </a>
 </p>
 
