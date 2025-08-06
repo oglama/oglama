@@ -30,5 +30,5 @@ npm start
 Building Oglama modules is easy:
 
 1. Visit the [Oglama SDK Reference](https://oglama.com/docs/?ref=github)
-2. Copy-paste it into your favorite LLM (Gemini / ChatGPT etc.)
-3. Ask the LLM to automate your tedious task with Oglama
+2. Download the sample module and import it into Oglama
+3. Start playing around with dollar-sign methods and options
