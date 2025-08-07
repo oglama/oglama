@@ -25,10 +25,10 @@ npm install
 npm start
 ```
 
-### Development
+### Creating modules
 
 Building Oglama modules is easy:
 
 1. Visit the [Oglama SDK Reference](https://oglama.com/docs/?ref=github)
 2. Download the sample module and import it into Oglama
-3. Start playing around with dollar-sign methods and options
+3. Start experimenting with dollar-sign methods - the integrated editor features auto-complete and code hints
