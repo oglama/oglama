@@ -1,6 +1,5 @@
 srcStateMachine:
-  - id: m7dnph7abjd1lpo21n5
-    key: start
+  - key: start
     code: |
       // Start testing
       if ($.args.length && $.args[0]) {
@@ -24,16 +23,14 @@ srcStateMachine:
 
       // Begin the first test
       return { next: "test-llm" };
-  - id: m9u49sepq65kfbpqud
-    key: test-llm
+  - key: test-llm
     code: |
       // Test $.llm, $.globalEnv*
       const wordOfDay = await $.fn("get-word-of-day");
       $.log(`The word of the day is: ${wordOfDay}`);
 
       return { next: "test-input-output" };
-  - id: m9u4zh2687zmp8j0d6s
-    key: test-input-output
+  - key: test-input-output
     code: |
       // Test $.io*
       await $.fn("test-io");
@@ -41,8 +38,7 @@ srcStateMachine:
       await $.fn("test-do-request");
 
       return { next: "test-html" };
-  - id: ma0u85iimwkg4xi94ha
-    key: test-html
+  - key: test-html
     code: |
       // Test $.doAwait*, $.doQuery*, $.handle*, $.doSelect, $.doCheck
       await $.fn("test-await-present");
@@ -58,8 +54,7 @@ srcStateMachine:
       await $.fn("test-radio");
 
       return { next: "test-typing" };
-  - id: m9tpxi8unfx15b2bgno
-    key: test-typing
+  - key: test-typing
     code: |
       // Test typing in inputs and textareas
       await $.fn("type-in-textfield");
@@ -69,8 +64,7 @@ srcStateMachine:
 
       return { next: "start", args: [true] };
 srcFunctions:
-  - id: m9zvmteipolubem3oi
-    key: test-navigation
+  - key: test-navigation
     code: |
       $.log("Testing $.navLoad, $.navReload, $.jiggle");
 
@@ -119,8 +113,7 @@ srcFunctions:
       if (!(await $.navGetUrl()).match(/^about:home\/test\/?$/g)) {
         throw new Error("Could not reload");
       }
-  - id: mac6w5azp93pxm619nn
-    key: test-jiggle
+  - key: test-jiggle
     code: |
       $.log("Testing $.doGetViewportSize, $.doHoverAt, $.doJiggle");
 
@@ -142,8 +135,7 @@ srcFunctions:
       // Get some wisdom
       await $.doClickAt(left + 20, top - 20);
       await $.sleep(1000);
-  - id: m9tybxuqtuzsahi4n7p
-    key: check-global-run
+  - key: check-global-run
     code: |
       $.log("Testing $.globalRun*, $.pause, $.sleep");
 
@@ -172,8 +164,7 @@ srcFunctions:
       if (Object.keys($.globalRunGet()).includes("random")) {
         throw new Error("$.globalRunSet failed to delete key");
       }
-  - id: m9vgq0xkehjsf4scjx
-    key: test-box
+  - key: test-box
     code: |
       $.log("Testing $.doGetBox, $.doHighlightBox");
 
@@ -190,8 +181,7 @@ srcFunctions:
       box.height = 50;
       await $.doHighlightBox(box);
       await $.sleep(1000);
-  - id: m9u4okf8upbbo1eaygm
-    key: get-word-of-day
+  - key: get-word-of-day
     code: |
       $.log("Testing $.globalEnv*, $.llm");
 
@@ -225,8 +215,7 @@ srcFunctions:
       }
 
       return savedWord;
-  - id: m95or3vb13ua9vt99bx
-    key: type-in-textfield
+  - key: type-in-textfield
     code: |
       $.log("Testing $.doType: typing in <TextField/>");
 
@@ -241,8 +230,7 @@ srcFunctions:
       }
 
       $.tick("success");
-  - id: m9tpwh2d0s061vricsq
-    key: type-in-input-text
+  - key: type-in-input-text
     code: |
       $.log("Testing $.doType: typing in <input type=text/>");
 
@@ -266,8 +254,7 @@ srcFunctions:
       }
 
       $.tick("success");
-  - id: m9tpzklocmcy4abl4w8
-    key: type-in-textfield-multiline
+  - key: type-in-textfield-multiline
     code: |
       $.log("Testing $.doType: typing in <TextField multiline/>");
 
@@ -290,8 +277,7 @@ srcFunctions:
       }
 
       $.tick("success");
-  - id: m9tqafktmteowyiuj8t
-    key: type-in-textarea
+  - key: type-in-textarea
     code: |
       $.log("Testing $.doType: typing in <textarea/>");
 
@@ -313,8 +299,7 @@ srcFunctions:
       }
 
       $.tick("success");
-  - id: ma6ffpwytiuom7bvhqc
-    key: test-alerts
+  - key: test-alerts
     code: |
       $.log("Testing $.handle* (alert, confirm, prompt)");
 
@@ -347,8 +332,7 @@ srcFunctions:
       // Show two toasts
       await $.doClick(await $.doQuery('[data-role="alert"]'));
       await $.doClick(await $.doQuery('[data-role="confirm"]'));
-  - id: ma0u7lsbx0sco8z9vji
-    key: test-query
+  - key: test-query
     code: |
       $.log("Testing $.doHover, $.doClick, $.doQuery, $.doGetContent");
 
@@ -384,8 +368,7 @@ srcFunctions:
       if ("alpha" !== resHtmlButton) {
         throw new Error("$.doClick failed on 'alpha' HTML button");
       }
-  - id: maayhf1ol8duj90otig
-    key: test-query-parent
+  - key: test-query-parent
     code: |
       $.log("Testing $.doQueryParent, $.doGetAttribute*");
 
@@ -405,8 +388,7 @@ srcFunctions:
       if ("switches" !== parentAttr) {
         throw new Error("$.doGetAttribute failed");
       }
-  - id: madi51s23i44fuas3r2
-    key: test-query-siblings
+  - key: test-query-siblings
     code: |
       $.log("Testing $.doQuerySiblings, $.doGetAttribute");
 
@@ -426,8 +408,7 @@ srcFunctions:
           throw new Error("$.doQuerySiblings captured self as sibling");
         }
       }
-  - id: m9vf8pylywlh2f14c5k
-    key: test-io
+  - key: test-io
     code: |
       $.log("Testing $.ioInput*, $.ioOutput*, $.ioSave*");
 
@@ -485,8 +466,7 @@ srcFunctions:
       if ("string" !== typeof savePath) {
         throw new Error("$.ioSaveUrl did not save the file to disk");
       }
-  - id: mae6om1di0vraj77vf
-    key: test-io-save
+  - key: test-io-save
     code: |
       if (!(await $.navGetUrl()).match(/test/g)) {
         await $.navLoad("about:home/test/");
@@ -520,8 +500,7 @@ srcFunctions:
         throw new Error("$.ioSaveRequest failed");
       }
       await $.sleep(1000);
-  - id: mb11hk1cgip3xel81x
-    key: test-do-request
+  - key: test-do-request
     code: |
       $.log("Testing $.doRequest");
       const url = "http://localhost:7199/manifest.json";
@@ -535,8 +514,7 @@ srcFunctions:
       if ("string" !== typeof resString || !resString.length || !resString.match(/"Oglama"/g)) {
         throw new Error("$.doRequest failed for string response");
       }
-  - id: ma87gt30m7walok5peq
-    key: test-select
+  - key: test-select
     code: |
       $.log("Testing $.select");
 
@@ -555,8 +533,7 @@ srcFunctions:
       if (!Array.isArray(multiSelectValue) || "3,15" !== multiSelectValue.join(",")) {
         throw new Error("$.doSelect failed for multiple values");
       }
-  - id: ma8g1lied1t731oe2q7
-    key: test-checkbox
+  - key: test-checkbox
     code: |
       $.log("Testing $.check: MUI and HTML checkboxes");
 
@@ -575,8 +552,7 @@ srcFunctions:
       if (!Array.isArray(htmlCheckboxValue) || "2,4" !== htmlCheckboxValue.join(",")) {
         throw new Error("$.check failed for HTML checkbox");
       }
-  - id: ma99xsi11nej87mux9i
-    key: test-radio
+  - key: test-radio
     code: |
       $.log("Testing $.check: MUI and HTML radios");
 
@@ -595,8 +571,7 @@ srcFunctions:
       if ("2" !== htmlRadioValue) {
         throw new Error("$.check failed for HTML radio");
       }
-  - id: ma9hgs9hy8sjbl9cor
-    key: test-await-present
+  - key: test-await-present
     code: |
       $.log("Testing $.doAwait*Present");
 
@@ -634,8 +609,7 @@ srcFunctions:
       if (false !== recheckPresent) {
         throw new Error("$.doAwaitPresent did not time out");
       }
-  - id: ma9nnox91osubfphnqj
-    key: test-await-visible
+  - key: test-await-visible
     code: |
       $.log("Testing $.doAwait*Visible");
 
@@ -673,8 +647,7 @@ srcFunctions:
       if (false !== recheckVisible) {
         throw new Error("$.doAwaitVisible did not time out");
       }
-  - id: mac7jezsj8jigbrd20p
-    key: test-coordinate-actions
+  - key: test-coordinate-actions
     code: |
       // Scroll down
       await $.doScroll(50);
@@ -703,8 +676,7 @@ srcFunctions:
 
       await $.doClickAt(50, 20, true);
       await $.doClickAt(250, 20);
-  - id: madiii3g3rs2a04ztiw
-    key: test-choose-files
+  - key: test-choose-files
     code: |
       $.log("Testing $.doChooseFiles");
 
@@ -723,26 +695,22 @@ srcFunctions:
         }
       }
 srcInputs:
-  - id: m7qi5iyhz1w7gfvlv0t
-    key: string
+  - key: string
     type: string
     name: String
     desc: ""
     max: 1024
     options: []
-  - id: m7qgj10zmmc960ka4p
-    key: int
+  - key: int
     type: int
     name: Integer
     desc: ""
     options: []
-  - id: m7ni5ewzkjs3golvlg8
-    key: bool
+  - key: bool
     type: bool
     name: Boolean
     desc: ""
-  - id: m7q9uew6rtv6aikt35
-    key: optional
+  - key: optional
     type: string
     name: Optional String
     desc: ""
@@ -753,15 +721,13 @@ srcInputs:
       - bar
       - baz
     default: bar
-  - id: m7ni5gtp7yaxccnjxty
-    key: table
+  - key: table
     type: table
     name: Subjects
     desc: A list of subjects
     columns:
       - subject
-  - id: m7qhpfss87pedgw80w3
-    key: files
+  - key: files
     type: files
     name: Files
     desc: ""
@@ -770,32 +736,27 @@ srcInputs:
       - png
       - jpeg
 srcOutputs:
-  - id: m7w7h3i1z4t97sx6hvl
-    key: int
+  - key: int
     type: int
     name: Integer
     desc: ""
-  - id: m7nibci0gn3qbqgqvgm
-    key: string
+  - key: string
     type: string
     name: String
     desc: ""
     max: 1024
-  - id: m81uwdojrz45vo3bet
-    key: bool
+  - key: bool
     type: bool
     name: Boolean
     desc: ""
-  - id: m8n3l1uuuk80i282cnk
-    key: table
+  - key: table
     type: table
     name: Table
     desc: ""
     columns:
       - subject
       - joke
-  - id: m81uwpx42qj0tfn4f3b
-    key: images
+  - key: images
     type: files
     name: Images
     desc: ""
@@ -805,8 +766,7 @@ srcOutputs:
       - jpeg
       - gif
       - webp
-  - id: mal24jbxam1sx44n0ld
-    key: binary
+  - key: binary
     type: files
     name: Binary
     desc: ""
