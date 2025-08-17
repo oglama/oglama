@@ -388,6 +388,16 @@ srcFunctions:
       if ("switches" !== parentAttr) {
         throw new Error("$.doGetAttribute failed");
       }
+
+      // Find first ancestor
+      const firstParentKey = await $.doQueryParent(switchKey);
+      if ("string" !== typeof firstParentKey) {
+        throw new Error("$.doQueryParent failed to find first parent");
+      }
+      const firstParentClasses = await $.doGetAttribute(firstParentKey, "class");
+      if (!firstParentClasses.match(/\bMuiButtonBase-root\b/g)) {
+        throw new Error("$.doQueryParent invalid first parent");
+      }
   - key: test-query-siblings
     code: |
       $.log("Testing $.doQuerySiblings, $.doGetAttribute");
@@ -397,7 +407,7 @@ srcFunctions:
       const switchMuiKey = await $.doQueryParent(switchKey, ".MuiSwitch-root");
 
       // Find the siblings
-      const switchSiblings = await $.doQuerySiblings(switchMuiKey, "span");
+      const switchSiblings = await $.doQuerySiblings(switchMuiKey);
       if (3 !== switchSiblings.length) {
         throw new Error("$.doQuerySiblings failed");
       }
@@ -660,9 +670,12 @@ srcFunctions:
 
       // Hover to the top-left corner
       await $.doHoverAt(50, 20);
-      const element = await $.doQueryAt(50, 20, "h2");
+      const element = await $.doQueryAt(50, 20);
       if (null === element) {
-        throw new Error("$.doQueryAt failed");
+        throw new Error("$.doQueryAt failed to find element");
+      }
+      if ("h2" !== (await $.doGetType(element))) {
+        throw new Error("$.doQueryAt did not find the right parent");
       }
 
       // It's clear the element is in viewport
