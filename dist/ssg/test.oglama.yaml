@@ -186,8 +186,8 @@ srcFunctions:
       $.log("Testing $.globalEnv*, $.llm");
 
       const today = new Date().toISOString().split("T")[0];
-      const savedDay = $.globalEnvGet("word-day");
-      let savedWord = $.globalEnvGet("word");
+      const savedDay = await $.globalEnvGet("word-day");
+      let savedWord = await $.globalEnvGet("word");
 
       // Cache miss
       if ("string" !== typeof savedWord || today !== savedDay) {
@@ -197,19 +197,19 @@ srcFunctions:
         if ("string" !== typeof llmWord) {
           throw new Error("$.llm failed");
         }
-        $.globalEnvSet("word", llmWord);
-        $.globalEnvSet("word-day", today);
+        await $.globalEnvSet("word", llmWord);
+        await $.globalEnvSet("word-day", today);
       }
 
       // Delete a value
-      $.globalEnvSet("random", Math.random());
-      $.globalEnvSet("random", null);
-      if (Object.keys($.globalEnvGet()).includes("random")) {
+      await $.globalEnvSet("random", Math.random());
+      await $.globalEnvSet("random", null);
+      if (Object.keys(await $.globalEnvGet()).includes("random")) {
         throw new Error("$.globalEnvSet failed to delete key");
       }
 
       // Re-fetch the word
-      savedWord = $.globalEnvGet("word");
+      savedWord = await $.globalEnvGet("word");
       if ("string" !== typeof savedWord) {
         throw new Error("$.globalEnvSet failed");
       }
