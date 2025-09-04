@@ -264,14 +264,14 @@ srcFunctions:
       const text = Array.from({ length: 20 }, (_, i) => i + 1)
         .map(i => `${i}.	Șș好的 Lorem ipsum. ✨\n`)
         .join("");
-      await $.doType(textfieldMultiKey, text, true, 250);
+      await $.doType(textfieldMultiKey, text, true, false, 250);
 
       if (!(await $.doGetValue(textfieldMultiKey)).match(/20\.\t/g)) {
         throw new Error("$.doType failed in textarea");
       }
 
       // Append text
-      await $.doType(textfieldMultiKey, "foobar", false);
+      await $.doType(textfieldMultiKey, "foobar");
       if (!(await $.doGetValue(textfieldMultiKey)).match(/20\.\t.*?foobar$/gms)) {
         throw new Error("$.doType append failed in textarea");
       }
@@ -287,13 +287,13 @@ srcFunctions:
       const text = Array.from({ length: 20 }, (_, i) => i + 1)
         .map(i => `${i}.	Șș好的 Lorem ipsum. ✨\n`)
         .join("");
-      await $.doType(textareaKey, text, true, 250);
+      await $.doType(textareaKey, text, true, false, 250);
 
       if (!(await $.doGetValue(textareaKey)).match(/20\.\t/g)) {
         throw new Error("$.doType failed in textarea");
       }
 
-      await $.doType(textareaKey, text, true);
+      await $.doType(textareaKey, text, true, false, 250);
       if ((await $.doGetValue(textareaKey)).match(/20\.\t.*?20\.\t/gms)) {
         throw new Error("$.doType replace failed in textarea");
       }
