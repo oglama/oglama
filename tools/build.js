@@ -19,9 +19,8 @@ const path = require("path");
 
 // Synchronous tasks
 const tasks = {
-    lint: ["Linting", "npm", ["run", "lint"]],
-    tag: ["Git tag", "node", [path.join(__dirname, "tag.js")]],
-    build: ["Build & Publish app", "electron-builder"]
+    lint: ["Lint", "npm", ["run", "lint"]],
+    build: ["Build & publish app", "electron-builder"]
 };
 
 // Local run
