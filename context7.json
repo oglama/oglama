@@ -1,0 +1,23 @@
+{
+  "settings": {
+    "title": "Oglama",
+    "project": "/oglama/oglama",
+    "type": "repo",
+    "language": "English",
+    "description": "Oglama is a private, community-driven web automation platform that allows users to create and run modules for automating web tasks.",
+    "docsRepoUrl": "https://github.com/oglama/oglama",
+    "folders": ["docs"],
+    "excludeFolders": ["dist", "tools"],
+    "excludeFiles": [
+      "CODE-OF-CONDUCT.md",
+      "CONTRIBUTING.md",
+      "LICENSE.txt",
+      "NOTICE.md",
+      "README.md",
+      "SECURITY.md"
+    ],
+    "branch": "main",
+    "customBranch": false,
+    "privateRepo": false
+  }
+}
