@@ -1,23 +1,20 @@
 {
-  "settings": {
-    "title": "Oglama",
-    "project": "/oglama/oglama",
-    "type": "repo",
-    "language": "English",
-    "description": "Oglama is a private, community-driven web automation platform that allows users to create and run modules for automating web tasks.",
-    "docsRepoUrl": "https://github.com/oglama/oglama",
-    "folders": ["docs"],
-    "excludeFolders": ["dist", "tools"],
-    "excludeFiles": [
-      "CODE-OF-CONDUCT.md",
-      "CONTRIBUTING.md",
-      "LICENSE.txt",
-      "NOTICE.md",
-      "README.md",
-      "SECURITY.md"
-    ],
-    "branch": "main",
-    "customBranch": false,
-    "privateRepo": false
-  }
+  "$schema": "https://context7.com/schema/context7.json",
+  "projectTitle": "Oglama SDK",
+  "description": "Oglama is a private, community-driven web automation platform that allows users to create and run modules for automating web tasks",
+  "folders": ["docs"],
+  "excludeFolders": ["dist", "tools"],
+  "excludeFiles": [
+    "CODE-OF-CONDUCT.md",
+    "CONTRIBUTING.md",
+    "LICENSE.txt",
+    "NOTICE.md",
+    "README.md",
+    "SECURITY.md"
+  ],
+  "rules": [
+    "Always use vanilla JavaScript and the $ (dollar sign) methods for operations. Example: $.navLoad() for loading pages etc.", 
+    "Always present results in the .oglama.yaml file format. See 'search.oglama.yaml' for a short example.", 
+    "Use only the $ methods as described in this documentation, and don't attempt to invent new ones. Read each method's parameters (@param) carefully."
+  ]
 }
