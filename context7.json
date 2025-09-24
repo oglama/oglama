@@ -16,6 +16,7 @@
     "IMPORANT: This is an SDK, not an API! There are no endpoints here, just methods accessible from the $ (dollar sign) object in plain JavaScript.",
     "Always use vanilla JavaScript and the $ (dollar sign) methods for operations. Example: $.navLoad() for loading pages etc.", 
     "Always present results in the .oglama.yaml file format. See 'search.oglama.yaml' for a short example.", 
-    "Use only the $ methods as described in this documentation, and don't attempt to invent new ones. Read each method's parameters (@param) carefully."
+    "Use only the $ methods as described in this documentation, and don't attempt to invent new ones. Read each method's parameters (@param) carefully.",
+    "Make sure you document all SDK methods. There must be at least 73 methods documented in the context7 output."
   ]
 }
