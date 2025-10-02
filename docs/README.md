@@ -111,9 +111,9 @@ srcOutputs: []
 
 *   Import this module by following these steps:
     
-*   Launch Oglama Select an agent Click on options
-*   Click on source code Click on source control Import from YAML
-*   Select search.oglama.yaml
+*   Launch Oglama, Select an agent, Click on options
+*   Click on source code, Click on source control, Import from YAML
+*   Select `search.oglama.yaml`
 
   
 
