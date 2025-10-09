@@ -109,11 +109,11 @@ srcInputs:
 srcOutputs: []
 ```
 
-*   Import this module by following these steps:
-    
-*   Launch Oglama, Select an agent, Click on options
-*   Click on source code, Click on source control, Import from YAML
-*   Select `search.oglama.yaml`
+Import this and other modules by following these steps:
+
+*   Launch Oglama, select an agent, and click on Options
+*   Click Source Code, go to Source Control, and select 'Import from YAML'
+*   Choose the module file ( `search.oglama.yaml` )
 
   
 
@@ -278,6 +278,92 @@ srcOutputs: []
 > Cancels a timeout previously established by <i>$.setTimeout</i>.<br/>
 > 
 > <i>@param</i> {function} <b>timeoutId</b> The identifier of the timeout to cancel, as returned by <i>$.setTimeout</i><br/>
+
+* * *
+
+#### async $.osRequest( url, reqMethod = "GET", reqData = {}, reqHeaders = {}, reqJson = true, timeout = 60 )
+
+> OS: Make a fetch request directly from the computer.<br/>
+> 
+> Useful for bypassing CORS (Cross-Origin Resource Sharing) constraints set by the browser.<br/>
+> If you need to make an authenticated request from the currently loaded page, user <i>$.doRequest</i> instead.<br/>
+> Note that these requests do not have access to your browser session's cookies.<br/>
+> 
+> <i>@param</i> {string} <b>url</b> Request URL<br/>
+> <i>@param</i> {string} <b>reqMethod</b> (optional) Request method; default <i>GET</i><br/>
+> <i>@param</i> {object} <b>reqData</b> (optional) Request data; default <i>{}</i><br/>
+> <i>@param</i> {object} <b>reqHeaders</b> (optional) Request headers; default <i>{}</i><br/>
+> <i>@param</i> {boolean} <b>reqJson</b> (optional) JSON response; default <i>true</i><br/>
+> <i>@param</i> {int} <b>timeout</b> (optional) Request timeout in seconds; default <i>60</i><br/>
+> <i>@return</i> {{ok:boolean,status:number,headers:object,data:mixed}} Fetch response object<br/>
+> <i>@throws</i> {Error} Throws an error if request failed or aborted<br/>
+
+This method acts like a proxy, bypassing any CORS restrictions.  
+If you need to pass along cookies with your request, first nagivate to the target domain using [$.navLoad()](https://oglama.com/docs/#/doc:navLoad) then issue the request with [$.doRequest()](https://oglama.com/docs/#/doc:doRequest) or [$.ioSaveRequest()](https://oglama.com/docs/#/doc:ioSaveRequest).
+
+**os-request.oglama.yaml**
+```yaml
+srcStateMachine:
+  - key: start
+    code: |
+      const url = "http://localhost:7199/manifest.json";
+
+      // Bypass CORS
+      const response = await $.osRequest(url);
+
+      // Log the response status code
+      $.log(response.status);
+
+      // Log the response headers
+      $.log(response.headers);
+
+      // Log the response data
+      $.log(response.data);
+srcFunctions: []
+srcInputs: []
+srcOutputs: []
+```
+
+* * *
+
+#### async $.osShowFile( filePath )
+
+> OS: Show file in folder.<br/>
+> 
+> <i>@param</i> {string} <b>filePath</b> File path<br/>
+> <i>@return</i> {boolean}<br/>
+
+It is recommended that you use this method with caution and only with the explicit permission of users, as opening folders may interfere with their activities.
+
+**os-show-file.oglama.yaml**
+```yaml
+srcStateMachine:
+  - key: start
+    code: |
+      const url = "http://localhost:7199/manifest.json";
+
+      // Save the file to disk
+      const filePath = await $.ioSaveUrl("json-files", url);
+
+      // Open containing folder (if the user allows it)
+      if ($.ioInputBoolean("show-file-after-download")) {
+        await $.osShowFile(filePath);
+      }
+srcFunctions: []
+srcInputs:
+  - key: show-file-after-download
+    type: boolean
+    name: Show files
+    desc: Show downloaded files when the script finishes
+srcOutputs:
+  - key: json-files
+    type: files
+    name: JSON files
+    desc: ""
+    max: 1024
+    extensions:
+      - json
+```
 
 * * *
 
@@ -887,20 +973,22 @@ srcOutputs: []
 
 * * *
 
-#### async $.doRequest( url, reqMethod = "GET", reqData = {}, reqHeaders = {}, reqJson = true, timeout = 600 )
+#### async $.doRequest( url, reqMethod = "GET", reqData = {}, reqHeaders = {}, reqJson = true, timeout = 60 )
 
 > Document: Make a fetch request from the current page.<br/>
 > 
 > Useful for JSON and simple text responses.<br/>
 > For large files or binary data use <i>$.ioSaveRequest</i> instead.<br/>
+> If you need to bypass CORS and send the requests directly from the computer<br/>
+> (outside of the browser session) use <i>$.osRequest</i> instead.<br/>
 > 
 > <i>@param</i> {string} <b>url</b> Request URL<br/>
 > <i>@param</i> {string} <b>reqMethod</b> (optional) Request method; default <i>GET</i><br/>
 > <i>@param</i> {object} <b>reqData</b> (optional) Request data; default <i>{}</i><br/>
 > <i>@param</i> {object} <b>reqHeaders</b> (optional) Request headers; default <i>{}</i><br/>
 > <i>@param</i> {boolean} <b>reqJson</b> (optional) JSON response; default <i>true</i><br/>
-> <i>@param</i> {int} <b>timeout</b> (optional) Request timeout in seconds; default <i>600</i><br/>
-> <i>@return</i> {any|string} JSON data if <i>reqJson</i> is true, string otherwise<br/>
+> <i>@param</i> {int} <b>timeout</b> (optional) Request timeout in seconds; default <i>60</i><br/>
+> <i>@return</i> {{ok:boolean,status:number,headers:object,data:mixed}} Fetch response object<br/>
 > <i>@throws</i> {Error} Throws an error if request failed or aborted<br/>
 
 * * *

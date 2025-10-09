@@ -512,16 +512,38 @@ srcFunctions:
       await $.sleep(1000);
   - key: test-do-request
     code: |
-      $.log("Testing $.doRequest");
+      $.log("Testing $.doRequest, $.osRequest");
       const url = "http://localhost:7199/manifest.json";
 
-      const resJSON = await $.doRequest(url);
-      if ("object" !== typeof resJSON || null == resJSON || "Oglama" !== resJSON.name) {
+      const resJson = await $.doRequest(url);
+      if ("object" !== typeof resJson.data || null == resJson.data || "Oglama" !== resJson.data.name) {
         throw new Error("$.doRequest failed for JSON response");
       }
 
       const resString = await $.doRequest(url, "GET", null, null, false);
-      if ("string" !== typeof resString || !resString.length || !resString.match(/"Oglama"/g)) {
+      if (
+        "string" !== typeof resString.data ||
+        !resString.data.length ||
+        !resString.data.match(/"Oglama"/g)
+      ) {
+        throw new Error("$.doRequest failed for string response");
+      }
+
+      const resDevJson = await $.osRequest(url);
+      if (
+        "object" !== typeof resDevJson.data ||
+        null == resDevJson.data ||
+        "Oglama" !== resDevJson.data.name
+      ) {
+        throw new Error("$.osRequest failed for JSON response");
+      }
+
+      const resDevString = await $.osRequest(url, "GET", null, null, false);
+      if (
+        "string" !== typeof resDevString.data ||
+        !resDevString.data.length ||
+        !resDevString.data.match(/"Oglama"/g)
+      ) {
         throw new Error("$.doRequest failed for string response");
       }
   - key: test-select
