@@ -9,7 +9,7 @@ srcStateMachine:
 
       $.log("Testing started...", "success");
 
-      // Check $.globalRun*, $.pause, $.sleep, $.tick
+      // Check $.globalRun*, $.pause, $.sleep, $.doTick
       await $.fn("check-global-run", [123]);
 
       // Test the jiggle
@@ -35,7 +35,7 @@ srcStateMachine:
       // Test $.io*
       await $.fn("test-io");
       await $.fn("test-io-save");
-      await $.fn("test-do-request");
+      await $.fn("test-requests");
 
       return { next: "test-html" };
   - key: test-html
@@ -229,7 +229,7 @@ srcFunctions:
         throw new Error("$.doType append failed in TextField");
       }
 
-      $.tick("success");
+      $.doTick("success");
   - key: type-in-input-text
     code: |
       $.log("Testing $.doType: typing in <input type=text/>");
@@ -253,7 +253,7 @@ srcFunctions:
         throw new Error("$.doTypeAt replace failed in input[type=text]");
       }
 
-      $.tick("success");
+      $.doTick("success");
   - key: type-in-textfield-multiline
     code: |
       $.log("Testing $.doType: typing in <TextField multiline/>");
@@ -276,7 +276,7 @@ srcFunctions:
         throw new Error("$.doType append failed in textarea");
       }
 
-      $.tick("success");
+      $.doTick("success");
   - key: type-in-textarea
     code: |
       $.log("Testing $.doType: typing in <textarea/>");
@@ -298,7 +298,7 @@ srcFunctions:
         throw new Error("$.doType replace failed in textarea");
       }
 
-      $.tick("success");
+      $.doTick("success");
   - key: test-alerts
     code: |
       $.log("Testing $.handle* (alert, confirm, prompt)");
@@ -510,7 +510,7 @@ srcFunctions:
         throw new Error("$.ioSaveRequest failed");
       }
       await $.sleep(1000);
-  - key: test-do-request
+  - key: test-requests
     code: |
       $.log("Testing $.doRequest, $.osRequest");
       const url = "http://localhost:7199/manifest.json";
@@ -520,7 +520,7 @@ srcFunctions:
         throw new Error("$.doRequest failed for JSON response");
       }
 
-      const resString = await $.doRequest(url, "GET", null, null, false);
+      const resString = await $.doRequest(url, { json: false });
       if (
         "string" !== typeof resString.data ||
         !resString.data.length ||
@@ -538,7 +538,7 @@ srcFunctions:
         throw new Error("$.osRequest failed for JSON response");
       }
 
-      const resDevString = await $.osRequest(url, "GET", null, null, false);
+      const resDevString = await $.osRequest(url, { json: false });
       if (
         "string" !== typeof resDevString.data ||
         !resDevString.data.length ||

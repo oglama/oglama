@@ -214,25 +214,11 @@ srcOutputs: []
 
 * * *
 
-#### $.tick( name, amount = 1 )
+#### async $.sleep( ms )
 
-> Increment a named counter in the Status bar.<br/>
-> Up to 5 counters can be displayed at a time.<br/>
+> Pause the execution of the current thread for a specified number of milliseconds.<br/>
 > 
-> <i>@param</i> {string} <b>name</b> Counter name. The following strings are displayed as icons:<br/>
->  "contact", "view", "like", "post", "repost", "comment",<br/>
->  "upload", "download", "screenshot", "collect",<br/>
->  "success", "warning"<br/>
-> <i>@param</i> {int} <b>amount</b> (optional) Strictly positive number; <i>[0,1000]</i>; default <i>1</i>; <i>0</i> won't increment the counter<br/>
-
-* * *
-
-#### $.stop( message = "" )
-
-> Stop the execution of the current state.<br/>
-> When resumed, the finite-state machine will start from the first state (the Entry Point 🏁).<br/>
-> 
-> <i>@param</i> {string} <b>message</b> (optional) Message displayed in the agent button instead of the agent name<br/>
+> <i>@param</i> {number} <b>ms</b> Sleep time in milliseconds<br/>
 
 * * *
 
@@ -245,21 +231,12 @@ srcOutputs: []
 
 * * *
 
-#### async $.sleep( ms )
+#### $.stop( message = "" )
 
-> Pause the execution of the current thread for a specified number of milliseconds.<br/>
+> Stop the execution of the current state.<br/>
+> When resumed, the finite-state machine will start from the first state (the Entry Point 🏁).<br/>
 > 
-> <i>@param</i> {number} <b>ms</b> Sleep time in milliseconds<br/>
-
-* * *
-
-#### $.rand( min, max )
-
-> Generate a random signed integer between the specified minimum and maximum values, inclusive.<br/>
-> 
-> <i>@param</i> {int} <b>min</b> Minimum signed integer value; default <i>0</i><br/>
-> <i>@param</i> {int} <b>max</b> Maximum signed integer value; default <i>2^53-1</i><br/>
-> <i>@return</i> {int} A random signed integer between <i>min</i> and <i>max</i> (inclusive)<br/>
+> <i>@param</i> {string} <b>message</b> (optional) Message displayed in the agent button instead of the agent name<br/>
 
 * * *
 
@@ -281,21 +258,23 @@ srcOutputs: []
 
 * * *
 
-#### async $.osRequest( url, reqMethod = "GET", reqData = {}, reqHeaders = {}, reqJson = true, timeout = 60 )
+#### async $.osRequest( url, options = {} )
 
-> OS: Make a fetch request directly from the computer.<br/>
+> OS: Make a request directly from the computer.<br/>
 > 
 > Useful for bypassing CORS (Cross-Origin Resource Sharing) constraints set by the browser.<br/>
-> If you need to make an authenticated request from the currently loaded page, user <i>$.doRequest</i> instead.<br/>
+> If you need to make an authenticated request from the currently loaded page, use <i>$.doRequest</i> instead.<br/>
 > Note that these requests do not have access to your browser session's cookies.<br/>
 > 
 > <i>@param</i> {string} <b>url</b> Request URL<br/>
-> <i>@param</i> {string} <b>reqMethod</b> (optional) Request method; default <i>GET</i><br/>
-> <i>@param</i> {object} <b>reqData</b> (optional) Request data; default <i>{}</i><br/>
-> <i>@param</i> {object} <b>reqHeaders</b> (optional) Request headers; default <i>{}</i><br/>
-> <i>@param</i> {boolean} <b>reqJson</b> (optional) JSON response; default <i>true</i><br/>
-> <i>@param</i> {int} <b>timeout</b> (optional) Request timeout in seconds; default <i>60</i><br/>
-> <i>@return</i> {{ok:boolean,status:number,headers:object,data:mixed}} Fetch response object<br/>
+> <i>@param</i> {Object} <b>options</b> (optional) Request options<br/>
+> <i>@param</i> {string} <b>options</b>.method (optional) Request method; default <i>GET</i><br/>
+> <i>@param</i> {object} <b>options</b>.data (optional) Request data; default <i>{}</i><br/>
+> <i>@param</i> {object} <b>options</b>.headers (optional) Request headers; default <i>{}</i><br/>
+> <i>@param</i> {boolean} <b>options</b>.json (optional) JSON request; default <i>true</i><br/>
+> <i>@param</i> {int} <b>options</b>.timeout (optional) Request timeout in seconds; default <i>60</i><br/>
+> <i>@param</i> {boolean} <b>options</b>.resData (optional) Parse and return the response data; default <i>true</i><br/>
+> <i>@return</i> {{ ok:boolean, status:number, headers:object, data:mixed}} Response object<br/>
 > <i>@throws</i> {Error} Throws an error if request failed or aborted<br/>
 
 This method acts like a proxy, bypassing any CORS restrictions.  
@@ -308,17 +287,15 @@ srcStateMachine:
     code: |
       const url = "http://localhost:7199/manifest.json";
 
-      // Bypass CORS
+      // JSON request (CORS is bypassed)
+      $.log(`Fetching ${url} from OS`, "success");
       const response = await $.osRequest(url);
+      $.log([response?.status, response?.headers, response?.data]);
 
-      // Log the response status code
-      $.log(response.status);
-
-      // Log the response headers
-      $.log(response.headers);
-
-      // Log the response data
-      $.log(response.data);
+      // Fetch headers only
+      $.log(`Fetching ${url} without data from OS`, "success");
+      const responseNoData = await $.osRequest(url, { resData: false });
+      $.log([responseNoData?.status, responseNoData?.headers, responseNoData?.data]);
 srcFunctions: []
 srcInputs: []
 srcOutputs: []
@@ -364,6 +341,16 @@ srcOutputs:
     extensions:
       - json
 ```
+
+* * *
+
+#### $.osRand( min, max )
+
+> OS: Generate a random signed integer between the specified minimum and maximum values, inclusive.<br/>
+> 
+> <i>@param</i> {int} <b>min</b> Minimum signed integer value; default <i>0</i><br/>
+> <i>@param</i> {int} <b>max</b> Maximum signed integer value; default <i>2^53-1</i><br/>
+> <i>@return</i> {int} A random signed integer between <i>min</i> and <i>max</i> (inclusive)<br/>
 
 * * *
 
@@ -547,7 +534,7 @@ srcOutputs:
 
 * * *
 
-#### async $.ioSaveRequest( ioKey, url, reqMethod = "GET", reqData = {}, reqHeaders = {}, reqJson = true, timeout = 600 )
+#### async $.ioSaveRequest( ioKey, url, options = {} )
 
 > IO: Capture the result of this fetch request and save it to disk.<br/>
 > 
@@ -555,13 +542,46 @@ srcOutputs:
 > For direct access to JSON or text responses, use <i>$.doRequest</i> instead.<br/>
 > 
 > <i>@param</i> {string} <b>ioKey</b> Files output key<br/>
-> <i>@param</i> {string} <b>url</b> URL to download<br/>
-> <i>@param</i> {string} <b>reqMethod</b> (optional) Request method; default <i>GET</i><br/>
-> <i>@param</i> {object} <b>reqData</b> (optional) Request data; default <i>{}</i><br/>
-> <i>@param</i> {object} <b>reqHeaders</b> (optional) Request headers; default <i>{}</i><br/>
-> <i>@param</i> {boolean} <b>reqJson</b> (optional) JSON response; default <i>true</i><br/>
-> <i>@param</i> {int} <b>timeout</b> (optional) Download timeout in seconds; default <i>600</i><br/>
+> <i>@param</i> {string} <b>url</b> URL to save locally<br/>
+> <i>@param</i> {Object} <b>options</b> (optional) Request options<br/>
+> <i>@param</i> {string} <b>options</b>.method (optional) Request method; default <i>GET</i><br/>
+> <i>@param</i> {object} <b>options</b>.data (optional) Request data; default <i>{}</i><br/>
+> <i>@param</i> {object} <b>options</b>.headers (optional) Request headers; default <i>{}</i><br/>
+> <i>@param</i> {boolean} <b>options</b>.json (optional) JSON request; default <i>true</i><br/>
+> <i>@param</i> {int} <b>options</b>.timeout (optional) Request timeout in seconds; default <i>60</i><br/>
+> <i>@param</i> {string} <b>options</b>.extension (optional) File extension; must be declared by output; default <i>null</i>; falls back to first file extension declared by output<br/>
 > <i>@return</i> {string | null} File path on success, <i>null</i> if download failed or if output is not of type <i>files</i><br/>
+
+This example demonstrates how to save a file with a custom extension. Note that the file extension must first be declared in the output configuration. If the specified extension is not included in the declared list, the first listed extension, "json" in this case, will be used instead.  
+If you don't specify a file extension, the script will attempt to deduce it from the URL.
+
+**io-save-request.oglama.yaml**
+```yaml
+srcStateMachine:
+  - key: start
+    code: |
+      const url = "http://localhost:7199/manifest.json";
+
+      // Navigate to origin so the browser allows the request (CORS)
+      await $.navLoad(new URL(url).origin);
+
+      $.log("Saving JSON as simple text file...");
+      const jsonPath = await $.ioSaveRequest("manifest", url, { extension: "txt" });
+      if ("string" !== typeof jsonPath) {
+        throw new Error("$.ioSaveRequest failed");
+      }
+srcFunctions: []
+srcInputs: []
+srcOutputs:
+  - key: manifest
+    type: files
+    name: JSON files
+    desc: ""
+    max: 1024
+    extensions:
+      - json
+      - txt
+```
 
 * * *
 
@@ -706,6 +726,66 @@ srcOutputs:
 > <i>@param</i> {string} <b>cssSelector</b> (optional) CSS selector for element at coordinates; default <i>null</i> to return the topmost element<br/>
 > <i>@param</i> {string} <b>contains</b> (optional) Text contained by Element (case insensitive); default <i>null</i> for no restrictions<br/>
 > <i>@return</i> {string|null} <i>Element key</i> on null on error<br/>
+
+* * *
+
+#### async $.doRequest( url, options = {} )
+
+> Document: Make a request from the current page.<br/>
+> 
+> Useful for JSON and simple text responses. For large files or binary data use <i>$.ioSaveRequest</i> instead.<br/>
+> If you need to bypass CORS and send the requests directly from the computer (outside of the browser session) use <i>$.osRequest</i> instead.<br/>
+> 
+> <i>@param</i> {string} <b>url</b> Request URL<br/>
+> <i>@param</i> {Object} <b>options</b> (optional) Request options<br/>
+> <i>@param</i> {string} <b>options</b>.method (optional) Request method; default <i>GET</i><br/>
+> <i>@param</i> {object} <b>options</b>.data (optional) Request data; default <i>{}</i><br/>
+> <i>@param</i> {object} <b>options</b>.headers (optional) Request headers; default <i>{}</i><br/>
+> <i>@param</i> {boolean} <b>options</b>.json (optional) JSON request; default <i>true</i><br/>
+> <i>@param</i> {int} <b>options</b>.timeout (optional) Request timeout in seconds; default <i>60</i><br/>
+> <i>@param</i> {boolean} <b>options</b>.resData (optional) Parse and return the response data; default <i>true</i><br/>
+> <i>@return</i> {{ ok:boolean, status:number, headers:object, data:mixed}} Response object<br/>
+> <i>@throws</i> {Error} Throws an error if request failed or aborted<br/>
+
+This example describes how to fetch data in the browser when CORS is an issue.  
+If you don't care about cookies you can use [$.osRequest()](https://oglama.com/docs/#/doc:osRequest) to bypass CORS instead.
+
+**do-request.oglama.yaml**
+```yaml
+srcStateMachine:
+  - key: start
+    code: |
+      const url = "http://localhost:7199/manifest.json";
+
+      // Navigate to origin so the browser allows the request (CORS)
+      await $.navLoad(new URL(url).origin);
+
+      // JSON request
+      $.log(`Fetching ${url} from browser`, "success");
+      const response = await $.doRequest(url);
+      $.log([response?.status, response?.headers, response?.data]);
+
+      // Fetch headers only
+      $.log(`Fetching ${url} without data from browser`, "success");
+      const responseNoData = await $.doRequest(url, { resData: false });
+      $.log([responseNoData?.status, responseNoData?.headers, responseNoData?.data]);
+srcFunctions: []
+srcInputs: []
+srcOutputs: []
+```
+
+* * *
+
+#### $.doTick( name, amount = 1 )
+
+> Document: Increment a named counter in the Status bar.<br/>
+> Up to 5 counters can be displayed at a time.<br/>
+> 
+> <i>@param</i> {string} <b>name</b> Counter name. The following strings are displayed as icons:<br/>
+>  "contact", "view", "like", "post", "repost", "comment",<br/>
+>  "upload", "download", "screenshot", "collect",<br/>
+>  "success", "warning"<br/>
+> <i>@param</i> {int} <b>amount</b> (optional) Strictly positive number; <i>[0,1000]</i>; default <i>1</i>; <i>0</i> won't increment the counter<br/>
 
 * * *
 
@@ -970,26 +1050,6 @@ srcOutputs:
 > <i>@param</i> {string} <b>elKey</b> Element key - obtained with <i>$.doQuery</i><br/>
 > <i>@param</i> {string|string[]} <b>filePaths</b> File path(s)<br/>
 > <i>@return</i> {boolean} True on success, false on failure<br/>
-
-* * *
-
-#### async $.doRequest( url, reqMethod = "GET", reqData = {}, reqHeaders = {}, reqJson = true, timeout = 60 )
-
-> Document: Make a fetch request from the current page.<br/>
-> 
-> Useful for JSON and simple text responses.<br/>
-> For large files or binary data use <i>$.ioSaveRequest</i> instead.<br/>
-> If you need to bypass CORS and send the requests directly from the computer<br/>
-> (outside of the browser session) use <i>$.osRequest</i> instead.<br/>
-> 
-> <i>@param</i> {string} <b>url</b> Request URL<br/>
-> <i>@param</i> {string} <b>reqMethod</b> (optional) Request method; default <i>GET</i><br/>
-> <i>@param</i> {object} <b>reqData</b> (optional) Request data; default <i>{}</i><br/>
-> <i>@param</i> {object} <b>reqHeaders</b> (optional) Request headers; default <i>{}</i><br/>
-> <i>@param</i> {boolean} <b>reqJson</b> (optional) JSON response; default <i>true</i><br/>
-> <i>@param</i> {int} <b>timeout</b> (optional) Request timeout in seconds; default <i>60</i><br/>
-> <i>@return</i> {{ok:boolean,status:number,headers:object,data:mixed}} Fetch response object<br/>
-> <i>@throws</i> {Error} Throws an error if request failed or aborted<br/>
 
 * * *
 
