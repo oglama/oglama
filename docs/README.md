@@ -268,12 +268,12 @@ srcOutputs: []
 > 
 > <i>@param</i> {string} <b>url</b> Request URL<br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Request options<br/>
-> <i>@param</i> {string} <b>options</b>.method (optional) Request method; default <i>GET</i><br/>
-> <i>@param</i> {object} <b>options</b>.data (optional) Request data; default <i>{}</i><br/>
-> <i>@param</i> {object} <b>options</b>.headers (optional) Request headers; default <i>{}</i><br/>
-> <i>@param</i> {boolean} <b>options</b>.json (optional) JSON request; default <i>true</i><br/>
-> <i>@param</i> {int} <b>options</b>.timeout (optional) Request timeout in seconds; default <i>60</i><br/>
-> <i>@param</i> {boolean} <b>options</b>.resData (optional) Parse and return the response data; default <i>true</i><br/>
+> <i>@param</i> {string} <b>options.method</b> (optional) Request method; default <i>GET</i><br/>
+> <i>@param</i> {object} <b>options.data</b> (optional) Request data; default <i>{}</i><br/>
+> <i>@param</i> {object} <b>options.headers</b> (optional) Request headers; default <i>{}</i><br/>
+> <i>@param</i> {boolean} <b>options.json</b> (optional) JSON request; default <i>true</i><br/>
+> <i>@param</i> {int} <b>options.timeout</b> (optional) Request timeout in seconds; default <i>60</i><br/>
+> <i>@param</i> {boolean} <b>options.resData</b> (optional) Parse and return the response data; default <i>true</i><br/>
 > <i>@return</i> {{ ok:boolean, status:number, headers:object, data:mixed}} Response object<br/>
 > <i>@throws</i> {Error} Throws an error if request failed or aborted<br/>
 
@@ -544,12 +544,12 @@ srcOutputs:
 > <i>@param</i> {string} <b>ioKey</b> Files output key<br/>
 > <i>@param</i> {string} <b>url</b> URL to save locally<br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Request options<br/>
-> <i>@param</i> {string} <b>options</b>.method (optional) Request method; default <i>GET</i><br/>
-> <i>@param</i> {object} <b>options</b>.data (optional) Request data; default <i>{}</i><br/>
-> <i>@param</i> {object} <b>options</b>.headers (optional) Request headers; default <i>{}</i><br/>
-> <i>@param</i> {boolean} <b>options</b>.json (optional) JSON request; default <i>true</i><br/>
-> <i>@param</i> {int} <b>options</b>.timeout (optional) Request timeout in seconds; default <i>60</i><br/>
-> <i>@param</i> {string} <b>options</b>.extension (optional) File extension; must be declared by output; default <i>null</i>; falls back to first file extension declared by output<br/>
+> <i>@param</i> {string} <b>options.method</b> (optional) Request method; default <i>GET</i><br/>
+> <i>@param</i> {object} <b>options.data</b> (optional) Request data; default <i>{}</i><br/>
+> <i>@param</i> {object} <b>options.headers</b> (optional) Request headers; default <i>{}</i><br/>
+> <i>@param</i> {boolean} <b>options.json</b> (optional) JSON request; default <i>true</i><br/>
+> <i>@param</i> {int} <b>options.timeout</b> (optional) Request timeout in seconds; default <i>60</i><br/>
+> <i>@param</i> {string} <b>options.extension</b> (optional) File extension; must be declared by output; default <i>null</i>; falls back to first file extension declared by output<br/>
 > <i>@return</i> {string | null} File path on success, <i>null</i> if download failed or if output is not of type <i>files</i><br/>
 
 This example demonstrates how to save a file with a custom extension. Note that the file extension must first be declared in the output configuration. If the specified extension is not included in the declared list, the first listed extension, "json" in this case, will be used instead.  
@@ -738,12 +738,12 @@ srcOutputs:
 > 
 > <i>@param</i> {string} <b>url</b> Request URL<br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Request options<br/>
-> <i>@param</i> {string} <b>options</b>.method (optional) Request method; default <i>GET</i><br/>
-> <i>@param</i> {object} <b>options</b>.data (optional) Request data; default <i>{}</i><br/>
-> <i>@param</i> {object} <b>options</b>.headers (optional) Request headers; default <i>{}</i><br/>
-> <i>@param</i> {boolean} <b>options</b>.json (optional) JSON request; default <i>true</i><br/>
-> <i>@param</i> {int} <b>options</b>.timeout (optional) Request timeout in seconds; default <i>60</i><br/>
-> <i>@param</i> {boolean} <b>options</b>.resData (optional) Parse and return the response data; default <i>true</i><br/>
+> <i>@param</i> {string} <b>options.method</b> (optional) Request method; default <i>GET</i><br/>
+> <i>@param</i> {object} <b>options.data</b> (optional) Request data; default <i>{}</i><br/>
+> <i>@param</i> {object} <b>options.headers</b> (optional) Request headers; default <i>{}</i><br/>
+> <i>@param</i> {boolean} <b>options.json</b> (optional) JSON request; default <i>true</i><br/>
+> <i>@param</i> {int} <b>options.timeout</b> (optional) Request timeout in seconds; default <i>60</i><br/>
+> <i>@param</i> {boolean} <b>options.resData</b> (optional) Parse and return the response data; default <i>true</i><br/>
 > <i>@return</i> {{ ok:boolean, status:number, headers:object, data:mixed}} Response object<br/>
 > <i>@throws</i> {Error} Throws an error if request failed or aborted<br/>
 
