@@ -97,7 +97,7 @@ srcFunctions:
       const searchTerm = $.ioInputString("search-term");
 
       // Replace previous string and send enter key
-      await $.doType(inputKey, searchTerm, true, true);
+      await $.doType(inputKey, searchTerm, { replace: true, submit: true });
 srcInputs:
   - key: search-term
     type: string
@@ -670,61 +670,66 @@ srcOutputs:
 
 * * *
 
-#### async $.doQuery( cssSelector, contains = null, parentElKey = null, fromScreenView = false )
+#### async $.doQuery( selector, options = {} )
 
 > Document: Find the first HTML element that matches the CSS selector and return its corresponding <i>Element key</i>.<br/>
 > 
-> <i>@param</i> {string} <b>cssSelector</b> Standard CSS selector<br/>
-> <i>@param</i> {string} <b>contains</b> (optional) Text contained by Element (case insensitive); default <i>null</i> for no restrictions<br/>
-> <i>@param</i> {string} <b>parentElKey</b> (optional) Parent Element key; default <i>null</i> to search the entire Document<br/>
-> <i>@param</i> {boolean} <b>fromScreenView</b> (optional) Restrict results to elements placed from the current scroll position down; default <i>false</i><br/>
+> <i>@param</i> {string} <b>selector</b> Standard CSS selector<br/>
+> <i>@param</i> {Object} <b>options</b> (optional) Query options<br/>
+> <i>@param</i> {string} <b>options.parent</b> (optional) Parent Element key; default <i>null</i> to search the entire Document<br/>
+> <i>@param</i> {string} <b>options.contains</b> (optional) Text contained by Element (case insensitive); default <i>null</i> for no restrictions<br/>
+> <i>@param</i> {boolean} <b>options.fromScreenView</b> (optional) Restrict results to elements placed from the current scroll position down; default <i>false</i><br/>
 > <i>@return</i> {string|null} <i>Element key</i> on null on error<br/>
 
 * * *
 
-#### async $.doQueryAll( cssSelector, contains = null, parentElKey = null, fromScreenView = false )
+#### async $.doQueryAll( selector, options = {} )
 
 > Document: Find all HTML elements that match the CSS selector and return their corresponding <i>Element keys</i>.<br/>
 > 
-> <i>@param</i> {string} <b>cssSelector</b> Standard CSS selector<br/>
-> <i>@param</i> {string} <b>contains</b> (optional) Text contained by Element (case insensitive); default <i>null</i> for no restrictions<br/>
-> <i>@param</i> {string} <b>parentElKey</b> (optional) Parent Element key; default <i>null</i> to search the entire Document<br/>
-> <i>@param</i> {boolean} <b>fromScreenView</b> (optional) Restrict results to elements placed from the current scroll position down; default <i>false</i><br/>
+> <i>@param</i> {string} <b>selector</b> Standard CSS selector<br/>
+> <i>@param</i> {Object} <b>options</b> (optional) Query options<br/>
+> <i>@param</i> {string} <b>options.parent</b> (optional) Parent Element key; default <i>null</i> to search the entire Document<br/>
+> <i>@param</i> {string} <b>options.contains</b> (optional) Text contained by Element (case insensitive); default <i>null</i> for no restrictions<br/>
+> <i>@param</i> {boolean} <b>options.fromScreenView</b> (optional) Restrict results to elements placed from the current scroll position down; default <i>false</i><br/>
 > <i>@return</i> {string[]} Array of <i>Element keys</i><br/>
 
 * * *
 
-#### async $.doQueryParent( elKey, cssSelector = null, contains = null )
+#### async $.doQueryParent( elKey, options = {} )
 
 > Document: Find the parent of this HTML element that matches the CSS selector and return its corresponding <i>Element key</i>.<br/>
 > 
 > <i>@param</i> {string} <b>elKey</b> Element key - obtained with <i>$.doQuery</i><br/>
-> <i>@param</i> {string} <b>cssSelector</b> (optional) CSS selector for parent element; default <i>null</i> to stop at first ancestor<br/>
-> <i>@param</i> {string} <b>contains</b> (optional) Text contained by Element (case insensitive); default <i>null</i> for no restrictions<br/>
+> <i>@param</i> {Object} <b>options</b> (optional) Query options<br/>
+> <i>@param</i> {string} <b>options.selector</b> (optional) CSS selector for parent element; default <i>null</i> to stop at first ancestor<br/>
+> <i>@param</i> {string} <b>options.contains</b> (optional) Text contained by Element (case insensitive); default <i>null</i> for no restrictions<br/>
 > <i>@return</i> {string|null} <i>Element key</i> on null on error<br/>
 
 * * *
 
-#### async $.doQuerySiblings( elKey, cssSelector = null, contains = null )
+#### async $.doQuerySiblings( elKey, options = {} )
 
 > Document: Find the siblings of this HTML element that match the CSS selector and return their corresponding <i>Element keys</i>.<br/>
 > 
 > <i>@param</i> {string} <b>elKey</b> Element key - obtained with <i>$.doQuery</i><br/>
-> <i>@param</i> {string} <b>cssSelector</b> (optional) CSS selector for sibling elements; default <i>null</i> to return all siblings<br/>
-> <i>@param</i> {string} <b>contains</b> (optional) Text contained by Element (case insensitive); default <i>null</i> for no restrictions<br/>
+> <i>@param</i> {Object} <b>options</b> (optional) Query options<br/>
+> <i>@param</i> {string} <b>options.selector</b> (optional) CSS selector for parent element; default <i>null</i> to stop at first ancestor<br/>
+> <i>@param</i> {string} <b>options.contains</b> (optional) Text contained by Element (case insensitive); default <i>null</i> for no restrictions<br/>
 > <i>@return</i> {string[]} <i>Element keys</i><br/>
 
 * * *
 
-#### async $.doQueryAt( left, top, cssSelector = null, contains = null )
+#### async $.doQueryAt( left, top, options = {} )
 
 > Document: Find the first HTML element that matches the CSS selector at the specified coordinates,<br/>
 > and return its corresponding <i>Element key</i>.<br/>
 > 
 > <i>@param</i> {int} <b>left</b> Left coordinate in pixels<br/>
 > <i>@param</i> {int} <b>top</b> Top coordinate in pixels<br/>
-> <i>@param</i> {string} <b>cssSelector</b> (optional) CSS selector for element at coordinates; default <i>null</i> to return the topmost element<br/>
-> <i>@param</i> {string} <b>contains</b> (optional) Text contained by Element (case insensitive); default <i>null</i> for no restrictions<br/>
+> <i>@param</i> {Object} <b>options</b> (optional) Query options<br/>
+> <i>@param</i> {string} <b>options.selector</b> (optional) CSS selector for parent element; default <i>null</i> to stop at first ancestor<br/>
+> <i>@param</i> {string} <b>options.contains</b> (optional) Text contained by Element (case insensitive); default <i>null</i> for no restrictions<br/>
 > <i>@return</i> {string|null} <i>Element key</i> on null on error<br/>
 
 * * *
@@ -985,7 +990,7 @@ srcOutputs: []
 
 * * *
 
-#### async $.doType( elKey, text, replace = false, submit = false, speed = 5 )
+#### async $.doType( elKey, text, options = {} )
 
 > Document: Type text to specified HTML element.<br/>
 > Automatically scroll to Element before action.<br/>
@@ -996,14 +1001,15 @@ srcOutputs: []
 > 
 > <i>@param</i> {string} <b>elKey</b> Element key - obtained with <i>$.doQuery</i><br/>
 > <i>@param</i> {string} <b>text</b> Text to type<br/>
-> <i>@param</i> {boolean} <b>replace</b> (optional) Replace current text; default <i>false</i> to append text<br/>
-> <i>@param</i> {boolean} <b>submit</b> (optional) Press the <i>Enter</i> key at the end; default <i>false</i><br/>
-> <i>@param</i> {int} <b>speed</b> (optional) Typing speed in characters per second; <i>[1,250]</i>; default <i>5</i><br/>
+> <i>@param</i> {Object} <b>options</b> (optional) Typing options<br/>
+> <i>@param</i> {boolean} <b>options.replace</b> (optional) Replace current text; default <i>false</i> to append text<br/>
+> <i>@param</i> {boolean} <b>options.submit</b> (optional) Press the <i>Enter</i> key at the end; default <i>false</i><br/>
+> <i>@param</i> {int} <b>options.speed</b> (optional) Typing speed in characters per second; <i>[1,250]</i>; default <i>5</i><br/>
 > <i>@return</i> {boolean} Returns <i>false</i> if target element is not editable<br/>
 
 * * *
 
-#### async $.doTypeAt( left, top, text, replace = false, submit = false, speed = 5 )
+#### async $.doTypeAt( left, top, text, options = {} )
 
 > Document: Type text at coordinates in viewport.<br/>
 > 
@@ -1013,9 +1019,10 @@ srcOutputs: []
 > <i>@param</i> {int} <b>left</b> Left coordinate in pixels<br/>
 > <i>@param</i> {int} <b>top</b> Top coordinate in pixels<br/>
 > <i>@param</i> {string} <b>text</b> Text to type<br/>
-> <i>@param</i> {boolean} <b>replace</b> (optional) Replace current text; default <i>false</i> to append text<br/>
-> <i>@param</i> {boolean} <b>submit</b> (optional) Press the <i>Enter</i> key at the end; default <i>false</i><br/>
-> <i>@param</i> {int} <b>speed</b> (optional) Typing speed in characters per second; <i>[1,250]</i>; default <i>5</i><br/>
+> <i>@param</i> {Object} <b>options</b> (optional) Typing options<br/>
+> <i>@param</i> {boolean} <b>options.replace</b> (optional) Replace current text; default <i>false</i> to append text<br/>
+> <i>@param</i> {boolean} <b>options.submit</b> (optional) Press the <i>Enter</i> key at the end; default <i>false</i><br/>
+> <i>@param</i> {int} <b>options.speed</b> (optional) Typing speed in characters per second; <i>[1,250]</i>; default <i>5</i><br/>
 > <i>@return</i> {boolean} True on success, false on failure<br/>
 
 * * *
@@ -1053,14 +1060,15 @@ srcOutputs: []
 
 * * *
 
-#### async $.doAwaitPresent( cssSelector, contains = null, parentElKey = null, timeout = 60 )
+#### async $.doAwaitPresent( selector, options = {} )
 
 > Document: Wait for an Element to be present in the DOM.<br/>
 > 
-> <i>@param</i> {string} <b>cssSelector</b> Standard CSS selector<br/>
-> <i>@param</i> {string} <b>contains</b> (optional) Text contained by Element (case insensitive); default <i>null</i> for no restrictions<br/>
-> <i>@param</i> {string} <b>parentElKey</b> (optional) Parent Element key; default <i>null</i> to search the entire Document<br/>
-> <i>@param</i> {int} <b>timeout</b> (optional) Timeout in seconds; default <i>60</i><br/>
+> <i>@param</i> {string} <b>selector</b> Standard CSS selector<br/>
+> <i>@param</i> {Object} <b>options</b> (optional) Query options<br/>
+> <i>@param</i> {string} <b>options.contains</b> (optional) Text contained by Element (case insensitive); default <i>null</i> for no restrictions<br/>
+> <i>@param</i> {string} <b>options.parent</b> (optional) Parent Element key; default <i>null</i> to search the entire Document<br/>
+> <i>@param</i> {int} <b>options.timeout</b> (optional) Timeout in seconds; default <i>60</i><br/>
 > <i>@return</i> {string[]|false} Array of <i>Element keys</i> or false on timeout<br/>
 
 * * *

@@ -239,7 +239,7 @@ srcFunctions:
 
       // Continue typing
       await $.doType(inputKey, "abc");
-      await $.doType(inputKey, "foobar", true);
+      await $.doType(inputKey, "foobar", { replace: true });
       if ("foobar" !== (await $.doGetValue(inputKey))) {
         throw new Error("$.doType replace failed in input[type=text]");
       }
@@ -248,7 +248,7 @@ srcFunctions:
       const { left, top, width, height } = await $.doGetBox(inputKey);
 
       // Type in the middle of the box
-      await $.doTypeAt(left + width / 2, top + height / 2, "baz", true);
+      await $.doTypeAt(left + width / 2, top + height / 2, "baz", { replace: true });
       if ("baz" !== (await $.doGetValue(inputKey))) {
         throw new Error("$.doTypeAt replace failed in input[type=text]");
       }
@@ -264,7 +264,7 @@ srcFunctions:
       const text = Array.from({ length: 20 }, (_, i) => i + 1)
         .map(i => `${i}.	Șș好的 Lorem ipsum. ✨\n`)
         .join("");
-      await $.doType(textfieldMultiKey, text, true, false, 250);
+      await $.doType(textfieldMultiKey, text, { replace: true, speed: 250 });
 
       if (!(await $.doGetValue(textfieldMultiKey)).match(/20\.\t/g)) {
         throw new Error("$.doType failed in textarea");
@@ -287,13 +287,13 @@ srcFunctions:
       const text = Array.from({ length: 20 }, (_, i) => i + 1)
         .map(i => `${i}.	Șș好的 Lorem ipsum. ✨\n`)
         .join("");
-      await $.doType(textareaKey, text, true, false, 250);
+      await $.doType(textareaKey, text, { replace: true, speed: 250 });
 
       if (!(await $.doGetValue(textareaKey)).match(/20\.\t/g)) {
         throw new Error("$.doType failed in textarea");
       }
 
-      await $.doType(textareaKey, text, true, false, 250);
+      await $.doType(textareaKey, text, { replace: true, speed: 250 });
       if ((await $.doGetValue(textareaKey)).match(/20\.\t.*?20\.\t/gms)) {
         throw new Error("$.doType replace failed in textarea");
       }
@@ -348,7 +348,7 @@ srcFunctions:
       }
 
       // Click the MUI button
-      const fooButton = await $.doQuery(".MuiButton-root", "foo");
+      const fooButton = await $.doQuery(".MuiButton-root", { contains: "foo" });
       if (null === fooButton) {
         throw new Error("$.doQuery could not find 'foo' button");
       }
@@ -359,7 +359,7 @@ srcFunctions:
       }
 
       // Click the HTML button
-      const alphaButton = await $.doQuery("button", "alpha");
+      const alphaButton = await $.doQuery("button", { contains: "alpha" });
       if (null === alphaButton) {
         throw new Error("$.doQuery could not find 'alpha' MUI button");
       }
@@ -380,7 +380,7 @@ srcFunctions:
       }
 
       // Find a vague parent
-      const parentKey = await $.doQueryParent(switchKey, "div", "Switches");
+      const parentKey = await $.doQueryParent(switchKey, { selector: "div", contains: "Switches" });
       if ("string" !== typeof parentKey) {
         throw new Error("$.doQueryParent failed");
       }
@@ -404,7 +404,7 @@ srcFunctions:
 
       // Prepare the switch
       const switchKey = await $.doQuery("input[name='s1'][value='1']");
-      const switchMuiKey = await $.doQueryParent(switchKey, ".MuiSwitch-root");
+      const switchMuiKey = await $.doQueryParent(switchKey, { selector: ".MuiSwitch-root" });
 
       // Find the siblings
       const switchSiblings = await $.doQuerySiblings(switchMuiKey);
@@ -412,7 +412,7 @@ srcFunctions:
         throw new Error("$.doQuerySiblings failed");
       }
       for (const siblingKey of switchSiblings) {
-        const checkboxKey = await $.doQuery("input[type='checkbox']", null, siblingKey);
+        const checkboxKey = await $.doQuery("input[type='checkbox']", { parent: siblingKey });
         const siblingValue = await $.doGetAttribute(checkboxKey, "value");
         if ("1" === siblingValue) {
           throw new Error("$.doQuerySiblings captured self as sibling");
@@ -618,7 +618,7 @@ srcFunctions:
 
       // Wait for element present
       $.setTimeout(async () => await $.doClick(btnToggle), 1000);
-      const alertPresent = await $.doAwaitPresent(cssSelector, null, null, 5);
+      const alertPresent = await $.doAwaitPresent(cssSelector, { timeout: 5 });
       if (!Array.isArray(alertPresent)) {
         throw new Error("$.doAwaitPresent failed");
       }
@@ -637,7 +637,7 @@ srcFunctions:
       }
 
       // Timeout on "element present"
-      const recheckPresent = await $.doAwaitPresent(cssSelector, null, null, 1);
+      const recheckPresent = await $.doAwaitPresent(cssSelector, { timeout: 1 });
       if (false !== recheckPresent) {
         throw new Error("$.doAwaitPresent did not time out");
       }
@@ -688,7 +688,7 @@ srcFunctions:
       await $.doScroll(-50);
 
       // Scroll to buttons
-      await $.doScrollTo(await $.doQuery("h2", "buttons"));
+      await $.doScrollTo(await $.doQuery("h2", { contains: "buttons" }));
 
       // Hover to the top-left corner
       await $.doHoverAt(50, 20);
