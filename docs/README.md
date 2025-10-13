@@ -97,7 +97,7 @@ srcFunctions:
       const searchTerm = $.ioInputString("search-term");
 
       // Replace previous string and send enter key
-      await $.doType(inputKey, searchTerm, true, true);
+      await $.doType(inputKey, searchTerm, { replace: true, submit: true });
 srcInputs:
   - key: search-term
     type: string
