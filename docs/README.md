@@ -115,9 +115,11 @@ Import this and other modules by following these steps:
 *   Click Source Code, go to Source Control, and select 'Import from YAML'
 *   Choose the module file ( `search.oglama.yaml` )
 
-  
+* * *
 
-All available dollar sign object (`$`) methods and properties are described below.
+### SDK
+
+> All available dollar sign object (`$`) methods and properties are described below.
 
 * * *
 
@@ -138,7 +140,7 @@ Although you can use [$.global\*()](https://oglama.com/docs/#/doc:globalEnvGet) 
 srcStateMachine:
   - key: start
     code: |
-      // Generate a random number locally (or use $.rand())
+      // Generate a random number locally (or use $.osRand())
       const randomNumber = await $.fn("random", [2, 10]);
 
       // Pass it to the next state
