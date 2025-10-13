@@ -97,7 +97,7 @@ srcFunctions:
       const searchTerm = $.ioInputString("search-term");
 
       // Replace previous string and send enter key
-      await $.doType(inputKey, searchTerm, { replace: true, submit: true });
+      await $.doType(inputKey, searchTerm, true, true);
 srcInputs:
   - key: search-term
     type: string
@@ -176,6 +176,50 @@ srcOutputs: []
 > 
 > Current state key.<br/>
 
+At the core of every Oglama module is a finite-state machine where each state is uniquely identified by its key.  
+You may need to reference the current or the [$.previous](https://oglama.com/docs/#/doc:previous) state key inside functions.
+
+**current.oglama.yaml**
+```yaml
+srcStateMachine:
+  - key: start
+    code: |
+      await $.fn("write-haiku");
+
+      return { next: "middle" };
+  - key: middle
+    code: |
+      await $.fn("write-haiku");
+
+      return { next: "end" };
+  - key: end
+    code: |
+      await $.fn("write-haiku");
+srcFunctions:
+  - key: write-haiku
+    code: |
+      // The Old Pond by Matsuo Bashō (1644-1694)
+      switch ($.current) {
+        case "start":
+          $.log("An old silent pond");
+
+          break;
+
+        case "middle":
+          $.log("A frog jumps into the pond");
+
+          break;
+
+        case "end":
+          $.log("Splash! Silence again.");
+          break;
+      }
+
+      await $.sleep(1000);
+srcInputs: []
+srcOutputs: []
+```
+
 * * *
 
 #### $.previous
@@ -183,6 +227,49 @@ srcOutputs: []
 > {string|null}<br/>
 > 
 > Previous state key or <i>null</i> if this is the entry state.<br/>
+
+Following the example for the [$.current](https://oglama.com/docs/#/doc:current) property, here's how one would use the previous state key.
+
+**previous.oglama.yaml**
+```yaml
+srcStateMachine:
+  - key: start
+    code: |
+      await $.fn("write-haiku");
+
+      return { next: "middle" };
+  - key: middle
+    code: |
+      await $.fn("write-haiku");
+
+      return { next: "end" };
+  - key: end
+    code: |
+      await $.fn("write-haiku");
+srcFunctions:
+  - key: write-haiku
+    code: |
+      // The Old Pond by Matsuo Bashō (1644-1694)
+      switch ($.previous) {
+        case null:
+          $.log("An old silent pond");
+
+          break;
+
+        case "start":
+          $.log("A frog jumps into the pond");
+
+          break;
+
+        case "middle":
+          $.log("Splash! Silence again.");
+          break;
+      }
+
+      await $.sleep(1000);
+srcInputs: []
+srcOutputs: []
+```
 
 * * *
 
@@ -192,6 +279,35 @@ srcOutputs: []
 > 
 > <i>@param</i> {string} <b>fnKey</b> Function key<br/>
 > <i>@param</i> {array} <b>fnArgs</b> (optional) Function arguments; accessed with <i>$.args</i><br/>
+
+Functions allow you to organize your module better and prevent code duplication.  
+Here's a simple example for counting down using functions - recursively.
+
+**fn.oglama.yaml**
+```yaml
+srcStateMachine:
+  - key: start
+    code: |
+      await $.fn("countdown", [3]);
+
+      $.log("That was easy");
+srcFunctions:
+  - key: countdown
+    code: |
+      const number = $.args[0];
+
+      if (number &lt;= 0) {
+        return;
+      }
+
+      $.log(number, "success");
+      await $.sleep(1000);
+
+      // Recursion is fun!
+      await $.fn("countdown", [number - 1]);
+srcInputs: []
+srcOutputs: []
+```
 
 * * *
 
