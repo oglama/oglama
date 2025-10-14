@@ -5,19 +5,19 @@ description: Welcome to the Oglama SDK Documentation.
 
 ### Founding principles
 
-#### Simplicity
+Defined by the Roman architect Vitruvius, the principles of Strength, Utility, and Delight (firmitas, utilitas, venustas) form the foundation of good architecture, and they are central to Oglama's philosophy.
 
-Oglama is designed with simplicity at its core. You don't need to be a programmer to extract value out of this software. Simply search our repository for the module that solves your problem and install it.
+#### Firmitas
 
-#### Openness
+Oglama opens the door to automations that are simply not possible with other software. It maintains a good balance between AI flexibility and JavaScript programming determinism, all while protecting your privacy.
 
-Modify installed modules with ease directly from the built-in source code editor. It supports all the methods and properties listed below, and comes with autocomplete, smart suggestions, real-time warnings, auto-formatting, and linting - everything you need to write clean, reliable code that solves your problem.
+#### Utilitas
 
-#### Power
+Effortlessly install, run, and edit modules directly from the built-in source code editor. The editor supports all the methods and properties listed below, and comes with autocomplete, auto-formatting, and linting.
 
-Oglama opens the door to automations that are simply not possible with other software. It maintains a good balance between AI flexibility and JavaScript programming determinism, all while protecting your privacy and data locally.
+#### Venustas
 
-If you want to take things a step further and create your own modules from scratch, this SDK reference will come in handy.
+Oglama is designed with simplicity at its core. You don't need to be a programmer to get value from this software. Just search our repository for a module that solves your problem, install it, run it, and modify it to your liking.
 
 * * *
 
@@ -25,7 +25,7 @@ If you want to take things a step further and create your own modules from scrat
 
 Oglama is a desktop application built on top of Chromium that allows you to automate web actions.
 
-[Create an account](https://oglama.com/login/) and download the latest version to get started. Alternatively, clone [oglama/oglama](https://github.com/oglama/oglama/) and run `npm start` to use the latest pre-release version.
+[Create an account] and download the latest version to get started. Alternatively, clone [oglama/oglama] and run `npm start` to use the latest pre-release version.
 
 #### 1\. Agents
 
@@ -48,7 +48,7 @@ Complex browser interactions are best modeled as a finite-state machine.
 
 ##### 2.2. Functions
 
-Functions are used to avoid code duplication within state machine states. Unlike states, a function's return value has no special significance. Functions can be called from either a state or another function using [$.fn("function-key")](https://oglama.com/docs/#/doc:fn)
+Functions are used to avoid code duplication within state machine states. Unlike states, a function's return value has no special significance. Functions can be called from either a state or another function using [$.fn("function-key")]
 
 ##### 2.3. Inputs and outputs
 
@@ -56,9 +56,9 @@ Each module can define up to nine inputs and nine outputs. This limit is intende
 
 Supported input and output types are: `integer`, `string`, `boolean`,`table` and `files`
 
-*   Inputs for each run are specified in the Settings tab. Fetch inputs in states and functions with [$.ioInput\*()](https://oglama.com/docs/#/doc:ioInputInt)
+*   Inputs for each run are specified in the Settings tab. Fetch inputs in states and functions with [$.ioInput\*()]
     
-*   Outputs are collected in the Results tab. Store outputs in states and functions with [$.ioOutput\*()](https://oglama.com/docs/#/doc:ioOutputInt)
+*   Outputs are collected in the Results tab. Store outputs in states and functions with [$.ioOutput\*()]
     
 
 #### 3\. Collaboration
@@ -117,9 +117,9 @@ Import this and other modules by following these steps:
 
 * * *
 
-### SDK
+### The SDK
 
-> All available dollar sign object (`$`) methods and properties are described below.
+> All available Oglama SDK methods and properties are described below. The SDK has a flat structure, with every method and property attached to the dollar sign object (`$`).
 
 * * *
 
@@ -133,7 +133,7 @@ Import this and other modules by following these steps:
 > - When used inside a <b>function</b>:<br/>
 >  array passed as the second argument to $.fn( 'function-key', args )<br/>
 
-Although you can use [$.global\*()](https://oglama.com/docs/#/doc:globalEnvGet) methods to store and retrieve data from a global store, it is sometimes better to simply pass arguments from one state to another.
+Although you can use [$.global\*()] methods to store and retrieve data from a global store, it is sometimes better to simply pass arguments from one state to another.
 
 **args.oglama.yaml**
 ```yaml
@@ -179,7 +179,7 @@ srcOutputs: []
 > Current state key.<br/>
 
 At the core of every Oglama module is a finite-state machine where each state is uniquely identified by its key.  
-You may need to reference the current or the [$.previous](https://oglama.com/docs/#/doc:previous) state key inside functions.
+You may need to reference the current or the [$.previous] state key inside functions.
 
 **current.oglama.yaml**
 ```yaml
@@ -230,7 +230,7 @@ srcOutputs: []
 > 
 > Previous state key or <i>null</i> if this is the entry state.<br/>
 
-Following the example for the [$.current](https://oglama.com/docs/#/doc:current) property, here's how one would use the previous state key.
+Following the example for the [$.current] property, here's how one would use the previous state key.
 
 **previous.oglama.yaml**
 ```yaml
@@ -298,7 +298,7 @@ srcFunctions:
     code: |
       const number = $.args[0];
 
-      if (number &lt;= 0) {
+      if (number <= 0) {
         return;
       }
 
@@ -396,7 +396,7 @@ srcOutputs: []
 > <i>@throws</i> {Error} Throws an error if request failed or aborted<br/>
 
 This method acts like a proxy, bypassing any CORS restrictions.  
-If you need to pass along cookies with your request, first nagivate to the target domain using [$.navLoad()](https://oglama.com/docs/#/doc:navLoad) then issue the request with [$.doRequest()](https://oglama.com/docs/#/doc:doRequest) or [$.ioSaveRequest()](https://oglama.com/docs/#/doc:ioSaveRequest).
+If you need to pass along cookies with your request, first nagivate to the target domain using [$.navLoad()] then issue the request with [$.doRequest()] or [$.ioSaveRequest()].
 
 **os-request.oglama.yaml**
 ```yaml
@@ -871,7 +871,7 @@ srcOutputs:
 > <i>@throws</i> {Error} Throws an error if request failed or aborted<br/>
 
 This example describes how to fetch data in the browser when CORS is an issue.  
-If you don't care about cookies you can use [$.osRequest()](https://oglama.com/docs/#/doc:osRequest) to bypass CORS instead.
+If you don't care about cookies you can use [$.osRequest()] to bypass CORS instead.
 
 **do-request.oglama.yaml**
 ```yaml
@@ -1218,3 +1218,16 @@ srcOutputs: []
 > <i>@param</i> {string} <b>elKey</b> Element key - obtained with <i>$.doQuery</i> or <i>$.doAwaitPresent</i><br/>
 > <i>@param</i> {int} <b>timeout</b> (optional) Timeout in seconds; default <i>60</i><br/>
 > <i>@return</i> {boolean} True on success, false on timeout<br/>
+
+[Create an account]: https://oglama.com/login/
+[oglama/oglama]: https://github.com/oglama/oglama/
+[$.fn("function-key")]: https://oglama.com/docs/#/doc:fn
+[$.ioInput\*()]: https://oglama.com/docs/#/doc:ioInputInt
+[$.ioOutput\*()]: https://oglama.com/docs/#/doc:ioOutputInt
+[$.global\*()]: https://oglama.com/docs/#/doc:globalEnvGet
+[$.previous]: https://oglama.com/docs/#/doc:previous
+[$.current]: https://oglama.com/docs/#/doc:current
+[$.navLoad()]: https://oglama.com/docs/#/doc:navLoad
+[$.doRequest()]: https://oglama.com/docs/#/doc:doRequest
+[$.ioSaveRequest()]: https://oglama.com/docs/#/doc:ioSaveRequest
+[$.osRequest()]: https://oglama.com/docs/#/doc:osRequest
