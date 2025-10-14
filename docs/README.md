@@ -321,6 +321,26 @@ srcOutputs: []
 > <i>@return</i> {string} LLM response<br/>
 > <i>@throws</i> {Error} Throws an error if the LLM is not ready<br/>
 
+Oglama provides easy access to a locally running large language model for complex tasks such as text summarization and sentiment analysis. Please note that LLMs are neither accurate nor deterministic.  
+The example below shows when not to use a large language model: mathematical operations are much faster and more accurate in pure JavaScript.
+
+**example-llm.oglama.yaml**
+```yaml
+srcStateMachine:
+  - key: start
+    code: |
+      const startTime = new Date().getTime();
+
+      // Ask the magic box
+      const response = await $.llm("Answer with one number: 2 + 3");
+
+      // Log the execution time
+      $.log(`Finished in ${(new Date().getTime() - startTime) / 1000} seconds`);
+srcFunctions: []
+srcInputs: []
+srcOutputs: []
+```
+
 * * *
 
 #### $.log( message, status = "info" )
@@ -330,6 +350,22 @@ srcOutputs: []
 > <i>@param</i> {any} <b>message</b> Message<br/>
 > <i>@param</i> {"info"|"success"|"warning"|"error"} <b>status</b> (optional) Status; default <i>info</i><br/>
 
+A maximum of 250 logs are retained in the logs panel for each agent. Logs are stored in session and are removed when the app is closed. There are four log types, each with their own color:`info`,`success`.`warning`, and`error`.
+
+**example-log.oglama.yaml**
+```yaml
+srcStateMachine:
+  - key: start
+    code: |
+      $.log("🍰 A new cake recipe was added.", "info");
+      $.log("🧁 The cake has baked successfully!", "success");
+      $.log("🔥 The oven temperature is far too high.", "warning");
+      $.log("💀 Cake failed to rise, check your ingredients.", "error");
+srcFunctions: []
+srcInputs: []
+srcOutputs: []
+```
+
 * * *
 
 #### async $.sleep( ms )
@@ -338,6 +374,30 @@ srcOutputs: []
 > 
 > <i>@param</i> {number} <b>ms</b> Sleep time in milliseconds<br/>
 
+Sometimes you may need to slow down your script to prevent overloading a website's resources, and other times you might just want a bit of showmanship.
+
+**example-sleep.oglama.yaml**
+```yaml
+srcStateMachine:
+  - key: start
+    code: |
+      $.log("It's the final countdown:", "warning");
+      await $.sleep(1000);
+
+      let counter = 5;
+      while (counter-- > 0) {
+        $.log(`⌛ ${counter + 1}...`);
+
+        // Wait for it...
+        await $.sleep(1000);
+      }
+
+      $.log("🚀 Liftoff!", "success");
+srcFunctions: []
+srcInputs: []
+srcOutputs: []
+```
+
 * * *
 
 #### $.pause( message = "" )
@@ -345,7 +405,35 @@ srcOutputs: []
 > Pause the execution of the current state indefinitely.<br/>
 > When resumed, the current state will be re-executed from the start, not from the current line!<br/>
 > 
-> <i>@param</i> {string} <b>message</b> (optional) Message displayed in the agent button instead of the agent name<br/>
+> <i>@param</i> {string} <b>message</b> (optional) Message displayed in dialog when agent is (re-)selected<br/>
+
+Oglama modules do not access or store any personal data, such as passwords or cookies.  
+If a user needs to log into a website or verify they are human, simply pause the script at the current finite-state machine state and kindly request their input.
+
+**example-pause.oglama.yaml**
+```yaml
+srcStateMachine:
+  - key: start
+    code: |
+      // Check if we already asked the user to log in
+      if ($.globalRunGet("asked-user")) {
+        return;
+      }
+
+      // Mark this so we don't enter an infinite loop
+      $.globalRunSet("asked-user", true);
+
+      // Look for button that is only available after login
+      const elements = await $.doAwaitPresent(".dashboard-button", { timeout: 1 });
+
+      // Ooops! (reCaptcha, login wall etc.)
+      if (!elements) {
+        $.pause("'Dubito, ergo cogito; cogito, ergo sum' to continue.");
+      }
+srcFunctions: []
+srcInputs: []
+srcOutputs: []
+```
 
 * * *
 
@@ -354,7 +442,36 @@ srcOutputs: []
 > Stop the execution of the current state.<br/>
 > When resumed, the finite-state machine will start from the first state (the Entry Point 🏁).<br/>
 > 
-> <i>@param</i> {string} <b>message</b> (optional) Message displayed in the agent button instead of the agent name<br/>
+> <i>@param</i> {string} <b>message</b> (optional) Message displayed in dialog when agent is (re-)selected<br/>
+
+Unlike [$.pause()], the current run is **abandoned** so all values stored with [$.globalRunSet()] are discarded. The next time you start the agent, it will execute normally from the entry state.
+
+**example-stop.oglama.yaml**
+```yaml
+srcStateMachine:
+  - key: start
+    code: |
+      // Check if we already asked the user to log in
+      if (await $.globalEnvGet("asked-user")) {
+        return;
+      }
+
+      // Mark this so we don't enter an infinite loop
+      // Use the Environment store instead of the Run store
+      await $.globalEnvSet("asked-user", true);
+
+      // Look for button that is only available after login
+      const elements = await $.doAwaitPresent(".dashboard-button", { timeout: 1 });
+
+      // Ooops! (reCaptcha, login wall etc.)
+      if (!elements) {
+        // Abandon the current run (and clear values in the Run store)
+        $.stop("State the meaning of life to continue.");
+      }
+srcFunctions: []
+srcInputs: []
+srcOutputs: []
+```
 
 * * *
 
@@ -366,6 +483,34 @@ srcOutputs: []
 > <i>@param</i> {number} <b>ms</b> The number of milliseconds to wait before executing the callback<br/>
 > <i>@return</i> {int} Timeout ID<br/>
 
+Setting a timer is useful for a wide range of algorithms, but you will likely find it most valuable when setting up a listener for an event that has not occurred yet.
+
+**example-setTimeout.oglama.yaml**
+```yaml
+srcStateMachine:
+  - key: start
+    code: |
+      // Go home
+      await $.navLoad("about:home/");
+      await $.doAwaitPresent(".mascot");
+
+      // Click on mascot in the future
+      $.setTimeout(async () => {
+        const mascotKey = await $.doQuery(".mascot");
+
+        await $.doClick(mascotKey);
+      }, 1000);
+
+      // Wait for mascot click to generate new quote
+      await $.doAwaitPresent(".quote");
+
+      // Wait for mouse to move away after click
+      await $.sleep(500);
+srcFunctions: []
+srcInputs: []
+srcOutputs: []
+```
+
 * * *
 
 #### $.clearTimeout( timeoutId )
@@ -373,6 +518,24 @@ srcOutputs: []
 > Cancels a timeout previously established by <i>$.setTimeout</i>.<br/>
 > 
 > <i>@param</i> {function} <b>timeoutId</b> The identifier of the timeout to cancel, as returned by <i>$.setTimeout</i><br/>
+
+**example-clearTimeout.oglama.yaml**
+```yaml
+srcStateMachine:
+  - key: start
+    code: |
+      // Set the bomb
+      const timerId = $.setTimeout(async () => {
+        $.log("💥 Boom!", "error");
+      }, 500);
+
+      // Clear the bomb
+      $.clearTimeout(timerId);
+      $.log("All clear", "success");
+srcFunctions: []
+srcInputs: []
+srcOutputs: []
+```
 
 * * *
 
@@ -1227,6 +1390,8 @@ srcOutputs: []
 [$.global\*()]: https://oglama.com/docs/#/doc:globalEnvGet
 [$.previous]: https://oglama.com/docs/#/doc:previous
 [$.current]: https://oglama.com/docs/#/doc:current
+[$.pause()]: https://oglama.com/docs/#/doc:pause
+[$.globalRunSet()]: https://oglama.com/docs/#/doc:globalRunSet
 [$.navLoad()]: https://oglama.com/docs/#/doc:navLoad
 [$.doRequest()]: https://oglama.com/docs/#/doc:doRequest
 [$.ioSaveRequest()]: https://oglama.com/docs/#/doc:ioSaveRequest
