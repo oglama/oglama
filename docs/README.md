@@ -135,7 +135,7 @@ Import this and other modules by following these steps:
 
 Although you can use [$.global\*()] methods to store and retrieve data from a global store, it is sometimes better to simply pass arguments from one state to another.
 
-**args.oglama.yaml**
+**example-args.oglama.yaml**
 ```yaml
 srcStateMachine:
   - key: start
@@ -181,7 +181,7 @@ srcOutputs: []
 At the core of every Oglama module is a finite-state machine where each state is uniquely identified by its key.  
 You may need to reference the current or the [$.previous] state key inside functions.
 
-**current.oglama.yaml**
+**example-current.oglama.yaml**
 ```yaml
 srcStateMachine:
   - key: start
@@ -232,7 +232,7 @@ srcOutputs: []
 
 Following the example for the [$.current] property, here's how one would use the previous state key.
 
-**previous.oglama.yaml**
+**example-previous.oglama.yaml**
 ```yaml
 srcStateMachine:
   - key: start
@@ -285,7 +285,7 @@ srcOutputs: []
 Functions allow you to organize your module better and prevent code duplication.  
 Here's a simple example for counting down using functions - recursively.
 
-**fn.oglama.yaml**
+**example-fn.oglama.yaml**
 ```yaml
 srcStateMachine:
   - key: start
@@ -398,7 +398,7 @@ srcOutputs: []
 This method acts like a proxy, bypassing any CORS restrictions.  
 If you need to pass along cookies with your request, first nagivate to the target domain using [$.navLoad()] then issue the request with [$.doRequest()] or [$.ioSaveRequest()].
 
-**os-request.oglama.yaml**
+**example-osRequest.oglama.yaml**
 ```yaml
 srcStateMachine:
   - key: start
@@ -430,7 +430,7 @@ srcOutputs: []
 
 It is recommended that you use this method with caution and only with the explicit permission of users, as opening folders may interfere with their activities.
 
-**os-show-file.oglama.yaml**
+**example-osShowFile.oglama.yaml**
 ```yaml
 srcStateMachine:
   - key: start
@@ -673,7 +673,7 @@ srcOutputs:
 This example demonstrates how to save a file with a custom extension. Note that the file extension must first be declared in the output configuration. If the specified extension is not included in the declared list, the first listed extension, "json" in this case, will be used instead.  
 If you don't specify a file extension, the script will attempt to deduce it from the URL.
 
-**io-save-request.oglama.yaml**
+**example-ioSaveRequest.oglama.yaml**
 ```yaml
 srcStateMachine:
   - key: start
@@ -873,7 +873,7 @@ srcOutputs:
 This example describes how to fetch data in the browser when CORS is an issue.  
 If you don't care about cookies you can use [$.osRequest()] to bypass CORS instead.
 
-**do-request.oglama.yaml**
+**example-doRequest.oglama.yaml**
 ```yaml
 srcStateMachine:
   - key: start
