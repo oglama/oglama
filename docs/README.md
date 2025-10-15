@@ -775,7 +775,7 @@ srcOutputs:
 
 * * *
 
-#### async $.ioSaveText( ioKey, text, extension = "txt" )
+#### async $.ioSaveText( ioKey, text, options = {} )
 
 > IO: Save text to disk as new file.<br/>
 > 
@@ -784,12 +784,13 @@ srcOutputs:
 > 
 > <i>@param</i> {string} <b>ioKey</b> Files output key<br/>
 > <i>@param</i> {string} <b>text</b> Text to save<br/>
-> <i>@param</i> {string} <b>extension</b> (optional) File extension; default <i>txt</i>; must match one of the extensions defined in <i>Outputs</i><br/>
+> <i>@param</i> {Object} <b>options</b> (optional) Save options<br/>
+> <i>@param</i> {string} <b>options.extension</b> (optional) File extension; default <i>null</i>; must match one of the extensions declared in output; falls back to first file extension declared in output<br/>
 > <i>@return</i> {string | null} File path on success, null if download failed or if output is not of type <i>files</i><br/>
 
 * * *
 
-#### async $.ioSaveDownload( ioKey, timeout = 600 )
+#### async $.ioSaveDownload( ioKey, options = {} )
 
 > IO: Capture the next downloaded file and save it to disk.<br/>
 > 
@@ -797,12 +798,14 @@ srcOutputs:
 > Defer the download event with <i>$.setTimeout()</i> before calling <i>$.ioSaveDownload</i>.<br/>
 > 
 > <i>@param</i> {string} <b>ioKey</b> Files output key<br/>
-> <i>@param</i> {int} <b>timeout</b> (optional) Download timeout in seconds; default <i>600</i><br/>
+> <i>@param</i> {Object} <b>options</b> (optional) Save options<br/>
+> <i>@param</i> {int} <b>options.timeout</b> (optional) Download timeout in seconds; default <i>600</i><br/>
+> <i>@param</i> {string} <b>options.extension</b> (optional) File extension; default <i>null</i>; must match one of the extensions declared in output; falls back to first file extension declared in output<br/>
 > <i>@return</i> {string | null} File path on success, <i>null</i> if download failed or if output is not of type <i>files</i><br/>
 
 * * *
 
-#### async $.ioSaveUrl( ioKey, url, timeout = 600 )
+#### async $.ioSaveUrl( ioKey, url, options = {} )
 
 > IO: Capture the file stored at this URL and save it to disk.<br/>
 > 
@@ -810,7 +813,9 @@ srcOutputs:
 > 
 > <i>@param</i> {string} <b>ioKey</b> Files output key<br/>
 > <i>@param</i> {string} <b>url</b> URL to download<br/>
-> <i>@param</i> {int} <b>timeout</b> (optional) Download timeout in seconds; default <i>600</i><br/>
+> <i>@param</i> {Object} <b>options</b> (optional) Save options<br/>
+> <i>@param</i> {int} <b>options.timeout</b> (optional) Download timeout in seconds; default <i>600</i><br/>
+> <i>@param</i> {string} <b>options.extension</b> (optional) File extension; default <i>null</i>; must match one of the extensions declared in output; falls back to first file extension declared in output<br/>
 > <i>@return</i> {string | null} File path on success, <i>null</i> if download failed or if output is not of type <i>files</i><br/>
 
 * * *
@@ -830,7 +835,7 @@ srcOutputs:
 > <i>@param</i> {object} <b>options.headers</b> (optional) Request headers; default <i>{}</i><br/>
 > <i>@param</i> {boolean} <b>options.json</b> (optional) JSON request; default <i>true</i><br/>
 > <i>@param</i> {int} <b>options.timeout</b> (optional) Request timeout in seconds; default <i>60</i><br/>
-> <i>@param</i> {string} <b>options.extension</b> (optional) File extension; must be declared by output; default <i>null</i>; falls back to first file extension declared by output<br/>
+> <i>@param</i> {string} <b>options.extension</b> (optional) File extension; default <i>null</i>; must match one of the extensions declared in output; falls back to first file extension declared in output<br/>
 > <i>@return</i> {string | null} File path on success, <i>null</i> if download failed or if output is not of type <i>files</i><br/>
 
 This example demonstrates how to save a file with a custom extension. Note that the file extension must first be declared in the output configuration. If the specified extension is not included in the declared list, the first listed extension, "json" in this case, will be used instead.  
@@ -1192,24 +1197,29 @@ srcOutputs: []
 
 * * *
 
-#### async $.doClick( elKey, doubleClick = false )
+#### async $.doClick( elKey, options = {} )
 
 > Document: Click or double-click on HTML Element.<br/>
 > Automatically scroll to Element before action.<br/>
 > 
 > <i>@param</i> {string} <b>elKey</b> Element key - obtained with <i>$.doQuery</i><br/>
-> <i>@param</i> {boolean} <b>doubleClick</b> (optional) Double-click; default <i>false</i><br/>
+> <i>@param</i> {Object} <b>options</b> (optional) Click options<br/>
+> <i>@param</i> {boolean} <b>options.double</b> (optional) Double-click; default <i>false</i><br/>
+> <i>@param</i> {boolean} <b>options.hover</b> (optional) Hover after click; default <i>false</i> to move mouse to the side after clicking<br/>
 > <i>@return</i> {boolean} True on success, false on failure<br/>
 
 * * *
 
-#### async $.doClickAt( left, top, doubleClick = false )
+#### async $.doClickAt( left, top, options = {} )
 
 > Document: Click or double-click at coordinates in viewport.<br/>
 > 
 > <i>@param</i> {int} <b>left</b> Left coordinate in pixels<br/>
 > <i>@param</i> {int} <b>top</b> Top coordinate in pixels<br/>
-> <i>@param</i> {boolean} <b>doubleClick</b> (optional) Double-click; default <i>false</i><br/>
+> <i>@param</i> {Object} <b>options</b> (optional) Click options<br/>
+> <i>@param</i> {boolean} <b>options.double</b> (optional) Double-click; default <i>false</i><br/>
+> <i>@param</i> {boolean} <b>options.hover</b> (optional) Hover after click; default <i>false</i> to move mouse to the side after clicking<br/>
+> 
 > <i>@return</i> {boolean} True on success, false on failure<br/>
 
 * * *
@@ -1350,36 +1360,40 @@ srcOutputs: []
 > <i>@param</i> {string} <b>options.contains</b> (optional) Text contained by Element (case insensitive); default <i>null</i> for no restrictions<br/>
 > <i>@param</i> {string} <b>options.parent</b> (optional) Parent Element key; default <i>null</i> to search the entire Document<br/>
 > <i>@param</i> {int} <b>options.timeout</b> (optional) Timeout in seconds; default <i>60</i><br/>
-> <i>@return</i> {string[]|false} Array of <i>Element keys</i> or false on timeout<br/>
+> <i>@param</i> {boolean} <b>options.first</b> (optional) Return only the first Element's key (<i>string</i> instead of <i>string[]</i>); default <i>false</i><br/>
+> <i>@return</i> {string[]|string|null} Array of <i>Element keys</i> OR <i>Element key</i> if <i>options.first</i> OR <i>null</i> on timeout<br/>
 
 * * *
 
-#### async $.doAwaitNotPresent( elKey, timeout = 60 )
+#### async $.doAwaitNotPresent( elKey, options = {} )
 
 > Document: Wait for an Element to be removed from the DOM.<br/>
 > 
 > <i>@param</i> {string} <b>elKey</b> Element key - obtained with <i>$.doQuery</i> or <i>$.doAwaitPresent</i><br/>
-> <i>@param</i> {int} <b>timeout</b> (optional) Timeout in seconds; default <i>60</i><br/>
+> <i>@param</i> {Object} <b>options</b> (optional) Query options<br/>
+> <i>@param</i> {int} <b>options.timeout</b> (optional) Timeout in seconds; default <i>60</i><br/>
 > <i>@return</i> {boolean} True on success, false on timeout<br/>
 
 * * *
 
-#### async $.doAwaitVisible( elKey, timeout = 60 )
+#### async $.doAwaitVisible( elKey, options = {} )
 
 > Document: Wait for an Element to become visible to the user (display, visibility, opacity).<br/>
 > 
 > <i>@param</i> {string} <b>elKey</b> Element key - obtained with <i>$.doQuery</i> or <i>$.doAwaitPresent</i><br/>
-> <i>@param</i> {int} <b>timeout</b> (optional) Timeout in seconds; default <i>60</i><br/>
+> <i>@param</i> {Object} <b>options</b> (optional) Query options<br/>
+> <i>@param</i> {int} <b>options.timeout</b> (optional) Timeout in seconds; default <i>60</i><br/>
 > <i>@return</i> {boolean} True on success, false on timeout<br/>
 
 * * *
 
-#### async $.doAwaitNotVisible( elKey, timeout = 60 )
+#### async $.doAwaitNotVisible( elKey, options = {} )
 
 > Document: Wait for an Element to become invisible to the user (display, visibility, opacity).<br/>
 > 
 > <i>@param</i> {string} <b>elKey</b> Element key - obtained with <i>$.doQuery</i> or <i>$.doAwaitPresent</i><br/>
-> <i>@param</i> {int} <b>timeout</b> (optional) Timeout in seconds; default <i>60</i><br/>
+> <i>@param</i> {Object} <b>options</b> (optional) Query options<br/>
+> <i>@param</i> {int} <b>options.timeout</b> (optional) Timeout in seconds; default <i>60</i><br/>
 > <i>@return</i> {boolean} True on success, false on timeout<br/>
 
 [Create an account]: https://oglama.com/login/

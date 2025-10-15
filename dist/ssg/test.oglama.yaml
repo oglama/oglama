@@ -476,6 +476,9 @@ srcFunctions:
       if ("string" !== typeof savePath) {
         throw new Error("$.ioSaveUrl did not save the file to disk");
       }
+      if (!savePath.match(/\.png$/g)) {
+        throw new Error("$.ioSaveUrl did not preserve .png extension");
+      }
   - key: test-io-save
     code: |
       if (!(await $.navGetUrl()).match(/test/g)) {
@@ -483,24 +486,33 @@ srcFunctions:
       }
 
       $.log("Testing $.ioSaveText for json");
-      await $.ioSaveText("binary", JSON.stringify({ random: Math.random() }, null, 2), "json");
+      const jsonString = JSON.stringify({ random: Math.random() }, null, 2);
+      await $.ioSaveText("binary", jsonString, { extension: "json" });
       await $.sleep(1000);
 
-      $.log("Testing $.ioSaveDownload for png");
+      $.log("Testing $.ioSaveDownload for png saved as jpg");
       const srcButton = await $.doQuery('[data-role="dl-logo"]');
       $.setTimeout(async () => {
         await $.doClick(srcButton);
       }, 1000);
-      const savePath = await $.ioSaveDownload("images");
+      const savePath = await $.ioSaveDownload("images", { extension: "jpeg" });
       if ("string" !== typeof savePath) {
         throw new Error("$.ioSaveDownload failed");
       }
+      if (!savePath.match(/\.jpeg$/g)) {
+        throw new Error("$.ioSaveDownload did not set extension to .jpeg");
+      }
       await $.sleep(1000);
 
-      $.log("Testing $.ioSaveUrl for png");
-      const urlPath = await $.ioSaveUrl("images", "http://localhost:7199/img/pages/page-401.png");
+      $.log("Testing $.ioSaveUrl for png saved as jpg");
+      const urlPath = await $.ioSaveUrl("images", "http://localhost:7199/img/pages/page-401.png", {
+        extension: "jpeg"
+      });
       if ("string" !== typeof urlPath) {
         throw new Error("$.ioSaveUrl failed");
+      }
+      if (!urlPath.match(/\.jpeg$/g)) {
+        throw new Error("$.ioSaveUrl did not set extension to .jpeg");
       }
       await $.sleep(1000);
 
@@ -616,29 +628,35 @@ srcFunctions:
         await $.doClick(btnToggle);
       }
 
-      // Wait for element present
+      // Wait for elements present (string[])
       $.setTimeout(async () => await $.doClick(btnToggle), 1000);
-      const alertPresent = await $.doAwaitPresent(cssSelector, { timeout: 5 });
-      if (!Array.isArray(alertPresent)) {
-        throw new Error("$.doAwaitPresent failed");
+      const alertKeys = await $.doAwaitPresent(cssSelector, { timeout: 5 });
+      if (!Array.isArray(alertKeys)) {
+        throw new Error("$.doAwaitPresent failed to return multiple keys");
+      }
+
+      // Wait for elements present (string)
+      const alertKey = await $.doAwaitPresent(cssSelector, { timeout: 5, first: true });
+      if ("string" !== typeof alertKey) {
+        throw new Error("$.doAwaitPresent failed to return the first key");
       }
 
       // Timeout on "element not present"
-      const checkPresent = await $.doAwaitNotPresent(alertPresent[0], 1);
+      const checkPresent = await $.doAwaitNotPresent(alertKey, { timeout: 1 });
       if (false !== checkPresent) {
         throw new Error("$.doAwaitNotPresent did not time out");
       }
 
       // Wait for element not present
       $.setTimeout(async () => await $.doClick(btnToggle), 1000);
-      const resRemoved = await $.doAwaitNotPresent(alertPresent[0], 5);
+      const resRemoved = await $.doAwaitNotPresent(alertKey, { timeout: 5 });
       if (!resRemoved) {
         throw new Error("$.doAwaitNotPresent failed");
       }
 
-      // Timeout on "element present"
+      // Timeout on "element present" (null)
       const recheckPresent = await $.doAwaitPresent(cssSelector, { timeout: 1 });
-      if (false !== recheckPresent) {
+      if (null !== recheckPresent) {
         throw new Error("$.doAwaitPresent did not time out");
       }
   - key: test-await-visible
@@ -656,26 +674,26 @@ srcFunctions:
 
       // Wait for elKey visible
       $.setTimeout(async () => await $.doClick(btnToggle), 1000);
-      alertVisible = await $.doAwaitVisible(elKey, 5);
+      alertVisible = await $.doAwaitVisible(elKey, { timeout: 5 });
       if (!alertVisible) {
         throw new Error("$.doAwaitVisible failed");
       }
 
       // Timeout on "element not visible"
-      const checkVisible = await $.doAwaitNotVisible(elKey, 1);
+      const checkVisible = await $.doAwaitNotVisible(elKey, { timeout: 1 });
       if (false !== checkVisible) {
         throw new Error("$.doAwaitNotVisible did not time out");
       }
 
       // Wait for elKey not visible
       $.setTimeout(async () => await $.doClick(btnToggle), 1000);
-      const resHidden = await $.doAwaitNotVisible(elKey, 5);
+      const resHidden = await $.doAwaitNotVisible(elKey, { timeout: 5 });
       if (!resHidden) {
         throw new Error("$.doAwaitNotVisible failed");
       }
 
       // Timeout on "element visible"
-      const recheckVisible = await $.doAwaitVisible(elKey, 1);
+      const recheckVisible = await $.doAwaitVisible(elKey, { timeout: 1 });
       if (false !== recheckVisible) {
         throw new Error("$.doAwaitVisible did not time out");
       }
@@ -709,7 +727,7 @@ srcFunctions:
         throw new Error("$.doGetInViewport failed - breadboard heading is not in viewport");
       }
 
-      await $.doClickAt(50, 20, true);
+      await $.doClickAt(50, 20, { double: true });
       await $.doClickAt(250, 20);
   - key: test-choose-files
     code: |
@@ -803,9 +821,8 @@ srcOutputs:
       - webp
   - key: binary
     type: files
-    name: Binary
+    name: Text files
     desc: ""
     extensions:
-      - zip
-      - tgz
+      - txt
       - json
