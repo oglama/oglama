@@ -805,6 +805,17 @@ srcOutputs:
 
 * * *
 
+#### async $.ioSaveScreenshot( ioKey, options = {} )
+
+> IO: Capture a screenshot of the current page and save it to disk.<br/>
+> 
+> <i>@param</i> {string} <b>ioKey</b> Files output key<br/>
+> <i>@param</i> {Object} <b>options</b> (optional) Save options<br/>
+> <i>@param</i> {string} <b>options.extension</b> (optional) File extension; default <i>null</i>; must match one of the extensions declared in output; falls back to first file extension declared in output<br/>
+> <i>@return</i> {string | null} File path on success, <i>null</i> if download failed or if output is not of type <i>files</i><br/>
+
+* * *
+
 #### async $.ioSaveUrl( ioKey, url, options = {} )
 
 > IO: Capture the file stored at this URL and save it to disk.<br/>

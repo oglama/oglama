@@ -35,6 +35,7 @@ srcStateMachine:
       // Test $.io*
       await $.fn("test-io");
       await $.fn("test-io-save");
+      await $.fn("test-io-screenshot");
       await $.fn("test-requests");
 
       return { next: "test-html" };
@@ -522,6 +523,19 @@ srcFunctions:
         throw new Error("$.ioSaveRequest failed");
       }
       await $.sleep(1000);
+  - key: test-io-screenshot
+    code: |
+      // Grab a PNG screenshot
+      const pngPath = await $.ioSaveScreenshot("images", { extension: "png" });
+      if ("string" !== typeof pngPath || !pngPath.match(/\.png$/g)) {
+        throw new Error("$.ioSaveScreenshot failed to grab screenshot as PNG");
+      }
+
+      // Grab a JPEG screenshot
+      const jpegPath = await $.ioSaveScreenshot("images", { extension: "jpeg" });
+      if ("string" !== typeof jpegPath || !jpegPath.match(/\.jpeg/g)) {
+        throw new Error("$.ioSaveScreenshot failed to grab screenshot as JPEG");
+      }
   - key: test-requests
     code: |
       $.log("Testing $.doRequest, $.osRequest");
