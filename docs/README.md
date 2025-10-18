@@ -633,6 +633,39 @@ srcOutputs:
 > <i>@param</i> {int} <b>max</b> Maximum signed integer value; default <i>2^53-1</i><br/>
 > <i>@return</i> {int} A random signed integer between <i>min</i> and <i>max</i> (inclusive)<br/>
 
+Introducing randomness into the behavior of modules is so useful that we decided to dedicate a helper function to it.  
+You could use `Math.floor(Math.random() * (max - min + 1)) + min` instead, but this is cleaner.
+
+**example-osRand.oglama.yaml**
+```yaml
+srcStateMachine:
+  - key: start
+    code: |
+      const minTemp = -15;
+      const maxTemp = 25;
+
+      const predictedTemp = $.osRand(minTemp, maxTemp);
+
+      $.log(`🌤️ Forecast says: ${predictedTemp}°C`, "success");
+
+      switch (true) {
+        case predictedTemp < 0:
+          $.log("Brrr... better grab a scarf! 🥶");
+          break;
+
+        case predictedTemp < 20:
+          $.log("Perfect for a walk. 😄");
+          break;
+
+        default:
+          $.log("Time for some ice cream. 😎");
+          break;
+      }
+srcFunctions: []
+srcInputs: []
+srcOutputs: []
+```
+
 * * *
 
 #### async $.globalEnvGet( envKey = null )
