@@ -632,7 +632,7 @@ srcOutputs:
 > <i>@param</i> {int} <b>min</b> Minimum signed integer value OR minimum string length<br/>
 > <i>@param</i> {int} <b>max</b> Maximum signed integer value OR maximum string length<br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Random generator options<br/>
-> <i>@param</i> {boolean} <b>options.string</b> (optional) Return a random string instead; default <i>false</i>' if true, <i>min</i> and <i>max</i> define the length of the returned string<br/>
+> <i>@param</i> {boolean} <b>options.string</b> (optional) Return a random string instead; default <i>false</i>; if true, <i>min</i> and <i>max</i> define the length of the returned string<br/>
 > <i>@return</i> {int|string} A random signed integer between <i>min</i> and <i>max</i> (inclusive) OR a random string between <i>min</i> and <i>max</i> characters long, but not longer than 512 characters<br/>
 
 Introducing randomness into the behavior of modules is so useful that we decided to dedicate a helper function to it.  
