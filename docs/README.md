@@ -625,13 +625,15 @@ srcOutputs:
 
 * * *
 
-#### $.osRand( min, max )
+#### $.osRand( min, max, options = {} )
 
-> OS: Generate a random signed integer between the specified minimum and maximum values, inclusive.<br/>
+> OS: Generate a random signed integer between the specified minimum and maximum values (inclusive), or a random alphanumeric string with a length between the specified minimum and maximum values.<br/>
 > 
-> <i>@param</i> {int} <b>min</b> Minimum signed integer value; default <i>0</i><br/>
-> <i>@param</i> {int} <b>max</b> Maximum signed integer value; default <i>2^53-1</i><br/>
-> <i>@return</i> {int} A random signed integer between <i>min</i> and <i>max</i> (inclusive)<br/>
+> <i>@param</i> {int} <b>min</b> Minimum signed integer value OR minimum string length<br/>
+> <i>@param</i> {int} <b>max</b> Maximum signed integer value OR maximum string length<br/>
+> <i>@param</i> {Object} <b>options</b> (optional) Random generator options<br/>
+> <i>@param</i> {boolean} <b>options.string</b> (optional) Return a random string instead; default <i>false</i>' if true, <i>min</i> and <i>max</i> define the length of the returned string<br/>
+> <i>@return</i> {int|string} A random signed integer between <i>min</i> and <i>max</i> (inclusive) OR a random string between <i>min</i> and <i>max</i> characters long, but not longer than 512 characters<br/>
 
 Introducing randomness into the behavior of modules is so useful that we decided to dedicate a helper function to it.  
 You could use `Math.floor(Math.random() * (max - min + 1)) + min` instead, but this is cleaner.
@@ -650,7 +652,8 @@ srcStateMachine:
 
       switch (true) {
         case predictedTemp < 0:
-          $.log("Brrr... better grab a scarf! 🥶");
+          const randomString = $.osRand(3, 4, { string: true });
+          $.log(`Brrr${randomString}... this is cold! 🥶`);
           break;
 
         case predictedTemp < 20:
@@ -676,6 +679,31 @@ srcOutputs: []
 > <i>@param</i> {string|null} <b>envKey</b> (optional) Environment variable key or <i>null</i> for all values as a key-value object; default <i>null</i><br/>
 > <i>@return</i> {object|any|null}<br/>
 
+In this example, we're using the environment cache to perform an action only once per day.
+
+**example-globalEnvGet.oglama.yaml**
+```yaml
+srcStateMachine:
+  - key: start
+    code: |
+      // Prepare date in YYYY-MM-DD format
+      const dateToday = new Date().toISOString().split("T")[0];
+
+      // Fetch the date stored in environment storage (persistent between runs)
+      const dateStored = await $.globalEnvGet("date");
+
+      if (dateToday !== dateStored) {
+        // Do something new!
+        $.log("New day, new possibilities ☀️");
+
+        // Store today in environment storage
+        await $.globalEnvSet("date", dateToday);
+      }
+srcFunctions: []
+srcInputs: []
+srcOutputs: []
+```
+
 * * *
 
 #### async $.globalEnvSet( envKey, envValue )
@@ -685,8 +713,44 @@ srcOutputs: []
 > 
 > <i>@param</i> {string} <b>envKey</b> Environment variable key<br/>
 > <i>@param</i> {any|null} <b>envValue</b> Environment variable value; if <i>null</i>, the key is removed<br/>
-> <i>@throws</i> {Error} If total environment storage size exceeded 256kB for this agent<br/>
+> <i>@throws</i> {Error} If total environment storage size exceeded 512kB for this agent<br/>
 > <i>@return</i> {boolean}<br/>
+
+In this example, we're listing and removing all values from the environment storage.
+
+**example-globalEnvSet.oglama.yaml**
+```yaml
+srcStateMachine:
+  - key: start
+    code: |
+      // Set some random values to environment storage (persistent between runs)
+      for (let i = 1; i <= 3; i++) {
+        const randomInt = $.osRand(10, 99);
+        const randomString = $.osRand(10, 15, { string: true });
+        await $.globalEnvSet(`key-${randomInt}`, randomString);
+      }
+
+      // Get all values stored in environment storage
+      const envValues = await $.globalEnvGet();
+
+      // Log them as an object
+      $.log(envValues);
+
+      // Log them individually
+      for (const envKey of Object.keys(envValues)) {
+        $.log(`✨ ${envKey} = ${envValues[envKey]}`, "success");
+      }
+
+      // Clean the cache
+      for (const envKey of Object.keys(envValues)) {
+        // Setting value to null deletes it from the environment storage
+        await $.globalEnvSet(envKey, null);
+        $.log(`🗑️ ${envKey} environment value removed`, "warning");
+      }
+srcFunctions: []
+srcInputs: []
+srcOutputs: []
+```
 
 * * *
 
