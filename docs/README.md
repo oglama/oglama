@@ -457,7 +457,7 @@ srcStateMachine:
       }
 
       // Mark this so we don't enter an infinite loop
-      // Use the Environment store instead of the Run store
+      // Use the environment cache instead of the run store
       await $.globalEnvSet("asked-user", true);
 
       // Look for button that is only available after login
@@ -465,7 +465,7 @@ srcStateMachine:
 
       // Ooops! (reCaptcha, login wall etc.)
       if (!elements) {
-        // Abandon the current run (and clear values in the Run store)
+        // Abandon the current run (and clear values in the run store)
         $.stop("State the meaning of life to continue.");
       }
 srcFunctions: []
@@ -689,14 +689,14 @@ srcStateMachine:
       // Prepare date in YYYY-MM-DD format
       const dateToday = new Date().toISOString().split("T")[0];
 
-      // Fetch the date stored in environment storage (persistent between runs)
+      // Fetch the date stored in environment cache (persistent between runs)
       const dateStored = await $.globalEnvGet("date");
 
       if (dateToday !== dateStored) {
         // Do something new!
         $.log("New day, new possibilities ☀️");
 
-        // Store today in environment storage
+        // Store today in environment cache
         await $.globalEnvSet("date", dateToday);
       }
 srcFunctions: []
@@ -713,24 +713,24 @@ srcOutputs: []
 > 
 > <i>@param</i> {string} <b>envKey</b> Environment variable key<br/>
 > <i>@param</i> {any|null} <b>envValue</b> Environment variable value; if <i>null</i>, the key is removed<br/>
-> <i>@throws</i> {Error} If total environment storage size exceeded 512kB for this agent<br/>
+> <i>@throws</i> {Error} If total environment cache size exceeded 512kB for this agent<br/>
 > <i>@return</i> {boolean}<br/>
 
-In this example, we're listing and removing all values from the environment storage.
+In this example, we're listing and removing all values from the environment cache.
 
 **example-globalEnvSet.oglama.yaml**
 ```yaml
 srcStateMachine:
   - key: start
     code: |
-      // Set some random values to environment storage (persistent between runs)
+      // Set some random values to environment cache (persistent between runs)
       for (let i = 1; i <= 3; i++) {
         const randomInt = $.osRand(10, 99);
         const randomString = $.osRand(10, 15, { string: true });
         await $.globalEnvSet(`key-${randomInt}`, randomString);
       }
 
-      // Get all values stored in environment storage
+      // Get all values stored in environment cache
       const envValues = await $.globalEnvGet();
 
       // Log them as an object
@@ -743,7 +743,7 @@ srcStateMachine:
 
       // Clean the cache
       for (const envKey of Object.keys(envValues)) {
-        // Setting value to null deletes it from the environment storage
+        // Setting value to null deletes it from the environment cache
         await $.globalEnvSet(envKey, null);
         $.log(`🗑️ ${envKey} environment value removed`, "warning");
       }
@@ -909,7 +909,48 @@ srcOutputs: []
 > <i>@param</i> {string} <b>ioKey</b> Files output key<br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Save options<br/>
 > <i>@param</i> {string} <b>options.extension</b> (optional) File extension; default <i>null</i>; must match one of the extensions declared in output; falls back to first file extension declared in output<br/>
-> <i>@return</i> {string | null} File path on success, <i>null</i> if download failed or if output is not of type <i>files</i><br/>
+> <i>@return</i> {string | null} File path on success, <i>null</i> if screenshot failed or if output is not of type <i>files</i><br/>
+
+* * *
+
+#### async $.ioSaveVideo( ioKey, options = {} )
+
+> IO: Capture a video of the current page and save it to disk.<br/>
+> The video is rendered in real time using the AOMedia Video 1 (AV1) codec with no sound.<br/>
+> 
+> <i>@param</i> {string} <b>ioKey</b> Files output key<br/>
+> <i>@param</i> {Object} <b>options</b> (optional) Save options<br/>
+> <i>@param</i> {string} <b>options.extension</b> (optional) File extension; default <i>null</i>; must match one of the extensions declared in output; falls back to first file extension declared in output<br/>
+> <i>@param</i> {int} <b>options.fps</b> (optional) Frames per second; default <i>20</i>; an integer between <i>1</i> and <i>30</i><br/>
+> <i>@return</i> {function(): (string|null)} Returns a function that stops recording; calling this function returns the file path on success or <i>null</i> if video capture failed or if output is not of type <i>files</i><br/>
+
+In the following example we're saving a 5 seconds video of the current page. Note that `$.ioSaveVideo` returns a callback function that stops the recording.
+
+**example-ioSaveVideo.oglama.yaml**
+```yaml
+srcStateMachine:
+  - key: start
+    code: |
+      // Start video recording
+      const stopVideo = await $.ioSaveVideo("video");
+
+      // Record for 5 seconds
+      await $.sleep(5000);
+
+      // Stop recording and fetch video file path
+      const filePath = stopVideo();
+      $.log(filePath);
+srcFunctions: []
+srcInputs: []
+srcOutputs:
+  - key: video
+    type: files
+    name: Videos
+    desc: ""
+    max: 512
+    extensions:
+      - mp4
+```
 
 * * *
 

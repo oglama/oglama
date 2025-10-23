@@ -42,6 +42,14 @@ srcStateMachine:
   - key: test-html
     code: |
       // Test $.doAwait*, $.doQuery*, $.handle*, $.doSelect, $.doCheck
+
+      // Start recording
+      const stopVideo = await $.ioSaveVideo("video");
+      if ("function" !== typeof stopVideo) {
+        throw new Error("$.ioSaveVideo did not return a callback");
+      }
+
+      // Perform tests
       await $.fn("test-await-present");
       await $.fn("test-await-visible");
       await $.fn("test-query");
@@ -54,14 +62,27 @@ srcStateMachine:
       await $.fn("test-checkbox");
       await $.fn("test-radio");
 
-      return { next: "test-typing" };
+      return { next: "test-typing", args: [stopVideo] };
   - key: test-typing
     code: |
       // Test typing in inputs and textareas
+
+      // Fetch the video stop callback
+      const stopVideo = $.args[0];
+      if ("function" !== typeof stopVideo) {
+        throw new Error("Could not pass a function as an argument");
+      }
+
       await $.fn("type-in-textfield");
       await $.fn("type-in-input-text");
       await $.fn("type-in-textfield-multiline");
       await $.fn("type-in-textarea");
+
+      // Stop recording
+      const videoPath = stopVideo();
+      if ("string" !== typeof videoPath) {
+        throw new Error("$.ioSaveVideo failed");
+      }
 
       return { next: "start", args: [true] };
 srcFunctions:
@@ -823,6 +844,13 @@ srcOutputs:
     columns:
       - subject
       - joke
+  - key: video
+    type: files
+    name: Recordings
+    desc: ""
+    max: 50
+    extensions:
+      - mp4
   - key: images
     type: files
     name: Images
