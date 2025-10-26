@@ -918,15 +918,14 @@ srcOutputs: []
 > IO: Record a video of the current page and save it to disk.<br/>
 > The video is rendered in real time with no sound.<br/>
 > 
-> Available codecs:<br/>
-> - "av1": better compression<br/>
-> - "h264": wider support across devices<br/>
-> 
 > <i>@param</i> {string} <b>ioKey</b> Files output key<br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Save options<br/>
 > <i>@param</i> {string} <b>options.extension</b> (optional) File extension; default <i>null</i>; must match one of the extensions declared in output; falls back to first file extension declared in output<br/>
 > <i>@param</i> {int} <b>options.fps</b> (optional) Frames per second; default <i>20</i>; an integer between <i>1</i> and <i>30</i><br/>
-> <i>@param</i> {"av1"|"h264"} <b>options.codec</b> (optional) Video codec; default "av1"<br/>
+> <i>@param</i> {"av1"|"h264"} <b>options.codec</b> (optional) Video codec; default "av1"; available codecs:<br/>
+>  - "av1": better compression<br/>
+>  - "h264": wider support across devices<br/>
+> <i>@param</i> {boolean} <b>options.dpr</b> (optional) Use Device Pixel Ratio (DPR); default <i>false</i>; output video at true scale, which might be 2:1 instead of 1:1 on MacOS<br/>
 > <i>@return</i> {function(): (string|null)} Returns a function that stops recording; calling this function returns the file path on success or <i>null</i> if video capture failed or if output is not of type <i>files</i><br/>
 
 In the following example we're saving a 5 seconds video of the current page. Note that `$.ioSaveVideo` returns a callback function that stops the recording.
