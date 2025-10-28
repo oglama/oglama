@@ -1,8 +1,20 @@
 srcStateMachine:
   - key: start
     code: |
+      // Start recording
+      const stopVideo = await $.ioSaveVideo("video");
+      if ("function" !== typeof stopVideo) {
+        throw new Error("$.ioSaveVideo did not return a callback");
+      }
+
       // Start testing
       if ($.args.length && $.args[0]) {
+        const videoPath = stopVideo();
+        if ("string" !== typeof videoPath) {
+          throw new Error("$.ioSaveVideo failed");
+        }
+        await $.sleep(2000);
+
         $.log(`Returned successfully from ${$.previous}`, "success");
         return;
       }
@@ -43,12 +55,6 @@ srcStateMachine:
     code: |
       // Test $.doAwait*, $.doQuery*, $.handle*, $.doSelect, $.doCheck
 
-      // Start recording
-      const stopVideo = await $.ioSaveVideo("video");
-      if ("function" !== typeof stopVideo) {
-        throw new Error("$.ioSaveVideo did not return a callback");
-      }
-
       // Perform tests
       await $.fn("test-await-present");
       await $.fn("test-await-visible");
@@ -62,27 +68,14 @@ srcStateMachine:
       await $.fn("test-checkbox");
       await $.fn("test-radio");
 
-      return { next: "test-typing", args: [stopVideo] };
+      return { next: "test-typing" };
   - key: test-typing
     code: |
       // Test typing in inputs and textareas
-
-      // Fetch the video stop callback
-      const stopVideo = $.args[0];
-      if ("function" !== typeof stopVideo) {
-        throw new Error("Could not pass a function as an argument");
-      }
-
       await $.fn("type-in-textfield");
       await $.fn("type-in-input-text");
       await $.fn("type-in-textfield-multiline");
       await $.fn("type-in-textarea");
-
-      // Stop recording
-      const videoPath = stopVideo();
-      if ("string" !== typeof videoPath) {
-        throw new Error("$.ioSaveVideo failed");
-      }
 
       return { next: "start", args: [true] };
 srcFunctions:
@@ -112,7 +105,7 @@ srcFunctions:
 
       // Take focus
       const inputKey = await $.doQuery("[name=input-text]");
-      await $.doHighlight(inputKey, true);
+      await $.doHighlight(inputKey);
       await $.doType(inputKey, "foo");
 
       // Go backward - should emit a beforeunload
@@ -242,7 +235,7 @@ srcFunctions:
       $.log("Testing $.doType: typing in <TextField/>");
 
       const textfieldKey = await $.doQuery("[name=input-textfield]");
-      await $.doHighlight(textfieldKey, true);
+      await $.doHighlight(textfieldKey);
 
       await $.doType(textfieldKey, "abc");
       await $.doType(textfieldKey, "def");
@@ -257,7 +250,7 @@ srcFunctions:
       $.log("Testing $.doType: typing in <input type=text/>");
 
       const inputKey = await $.doQuery("[name=input-text]");
-      await $.doHighlight(inputKey, true);
+      await $.doHighlight(inputKey);
 
       // Continue typing
       await $.doType(inputKey, "abc");
@@ -281,7 +274,7 @@ srcFunctions:
       $.log("Testing $.doType: typing in <TextField multiline/>");
 
       const textfieldMultiKey = await $.doQuery("[name=input-textfield-multiline]");
-      await $.doHighlight(textfieldMultiKey, true);
+      await $.doHighlight(textfieldMultiKey);
 
       const text = Array.from({ length: 20 }, (_, i) => i + 1)
         .map(i => `${i}.	Șș好的 Lorem ipsum. ✨\n`)
@@ -304,7 +297,7 @@ srcFunctions:
       $.log("Testing $.doType: typing in <textarea/>");
 
       const textareaKey = await $.doQuery("[name=textarea]");
-      await $.doHighlight(textareaKey, true);
+      await $.doHighlight(textareaKey);
 
       const text = Array.from({ length: 20 }, (_, i) => i + 1)
         .map(i => `${i}.	Șș好的 Lorem ipsum. ✨\n`)

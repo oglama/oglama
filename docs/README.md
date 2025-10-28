@@ -926,6 +926,7 @@ srcOutputs: []
 >  - "av1": better compression<br/>
 >  - "h264": wider support across devices<br/>
 > <i>@param</i> {boolean} <b>options.dpr</b> (optional) Use Device Pixel Ratio (DPR); default <i>false</i>; output video at true scale, which might be 2:1 instead of 1:1 on MacOS<br/>
+> <i>@param</i> {boolean} <b>options.rwp</b> (optional) Record While Paused; default <i>false</i>; continue recording video even when agent is paused<br/>
 > <i>@return</i> {function(): (string|null)} Returns a function that stops recording; calling this function returns the file path on success or <i>null</i> if video capture failed or if output is not of type <i>files</i><br/>
 
 In the following example we're saving a 5 seconds video of the current page. Note that `$.ioSaveVideo` returns a callback function that stops the recording.
@@ -1233,12 +1234,14 @@ srcOutputs: []
 
 * * *
 
-#### async $.doHighlight( elKey, scrollIntoView = false )
+#### async $.doHighlight( elKey, options = {} )
 
 > Document: Highlight an HTML Element in the viewport for 1 second.<br/>
 > 
 > <i>@param</i> {string} <b>elKey</b> Element key - obtained with <i>$.doQuery</i><br/>
-> <i>@param</i> {boolean} <b>scrollIntoView</b> (optional) Scroll element into view before highlighting; default <i>false</i><br/>
+> <i>@param</i> {Object} <b>options</b> (optional) Highlight options<br/>
+> <i>@param</i> {boolean} <b>options.scrollIntoView</b> (optional) Scroll element into view before highlighting; default <i>true</i><br/>
+> <i>@param</i> {boolean} <b>options.hoverAfterScroll</b> (optional) Move mouse over the center of the element after scrolling into view; default <i>true</i><br/>
 
 * * *
 
@@ -1414,22 +1417,26 @@ srcOutputs: []
 
 * * *
 
-#### async $.doScroll( amount, vertical = true )
+#### async $.doScroll( amount, options = {} )
 
-> Document: Scroll on page.<br/>
+> Document: Issue mouse wheel (scroll) events at the current cursor position.<br/>
 > 
 > <i>@param</i> {int} <b>amount</b> Scroll amount in pixels<br/>
-> <i>@param</i> {boolean} <b>vertical</b> (optional) Vertical or Horizontal scroll; default <i>true</i> for vertical<br/>
+> <i>@param</i> {Object} <b>options</b> (optional) Scroll options<br/>
+> <i>@param</i> {int} <b>options.speed</b> (optional) Scroll speed in pixels/second; default <i>100</i>; between <i>1</i> and <i>2000</i><br/>
+> <i>@param</i> {boolean} <b>options.vertical</b> (optional) Vertical or Horizontal scroll; default <i>true</i> for vertical<br/>
 > <i>@return</i> {boolean} True on success, false on failure<br/>
 
 * * *
 
-#### async $.doScrollTo( elKey, marginTop = 0 )
+#### async $.doScrollTo( elKey, options = {} )
 
-> Document: Scroll to HTML Element.<br/>
+> Document: Scroll to HTML Element<br/>
 > 
 > <i>@param</i> {string} <b>elKey</b> Element key - obtained with <i>$.doQuery</i><br/>
-> <i>@param</i> {int} <b>marginTop</b> (optional) Top margin; default <i>0</i><br/>
+> <i>@param</i> {Object} <b>options</b> (optional) Scroll to options<br/>
+> <i>@param</i> {int} <b>options.top</b> (optional) Top margin; default <i>0</i>; target Element distance to the top of the page in pixels<br/>
+> <i>@param</i> {boolean} <b>options.hover</b> (optional) Hover mouse over center of element after scrolling; default <i>true</i><br/>
 > <i>@return</i> {boolean} True on success, false on failure<br/>
 
 * * *
