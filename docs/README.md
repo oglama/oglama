@@ -929,28 +929,37 @@ srcOutputs: []
 > <i>@param</i> {boolean} <b>options.rwp</b> (optional) Record While Paused; default <i>false</i>; continue recording video even when agent is paused<br/>
 > <i>@return</i> {function(): (string|null)} Returns a function that stops recording; calling this function returns the file path on success or <i>null</i> if video capture failed or if output is not of type <i>files</i><br/>
 
-In the following example we're saving a 5 seconds video of the current page. Note that `$.ioSaveVideo` returns a callback function that stops the recording.
+In the following example we're recording smooth scrolling a web page at 150 pixels per second. Note that `$.ioSaveVideo` returns a callback function that stops the recording.
 
 **example-ioSaveVideo.oglama.yaml**
 ```yaml
 srcStateMachine:
   - key: start
     code: |
-      // Start video recording
-      const stopVideo = await $.ioSaveVideo("video");
+      // Go home
+      await $.navLoad("about:home/");
 
-      // Record for 5 seconds
-      await $.sleep(5000);
+      // Start recording
+      const recStop = await $.ioSaveVideo("video");
+      
+      // Wait, then load the test page
+      await $.sleep(1000);
+      await $.navLoad("about:home/test/");
 
-      // Stop recording and fetch video file path
-      const filePath = stopVideo();
-      $.log(filePath);
+      // Get dimensions of the body element
+      const bodyBox = await $.doGetBox(await $.doQuery("body"));
+
+      // Smooth-scroll through the entire page
+      await $.doScroll(bodyBox.height + 200, { speed: 150 });
+
+      // Log recorded video file path
+      $.log(recStop());
 srcFunctions: []
 srcInputs: []
 srcOutputs:
   - key: video
     type: files
-    name: Videos
+    name: Recordings
     desc: ""
     max: 512
     extensions:
