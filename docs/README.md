@@ -319,7 +319,7 @@ srcOutputs: []
 > 
 > <i>@param</i> {string} <b>prompt</b> Prompt - up to 4096 characters long<br/>
 > <i>@return</i> {string} LLM response<br/>
-> <i>@throws</i> {Error} Throws an error if the LLM is not ready<br/>
+> <i>@throws</i> {Error} If the LLM is not ready<br/>
 
 Oglama provides easy access to a locally running large language model for complex tasks such as text summarization and sentiment analysis. Please note that LLMs are neither accurate nor deterministic.  
 The example below shows when not to use a large language model: mathematical operations are much faster and more accurate in pure JavaScript.
@@ -329,13 +329,13 @@ The example below shows when not to use a large language model: mathematical ope
 srcStateMachine:
   - key: start
     code: |
-      const startTime = new Date().getTime();
+      const startTime = performance.now();
 
       // Ask the magic box
       const response = await $.llm("Answer with one number: 2 + 3");
 
       // Log the execution time
-      $.log(`Finished in ${(new Date().getTime() - startTime) / 1000} seconds`);
+      $.log(`Finished in ${(performance.now() - startTime) / 1000} seconds`);
 srcFunctions: []
 srcInputs: []
 srcOutputs: []
@@ -556,7 +556,7 @@ srcOutputs: []
 > <i>@param</i> {int} <b>options.timeout</b> (optional) Request timeout in seconds; default <i>60</i><br/>
 > <i>@param</i> {boolean} <b>options.resData</b> (optional) Parse and return the response data; default <i>true</i><br/>
 > <i>@return</i> {{ ok:boolean, status:number, headers:object, data:mixed}} Response object<br/>
-> <i>@throws</i> {Error} Throws an error if request failed or aborted<br/>
+> <i>@throws</i> {Error} If request failed<br/>
 
 This method acts like a proxy, bypassing any CORS restrictions.  
 If you need to pass along cookies with your request, first nagivate to the target domain using [$.navLoad()] then issue the request with [$.doRequest()] or [$.ioSaveRequest()].
@@ -781,7 +781,8 @@ srcOutputs: []
 > This method returns an integer or an array of integers based on the selected input format.<br/>
 > 
 > <i>@param</i> {string} <b>ioKey</b> Integer input key<br/>
-> <i>@return</i> {int | int[] | null} Integer(s) supplied by user or <i>null</i> if input is not of type <i>integer</i><br/>
+> <i>@return</i> {int | int[]} Integer(s) supplied by user<br/>
+> <i>@throws</i> {Error} If <i>ioKey</i> is not a valid input integer key<br/>
 
 * * *
 
@@ -791,7 +792,8 @@ srcOutputs: []
 > This method returns a string or an array of strings based on the selected input format.<br/>
 > 
 > <i>@param</i> {string} <b>ioKey</b> String input key<br/>
-> <i>@return</i> {string | string[] | null} String(s) supplied by user or <i>null</i> if input is not of type <i>string</i><br/>
+> <i>@return</i> {string | string[]} String(s) supplied by user<br/>
+> <i>@throws</i> {Error} If <i>ioKey</i> is not a valid input string key<br/>
 
 * * *
 
@@ -800,7 +802,8 @@ srcOutputs: []
 > IO: Get input boolean.<br/>
 > 
 > <i>@param</i> {string} <b>ioKey</b> Boolean input key<br/>
-> <i>@return</i> {boolean | null} Boolean supplied by user or <i>null</i> if input is not of type boolean<br/>
+> <i>@return</i> {boolean} Boolean supplied by user<br/>
+> <i>@throws</i> {Error} If <i>ioKey</i> is not a valid input boolean key<br/>
 
 * * *
 
@@ -812,7 +815,8 @@ srcOutputs: []
 > 
 > <i>@param</i> {string} <b>ioKey</b> Table input key<br/>
 > <i>@param</i> {int} <b>index</b> (optional) Table index; default <i>null</i><br/>
-> <i>@return</i> {Object&lt;string,string&gt; | null} Current row or <i>null</i> if reached the end of the table or if input is not of type <i>table</i><br/>
+> <i>@return</i> {Object&lt;string,string&gt; | null} Current row or <i>null</i> if reached the end of the table<br/>
+> <i>@throws</i> {Error} If <i>ioKey</i> is not a valid input table key<br/>
 
 * * *
 
@@ -821,7 +825,8 @@ srcOutputs: []
 > IO: Get input file paths.<br/>
 > 
 > <i>@param</i> {string} <b>ioKey</b> Files input key<br/>
-> <i>@return</i> {string[] | null} Input file paths or <i>null</i> if input is not of type <i>files</i><br/>
+> <i>@return</i> {string[]} Input file paths<br/>
+> <i>@throws</i> {Error} If <i>ioKey</i> is not a valid input files key<br/>
 
 * * *
 
@@ -832,7 +837,8 @@ srcOutputs: []
 > 
 > <i>@param</i> {string} <b>ioKey</b> Integer output key<br/>
 > <i>@param</i> {int} <b>int</b> Integer<br/>
-> <i>@return</i> {boolean} True on success, false for invalid integer or if output is not of type <i>integer</i><br/>
+> <i>@return</i> {boolean} <i>true</i> on success, false for invalid integer<br/>
+> <i>@throws</i> {Error} If <i>ioKey</i> is not a valid output integer key<br/>
 
 * * *
 
@@ -846,7 +852,8 @@ srcOutputs: []
 > 
 > <i>@param</i> {string} <b>ioKey</b> String output key<br/>
 > <i>@param</i> {string} <b>string</b> String<br/>
-> <i>@return</i> {boolean} True on success, false for invalid string or if output is not of type <i>string</i><br/>
+> <i>@return</i> {boolean} <i>true</i> on success, false for invalid string<br/>
+> <i>@throws</i> {Error} If <i>ioKey</i> is not a valid output string key<br/>
 
 * * *
 
@@ -857,7 +864,8 @@ srcOutputs: []
 > 
 > <i>@param</i> {string} <b>ioKey</b> Boolean output key<br/>
 > <i>@param</i> {boolean} <b>boolean</b> Boolean value<br/>
-> <i>@return</i> {boolean} True on success, false for invalid boolean or if output is not of type <i>boolean</i><br/>
+> <i>@return</i> {boolean} <i>true</i> on success, false for invalid boolean<br/>
+> <i>@throws</i> {Error} If <i>ioKey</i> is not a valid output boolean key<br/>
 
 * * *
 
@@ -868,7 +876,8 @@ srcOutputs: []
 > 
 > <i>@param</i> {string} <b>ioKey</b> Table output key<br/>
 > <i>@param</i> {Object&lt;string,string&gt;} <b>row</b> Row object<br/>
-> <i>@return</i> {boolean} True on success, false for invalid row object or if output is not of type <i>table</i><br/>
+> <i>@return</i> {boolean} <i>true</i> on success, false for invalid row object<br/>
+> <i>@throws</i> {Error} If <i>ioKey</i> is not a valid output table key<br/>
 
 * * *
 
@@ -883,7 +892,8 @@ srcOutputs: []
 > <i>@param</i> {string} <b>text</b> Text to save<br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Save options<br/>
 > <i>@param</i> {string} <b>options.extension</b> (optional) File extension; default <i>null</i>; must match one of the extensions declared in output; falls back to first file extension declared in output<br/>
-> <i>@return</i> {string | null} File path on success, null if download failed or if output is not of type <i>files</i><br/>
+> <i>@return</i> {string | null} File path on success, null if download failed<br/>
+> <i>@throws</i> {Error} If <i>ioKey</i> is not a valid output files key<br/>
 
 * * *
 
@@ -898,7 +908,8 @@ srcOutputs: []
 > <i>@param</i> {Object} <b>options</b> (optional) Save options<br/>
 > <i>@param</i> {int} <b>options.timeout</b> (optional) Download timeout in seconds; default <i>600</i><br/>
 > <i>@param</i> {string} <b>options.extension</b> (optional) File extension; default <i>null</i>; must match one of the extensions declared in output; falls back to first file extension declared in output<br/>
-> <i>@return</i> {string | null} File path on success, <i>null</i> if download failed or if output is not of type <i>files</i><br/>
+> <i>@return</i> {string | null} File path on success, <i>null</i> if download failed<br/>
+> <i>@throws</i> {Error} If <i>ioKey</i> is not a valid output files key<br/>
 
 * * *
 
@@ -909,7 +920,8 @@ srcOutputs: []
 > <i>@param</i> {string} <b>ioKey</b> Files output key<br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Save options<br/>
 > <i>@param</i> {string} <b>options.extension</b> (optional) File extension; default <i>null</i>; must match one of the extensions declared in output; falls back to first file extension declared in output<br/>
-> <i>@return</i> {string | null} File path on success, <i>null</i> if screenshot failed or if output is not of type <i>files</i><br/>
+> <i>@return</i> {string | null} File path on success, <i>null</i> if screenshot failed<br/>
+> <i>@throws</i> {Error} If <i>ioKey</i> is not a valid output files key<br/>
 
 * * *
 
@@ -927,7 +939,8 @@ srcOutputs: []
 >  - "h264": wider support across devices<br/>
 > <i>@param</i> {boolean} <b>options.dpr</b> (optional) Use Device Pixel Ratio (DPR); default <i>false</i>; output video at true scale, which might be 2:1 instead of 1:1 on MacOS<br/>
 > <i>@param</i> {boolean} <b>options.rwp</b> (optional) Record While Paused; default <i>false</i>; continue recording video even when agent is paused<br/>
-> <i>@return</i> {function(): (string|null)} Returns a function that stops recording; calling this function returns the file path on success or <i>null</i> if video capture failed or if output is not of type <i>files</i><br/>
+> <i>@return</i> {function(): Promise&lt;(string|null)&gt;} Returns an async function that stops recording; calling this function returns the file path on success or <i>null</i> if video capture failed<br/>
+> <i>@throws</i> {Error} If <i>ioKey</i> is not a valid output files key<br/>
 
 In the following example we're recording smooth scrolling a web page at 150 pixels per second. Note that `$.ioSaveVideo` returns a callback function that stops the recording.
 
@@ -946,14 +959,12 @@ srcStateMachine:
       await $.sleep(1000);
       await $.navLoad("about:home/test/");
 
-      // Get dimensions of the body element
-      const bodyBox = await $.doGetBox(await $.doQuery("body"));
-
       // Smooth-scroll through the entire page
-      await $.doScroll(bodyBox.height + 200, { speed: 150 });
+      await $.doScroll(750, { speed: 150 });
 
       // Log recorded video file path
-      $.log(recStop());
+      const filePath = await recStop();
+      $.log(filePath);
 srcFunctions: []
 srcInputs: []
 srcOutputs:
@@ -979,7 +990,8 @@ srcOutputs:
 > <i>@param</i> {Object} <b>options</b> (optional) Save options<br/>
 > <i>@param</i> {int} <b>options.timeout</b> (optional) Download timeout in seconds; default <i>600</i><br/>
 > <i>@param</i> {string} <b>options.extension</b> (optional) File extension; default <i>null</i>; must match one of the extensions declared in output; falls back to first file extension declared in output<br/>
-> <i>@return</i> {string | null} File path on success, <i>null</i> if download failed or if output is not of type <i>files</i><br/>
+> <i>@return</i> {string | null} File path on success, <i>null</i> if download failed<br/>
+> <i>@throws</i> {Error} If <i>ioKey</i> is not a valid output files key or if <i>url</i> is invalid<br/>
 
 * * *
 
@@ -999,7 +1011,8 @@ srcOutputs:
 > <i>@param</i> {boolean} <b>options.json</b> (optional) JSON request; default <i>true</i><br/>
 > <i>@param</i> {int} <b>options.timeout</b> (optional) Request timeout in seconds; default <i>60</i><br/>
 > <i>@param</i> {string} <b>options.extension</b> (optional) File extension; default <i>null</i>; must match one of the extensions declared in output; falls back to first file extension declared in output<br/>
-> <i>@return</i> {string | null} File path on success, <i>null</i> if download failed or if output is not of type <i>files</i><br/>
+> <i>@return</i> {string | null} File path on success, <i>null</i> if download failed<br/>
+> <i>@throws</i> {Error} If <i>ioKey</i> is not a valid output files key or if <i>url</i> is invalid<br/>
 
 This example demonstrates how to save a file with a custom extension. Note that the file extension must first be declared in the output configuration. If the specified extension is not included in the declared list, the first listed extension, "json" in this case, will be used instead.  
 If you don't specify a file extension, the script will attempt to deduce it from the URL.
@@ -1034,41 +1047,49 @@ srcOutputs:
 
 * * *
 
-#### async $.navLoad( url )
+#### async $.navLoad( url, options = {} )
 
 > Navigation: Open URL and wait for the page to load.<br/>
 > 
 > <i>@param</i> {string} <b>url</b> URL; only <i>http</i> and <i>https</i> protocols are allowed<br/>
-> <i>@return</i> {boolean} True on success, false on failure<br/>
-> <i>@throws</i> {Error} Throws an error if page failed to load<br/>
+> <i>@param</i> {Object} <b>options</b> (optional) Navigation options<br/>
+> <i>@param</i> {int} <b>options.timeout</b> (optional) Navigation timeout in seconds; default <i>60</i><br/>
+> <i>@return</i> {boolean} <i>true</i> on success, <i>false</i> on failure<br/>
+> <i>@throws</i> {Error} If page load failed<br/>
 
 * * *
 
-#### async $.navReload( skipCache = false )
+#### async $.navReload( options = {} )
 
 > Navigation: Reload the current page.<br/>
 > 
-> <i>@param</i> {boolean} <b>skipCache</b> (optional) Reload skipping the cache; default <i>false</i><br/>
-> <i>@return</i> {boolean} True on success, false on failure<br/>
-> <i>@throws</i> {Error} Throws an error if page failed to load<br/>
+> <i>@param</i> {Object} <b>options</b> (optional) Reload options<br/>
+> <i>@param</i> {boolean} <b>options.skipCache</b> (optional) Reload skipping the cache; default <i>false</i><br/>
+> <i>@param</i> {int} <b>options.timeout</b> (optional) Reload timeout in seconds; default <i>60</i><br/>
+> <i>@return</i> {boolean} <i>true</i> on success, <i>false</i> on failure<br/>
+> <i>@throws</i> {Error} If page reload failed<br/>
 
 * * *
 
-#### async $.navGoBack()
+#### async $.navGoBack( options = {} )
 
 > Navigation: Go backwards.<br/>
 > 
-> <i>@return</i> {boolean} True on success, false on failure<br/>
-> <i>@throws</i> {Error} Throws an error if page failed to load<br/>
+> <i>@param</i> {Object} <b>options</b> (optional) Navigation options<br/>
+> <i>@param</i> {int} <b>options.timeout</b> (optional) Navigation timeout in seconds; default <i>60</i><br/>
+> <i>@return</i> {boolean} <i>true</i> on success, <i>false</i> on failure<br/>
+> <i>@throws</i> {Error} If navigation failed<br/>
 
 * * *
 
-#### async $.navGoForward()
+#### async $.navGoForward( options = {} )
 
 > Navigation: Go forwards.<br/>
 > 
-> <i>@return</i> {boolean} True on success, false on failure<br/>
-> <i>@throws</i> {Error} Throws an error if page failed to load<br/>
+> <i>@param</i> {Object} <b>options</b> (optional) Navigation options<br/>
+> <i>@param</i> {int} <b>options.timeout</b> (optional) Navigation timeout in seconds; default <i>60</i><br/>
+> <i>@return</i> {boolean} <i>true</i> on success, <i>false</i> on failure<br/>
+> <i>@throws</i> {Error} If navigation failed<br/>
 
 * * *
 
@@ -1127,7 +1148,8 @@ srcOutputs:
 > <i>@param</i> {Object} <b>options</b> (optional) Query options<br/>
 > <i>@param</i> {string} <b>options.parent</b> (optional) Parent Element key; default <i>null</i> to search the entire Document<br/>
 > <i>@param</i> {string} <b>options.contains</b> (optional) Text contained by Element (case insensitive); default <i>null</i> for no restrictions<br/>
-> <i>@param</i> {boolean} <b>options.fromScreenView</b> (optional) Restrict results to elements placed from the current scroll position down; default <i>false</i><br/>
+> <i>@param</i> {boolean} <b>options.scrollable</b> (optional) Restrict results to elements that have active scrollbars; default <i>false</i><br/>
+> <i>@param</i> {boolean} <b>options.viewportDown</b> (optional) Restrict results to elements placed in the viewport and below it; default <i>false</i><br/>
 > <i>@return</i> {string|null} <i>Element key</i> on null on error<br/>
 
 * * *
@@ -1140,7 +1162,8 @@ srcOutputs:
 > <i>@param</i> {Object} <b>options</b> (optional) Query options<br/>
 > <i>@param</i> {string} <b>options.parent</b> (optional) Parent Element key; default <i>null</i> to search the entire Document<br/>
 > <i>@param</i> {string} <b>options.contains</b> (optional) Text contained by Element (case insensitive); default <i>null</i> for no restrictions<br/>
-> <i>@param</i> {boolean} <b>options.fromScreenView</b> (optional) Restrict results to elements placed from the current scroll position down; default <i>false</i><br/>
+> <i>@param</i> {boolean} <b>options.scrollable</b> (optional) Restrict results to elements that have active scrollbars; default <i>false</i><br/>
+> <i>@param</i> {boolean} <b>options.viewportDown</b> (optional) Restrict results to elements placed in the viewport and below it; default <i>false</i><br/>
 > <i>@return</i> {string[]} Array of <i>Element keys</i><br/>
 
 * * *
@@ -1153,6 +1176,7 @@ srcOutputs:
 > <i>@param</i> {Object} <b>options</b> (optional) Query options<br/>
 > <i>@param</i> {string} <b>options.selector</b> (optional) CSS selector for parent element; default <i>null</i> to stop at first ancestor<br/>
 > <i>@param</i> {string} <b>options.contains</b> (optional) Text contained by Element (case insensitive); default <i>null</i> for no restrictions<br/>
+> <i>@param</i> {boolean} <b>options.scrollable</b> (optional) Restrict results to elements that have active scrollbars; default <i>false</i><br/>
 > <i>@return</i> {string|null} <i>Element key</i> on null on error<br/>
 
 * * *
@@ -1165,6 +1189,7 @@ srcOutputs:
 > <i>@param</i> {Object} <b>options</b> (optional) Query options<br/>
 > <i>@param</i> {string} <b>options.selector</b> (optional) CSS selector for parent element; default <i>null</i> to stop at first ancestor<br/>
 > <i>@param</i> {string} <b>options.contains</b> (optional) Text contained by Element (case insensitive); default <i>null</i> for no restrictions<br/>
+> <i>@param</i> {boolean} <b>options.scrollable</b> (optional) Restrict results to elements that have active scrollbars; default <i>false</i><br/>
 > <i>@return</i> {string[]} <i>Element keys</i><br/>
 
 * * *
@@ -1179,6 +1204,7 @@ srcOutputs:
 > <i>@param</i> {Object} <b>options</b> (optional) Query options<br/>
 > <i>@param</i> {string} <b>options.selector</b> (optional) CSS selector for parent element; default <i>null</i> to stop at first ancestor<br/>
 > <i>@param</i> {string} <b>options.contains</b> (optional) Text contained by Element (case insensitive); default <i>null</i> for no restrictions<br/>
+> <i>@param</i> {boolean} <b>options.scrollable</b> (optional) Restrict results to elements that have active scrollbars; default <i>false</i><br/>
 > <i>@return</i> {string|null} <i>Element key</i> on null on error<br/>
 
 * * *
@@ -1199,7 +1225,7 @@ srcOutputs:
 > <i>@param</i> {int} <b>options.timeout</b> (optional) Request timeout in seconds; default <i>60</i><br/>
 > <i>@param</i> {boolean} <b>options.resData</b> (optional) Parse and return the response data; default <i>true</i><br/>
 > <i>@return</i> {{ ok:boolean, status:number, headers:object, data:mixed}} Response object<br/>
-> <i>@throws</i> {Error} Throws an error if request failed or aborted<br/>
+> <i>@throws</i> {Error} If request failed<br/>
 
 This example describes how to fetch data in the browser when CORS is an issue.  
 If you don't care about cookies you can use [$.osRequest()] to bypass CORS instead.
@@ -1258,13 +1284,19 @@ srcOutputs: []
 
 > Document: Highlight a box in the viewport for 1 second.<br/>
 > 
-> <i>@typedef</i> {Object} Box<br/>
-> <i>@property</i> {int} <b>left</b> Left coordinate in pixels<br/>
-> <i>@property</i> {int} <b>top</b> Top coordinate in pixels<br/>
-> <i>@property</i> {int} <b>width</b> Width in pixels<br/>
-> <i>@property</i> {int} <b>height</b> Height in pixels<br/>
+> <i>@param</i> {Object} <b>box</b> Rectangle details; obtained with <i>$.doGetBox</i><br/>
+> <i>@param</i> {int} <b>box.left</b> Left coordinate in pixels<br/>
+> <i>@param</i> {int} <b>box.top</b> Top coordinate in pixels<br/>
+> <i>@param</i> {int} <b>box.width</b> Width in pixels<br/>
+> <i>@param</i> {int} <b>box.height</b> Height in pixels<br/>
+
+* * *
+
+#### async $.doGetMouse()
+
+> Document: Get current mouse position.<br/>
 > 
-> <i>@param</i> {Box} <b>box</b> Box - obtained with <i>$.doGetBox</i><br/>
+> <i>@return</i> {{ left: int, top: int}}<br/>
 
 * * *
 
@@ -1273,10 +1305,16 @@ srcOutputs: []
 > Document: Get the box of any HTML Element.<br/>
 > 
 > <i>@typedef</i> {Object} Box<br/>
-> <i>@property</i> {int} <b>left</b> Left coordinate in pixels<br/>
-> <i>@property</i> {int} <b>top</b> Top coordinate in pixels<br/>
-> <i>@property</i> {int} <b>width</b> Width in pixels<br/>
-> <i>@property</i> {int} <b>height</b> Height in pixels<br/>
+> <i>@property</i> {int} <b>left</b> Left coordinate (px)<br/>
+> <i>@property</i> {int} <b>top</b> Top coordinate (px)<br/>
+> <i>@property</i> {int} <b>width</b> Width of border-box, including padding and borders (px)<br/>
+> <i>@property</i> {int} <b>height</b> Height of border-box, including padding and borders (px)<br/>
+> <i>@property</i> {int} <b>clientWidth</b> Inner width including padding, but excluding borders, margins and scroll bars (px)<br/>
+> <i>@property</i> {int} <b>clientHeight</b> Inner height including padding, but excluding borders, margins and scroll bars (px)<br/>
+> <i>@property</i> {int} <b>scrollLeft</b> Distance of scrolled content from the left (px)<br/>
+> <i>@property</i> {int} <b>scrollTop</b> Distance of scrolled content from the top (px)<br/>
+> <i>@property</i> {int} <b>scrollWidth</b> Total width of content inside element, including overflow (px)<br/>
+> <i>@property</i> {int} <b>scrollHeight</b> Total height of content inside element, including overflow (px)<br/>
 > 
 > <i>@param</i> {string} <b>elKey</b> Element key - obtained with <i>$.doQuery</i><br/>
 > <i>@return</i> {Box|null} Element box or <i>null</i> on error<br/>
@@ -1299,7 +1337,7 @@ srcOutputs: []
 > - <i>textarea</i><br/>
 > - <i>select</i><br/>
 > 
-> Returns multiple values for checboxes and multi-select.<br/>
+> Returns multiple values for checboxes and <i>&lt;select multiple/&gt;</i>.<br/>
 > 
 > <i>@param</i> {string} <b>elKey</b> Element key - obtained with <i>$.doQuery</i><br/>
 > <i>@return</i> {string|string[]|boolean|null} Value or <i>null</i> on error<br/>
@@ -1336,12 +1374,31 @@ srcOutputs: []
 
 * * *
 
+#### async $.doGetStyle( elKey, props = \[\] )
+
+> Document: Get the resolved values of this Element's CSS properties.<br/>
+> 
+> <i>@param</i> {string} <b>elKey</b> Element key - obtained with <i>$.doQuery</i><br/>
+> <i>@param</i> {string[]} <b>props</b> List of CSS properties to return; default <i>[]</i> to return all<br/>
+> <i>@return</i> {object|null} Element CSS properties or <i>null</i> on error; invalid CSS properties are discarded from the result object<br/>
+
+* * *
+
 #### async $.doGetVisible( elKey )
 
 > Document: Get whether HTML Element is visible on page.<br/>
 > 
 > <i>@param</i> {string} <b>elKey</b> Element key - obtained with <i>$.doQuery</i><br/>
 > <i>@return</i> {boolean}<br/>
+
+* * *
+
+#### async $.doGetScrollable( elKey )
+
+> Document: Get whether HTML Element has scroll bars.<br/>
+> 
+> <i>@param</i> {string} <b>elKey</b> Element key - obtained with <i>$.doQuery</i><br/>
+> <i>@return</i> {{ horizontal: boolean, vertical: boolean}}<br/>
 
 * * *
 
@@ -1358,7 +1415,7 @@ srcOutputs: []
 
 > Document: Get the viewport size<br/>
 > 
-> <i>@return</i> {{width: int, height: int}}<br/>
+> <i>@return</i> {{ width: int, height: int, scrollWidth: int, scrollHeight: int}}<br/>
 
 * * *
 
@@ -1371,7 +1428,7 @@ srcOutputs: []
 > <i>@param</i> {Object} <b>options</b> (optional) Click options<br/>
 > <i>@param</i> {boolean} <b>options.double</b> (optional) Double-click; default <i>false</i><br/>
 > <i>@param</i> {boolean} <b>options.hover</b> (optional) Hover after click; default <i>false</i> to move mouse to the side after clicking<br/>
-> <i>@return</i> {boolean} True on success, false on failure<br/>
+> <i>@return</i> {boolean} <i>true</i> on success, <i>false</i> on failure<br/>
 
 * * *
 
@@ -1385,7 +1442,7 @@ srcOutputs: []
 > <i>@param</i> {boolean} <b>options.double</b> (optional) Double-click; default <i>false</i><br/>
 > <i>@param</i> {boolean} <b>options.hover</b> (optional) Hover after click; default <i>false</i> to move mouse to the side after clicking<br/>
 > 
-> <i>@return</i> {boolean} True on success, false on failure<br/>
+> <i>@return</i> {boolean} <i>true</i> on success, <i>false</i> on failure<br/>
 
 * * *
 
@@ -1395,7 +1452,7 @@ srcOutputs: []
 > Automatically scroll to Element before action.<br/>
 > 
 > <i>@param</i> {string} <b>elKey</b> Element key - obtained with <i>$.doQuery</i><br/>
-> <i>@return</i> {boolean} True on success, false on failure<br/>
+> <i>@return</i> {boolean} <i>true</i> on success, <i>false</i> on failure<br/>
 
 * * *
 
@@ -1405,7 +1462,7 @@ srcOutputs: []
 > 
 > <i>@param</i> {int} <b>left</b> Left coordinate in pixels<br/>
 > <i>@param</i> {int} <b>top</b> Top coordinate in pixels<br/>
-> <i>@return</i> {boolean} True on success, false on failure<br/>
+> <i>@return</i> {boolean} <i>true</i> on success, <i>false</i> on failure<br/>
 
 * * *
 
@@ -1413,7 +1470,7 @@ srcOutputs: []
 
 > Document: Move mouse just slightly outside of viewport center.<br/>
 > 
-> <i>@return</i> {boolean} True on success, false on failure<br/>
+> <i>@return</i> {boolean} <i>true</i> on success, <i>false</i> on failure<br/>
 
 * * *
 
@@ -1422,7 +1479,7 @@ srcOutputs: []
 > Document: Jiggle the mouse at the current coordinates.<br/>
 > 
 > <i>@param</i> {int} <b>radius</b> (optional) Jiggle radius in pixels; [10,500]; default <i>50</i><br/>
-> <i>@return</i> {boolean} True on success, false on failure<br/>
+> <i>@return</i> {boolean} <i>true</i> on success, <i>false</i> on failure<br/>
 
 * * *
 
@@ -1434,7 +1491,7 @@ srcOutputs: []
 > <i>@param</i> {Object} <b>options</b> (optional) Scroll options<br/>
 > <i>@param</i> {int} <b>options.speed</b> (optional) Scroll speed in pixels/second; default <i>100</i>; between <i>1</i> and <i>2000</i><br/>
 > <i>@param</i> {boolean} <b>options.vertical</b> (optional) Vertical or Horizontal scroll; default <i>true</i> for vertical<br/>
-> <i>@return</i> {boolean} True on success, false on failure<br/>
+> <i>@return</i> {boolean} <i>true</i> on success, <i>false</i> on failure<br/>
 
 * * *
 
@@ -1446,7 +1503,7 @@ srcOutputs: []
 > <i>@param</i> {Object} <b>options</b> (optional) Scroll to options<br/>
 > <i>@param</i> {int} <b>options.top</b> (optional) Top margin; default <i>0</i>; target Element distance to the top of the page in pixels<br/>
 > <i>@param</i> {boolean} <b>options.hover</b> (optional) Hover mouse over center of element after scrolling; default <i>true</i><br/>
-> <i>@return</i> {boolean} True on success, false on failure<br/>
+> <i>@return</i> {boolean} <i>true</i> on success, <i>false</i> on failure<br/>
 
 * * *
 
@@ -1465,6 +1522,7 @@ srcOutputs: []
 > <i>@param</i> {boolean} <b>options.replace</b> (optional) Replace current text; default <i>false</i> to append text<br/>
 > <i>@param</i> {boolean} <b>options.submit</b> (optional) Press the <i>Enter</i> key at the end; default <i>false</i><br/>
 > <i>@param</i> {int} <b>options.speed</b> (optional) Typing speed in characters per second; <i>[1,250]</i>; default <i>5</i><br/>
+> <i>@param</i> {int} <b>options.sequence</b> (optional) Type last N characters in sequence; use clipboard for the rest; <i>[1,1000]</i>; default <i>250</i><br/>
 > <i>@return</i> {boolean} Returns <i>false</i> if target element is not editable<br/>
 
 * * *
@@ -1483,7 +1541,8 @@ srcOutputs: []
 > <i>@param</i> {boolean} <b>options.replace</b> (optional) Replace current text; default <i>false</i> to append text<br/>
 > <i>@param</i> {boolean} <b>options.submit</b> (optional) Press the <i>Enter</i> key at the end; default <i>false</i><br/>
 > <i>@param</i> {int} <b>options.speed</b> (optional) Typing speed in characters per second; <i>[1,250]</i>; default <i>5</i><br/>
-> <i>@return</i> {boolean} True on success, false on failure<br/>
+> <i>@param</i> {int} <b>options.sequence</b> (optional) Type last N characters in sequence; use clipboard for the rest; <i>[1,1000]</i>; default <i>250</i><br/>
+> <i>@return</i> {boolean} <i>true</i> on success, <i>false</i> on failure<br/>
 
 * * *
 
@@ -1493,8 +1552,8 @@ srcOutputs: []
 > Automatically scroll to Element before action.<br/>
 > 
 > <i>@param</i> {string} <b>elKey</b> Element key - obtained with <i>$.doQuery</i><br/>
-> <i>@param</i> {string|string[]} <b>values</b> A single value or an array of values for &lt;select multiple/&gt;<br/>
-> <i>@return</i> {boolean} True on success, false on failure<br/>
+> <i>@param</i> {string|string[]} <b>values</b> A single value or an array of values for <i>&lt;select multiple/&gt;</i><br/>
+> <i>@return</i> {boolean} <i>true</i> on success, <i>false</i> on failure<br/>
 
 * * *
 
@@ -1505,7 +1564,7 @@ srcOutputs: []
 > 
 > <i>@param</i> {string} <b>elKey</b> Element key - obtained with <i>$.doQuery</i><br/>
 > <i>@param</i> {string|string[]} <b>values</b> A single value or an array of values<br/>
-> <i>@return</i> {boolean} True on success, false on failure<br/>
+> <i>@return</i> {boolean} <i>true</i> on success, <i>false</i> on failure<br/>
 
 * * *
 
@@ -1516,7 +1575,7 @@ srcOutputs: []
 > 
 > <i>@param</i> {string} <b>elKey</b> Element key - obtained with <i>$.doQuery</i><br/>
 > <i>@param</i> {string|string[]} <b>filePaths</b> File path(s)<br/>
-> <i>@return</i> {boolean} True on success, false on failure<br/>
+> <i>@return</i> {boolean} <i>true</i> on success, <i>false</i> on failure<br/>
 
 * * *
 
@@ -1526,11 +1585,12 @@ srcOutputs: []
 > 
 > <i>@param</i> {string} <b>selector</b> Standard CSS selector<br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Query options<br/>
-> <i>@param</i> {string} <b>options.contains</b> (optional) Text contained by Element (case insensitive); default <i>null</i> for no restrictions<br/>
 > <i>@param</i> {string} <b>options.parent</b> (optional) Parent Element key; default <i>null</i> to search the entire Document<br/>
+> <i>@param</i> {string} <b>options.contains</b> (optional) Text contained by Element (case insensitive); default <i>null</i> for no restrictions<br/>
+> <i>@param</i> {boolean} <b>options.scrollable</b> (optional) Restrict results to elements that have active scrollbars; default <i>false</i><br/>
 > <i>@param</i> {int} <b>options.timeout</b> (optional) Timeout in seconds; default <i>60</i><br/>
 > <i>@param</i> {boolean} <b>options.first</b> (optional) Return only the first Element's key (<i>string</i> instead of <i>string[]</i>); default <i>false</i><br/>
-> <i>@return</i> {string[]|string|null} Array of <i>Element keys</i> OR <i>Element key</i> if <i>options.first</i> OR <i>null</i> on timeout<br/>
+> <i>@return</i> {string[]|string|false} Array of <i>Element keys</i>; <i>Element key</i> if <i>options.first</i>; <i>false</i> on timeout<br/>
 
 * * *
 
@@ -1541,7 +1601,7 @@ srcOutputs: []
 > <i>@param</i> {string} <b>elKey</b> Element key - obtained with <i>$.doQuery</i> or <i>$.doAwaitPresent</i><br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Query options<br/>
 > <i>@param</i> {int} <b>options.timeout</b> (optional) Timeout in seconds; default <i>60</i><br/>
-> <i>@return</i> {boolean} True on success, false on timeout<br/>
+> <i>@return</i> {boolean} <i>true</i> on success, <i>false</i> on timeout<br/>
 
 * * *
 
@@ -1552,7 +1612,7 @@ srcOutputs: []
 > <i>@param</i> {string} <b>elKey</b> Element key - obtained with <i>$.doQuery</i> or <i>$.doAwaitPresent</i><br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Query options<br/>
 > <i>@param</i> {int} <b>options.timeout</b> (optional) Timeout in seconds; default <i>60</i><br/>
-> <i>@return</i> {boolean} True on success, false on timeout<br/>
+> <i>@return</i> {boolean} <i>true</i> on success, <i>false</i> on timeout<br/>
 
 * * *
 
@@ -1563,7 +1623,7 @@ srcOutputs: []
 > <i>@param</i> {string} <b>elKey</b> Element key - obtained with <i>$.doQuery</i> or <i>$.doAwaitPresent</i><br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Query options<br/>
 > <i>@param</i> {int} <b>options.timeout</b> (optional) Timeout in seconds; default <i>60</i><br/>
-> <i>@return</i> {boolean} True on success, false on timeout<br/>
+> <i>@return</i> {boolean} <i>true</i> on success, <i>false</i> on timeout<br/>
 
 [Create an account]: https://oglama.com/login/
 [oglama/oglama]: https://github.com/oglama/oglama/

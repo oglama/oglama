@@ -9,7 +9,7 @@ srcStateMachine:
 
       // Start testing
       if ($.args.length && $.args[0]) {
-        const videoPath = stopVideo();
+        const videoPath = await stopVideo();
         if ("string" !== typeof videoPath) {
           throw new Error("$.ioSaveVideo failed");
         }
@@ -684,7 +684,7 @@ srcFunctions:
 
       // Timeout on "element present" (null)
       const recheckPresent = await $.doAwaitPresent(cssSelector, { timeout: 1 });
-      if (null !== recheckPresent) {
+      if (false !== recheckPresent) {
         throw new Error("$.doAwaitPresent did not time out");
       }
   - key: test-await-visible
