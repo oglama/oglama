@@ -130,15 +130,15 @@ srcFunctions:
       }
   - key: test-jiggle
     code: |
-      $.log("Testing $.doGetViewportSize, $.doHoverAt, $.doJiggle");
+      $.log("Testing $.doGetViewport, $.doHoverAt, $.doJiggle");
 
       // Go home
       await $.navLoad("about:home");
 
       // Move mouse to center
-      const viewportSize = await $.doGetViewportSize();
+      const viewportSize = await $.doGetViewport();
       if (!Number.isInteger(viewportSize.width) || !Number.isInteger(viewportSize.height)) {
-        throw new Error("$.doGetViewportSize failed");
+        throw new Error("$.doGetViewport failed");
       }
       const left = viewportSize.width / 2;
       const top = viewportSize.height / 2;

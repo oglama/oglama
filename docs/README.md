@@ -1302,15 +1302,13 @@ srcOutputs: []
 
 #### async $.doGetBox( elKey )
 
-> Document: Get the box of any HTML Element.<br/>
+> Document: Get the box of an HTML Element.<br/>
 > 
 > <i>@typedef</i> {Object} Box<br/>
 > <i>@property</i> {int} <b>left</b> Left coordinate (px)<br/>
 > <i>@property</i> {int} <b>top</b> Top coordinate (px)<br/>
 > <i>@property</i> {int} <b>width</b> Width of border-box, including padding and borders (px)<br/>
 > <i>@property</i> {int} <b>height</b> Height of border-box, including padding and borders (px)<br/>
-> <i>@property</i> {int} <b>clientWidth</b> Inner width including padding, but excluding borders, margins and scroll bars (px)<br/>
-> <i>@property</i> {int} <b>clientHeight</b> Inner height including padding, but excluding borders, margins and scroll bars (px)<br/>
 > <i>@property</i> {int} <b>scrollLeft</b> Distance of scrolled content from the left (px)<br/>
 > <i>@property</i> {int} <b>scrollTop</b> Distance of scrolled content from the top (px)<br/>
 > <i>@property</i> {int} <b>scrollWidth</b> Total width of content inside element, including overflow (px)<br/>
@@ -1411,11 +1409,21 @@ srcOutputs: []
 
 * * *
 
-#### async $.doGetViewportSize()
+#### async $.doGetViewport()
 
-> Document: Get the viewport size<br/>
+> Document: Get the viewport box.<br/>
 > 
-> <i>@return</i> {{ width: int, height: int, scrollWidth: int, scrollHeight: int}}<br/>
+> <i>@typedef</i> {Object} Box<br/>
+> <i>@property</i> {int} <b>left</b> Left coordinate (px)<br/>
+> <i>@property</i> {int} <b>top</b> Top coordinate (px)<br/>
+> <i>@property</i> {int} <b>width</b> Width of viewport (px)<br/>
+> <i>@property</i> {int} <b>height</b> Height of viewport (px)<br/>
+> <i>@property</i> {int} <b>scrollLeft</b> Distance of scrolled content from the left (px)<br/>
+> <i>@property</i> {int} <b>scrollTop</b> Distance of scrolled content from the top (px)<br/>
+> <i>@property</i> {int} <b>scrollWidth</b> Total width of content, including overflow (px)<br/>
+> <i>@property</i> {int} <b>scrollHeight</b> Total height of content, including overflow (px)<br/>
+> 
+> <i>@return</i> {Box}<br/>
 
 * * *
 
@@ -1497,7 +1505,7 @@ srcOutputs: []
 
 #### async $.doScrollTo( elKey, options = {} )
 
-> Document: Scroll to HTML Element<br/>
+> Document: Scroll to HTML Element.<br/>
 > 
 > <i>@param</i> {string} <b>elKey</b> Element key - obtained with <i>$.doQuery</i><br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Scroll to options<br/>
