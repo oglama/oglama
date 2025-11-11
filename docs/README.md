@@ -584,16 +584,34 @@ srcOutputs: []
 
 * * *
 
-#### async $.osShowFile( filePath )
+#### $.osFileGetUrl( filePath )
+
+> OS: Prepare <i>file:///</i> URL from file path.<br/>
+> 
+> <i>@param</i> {string|null} <b>filePath</b> File path generated with <i>$.ioSave*</i> methods or <i>$.ioInputFiles</i><br/>
+> <i>@return</i> {string|null} URI encoded file:/// URL or <i>null</i> on error<br/>
+
+* * *
+
+#### async $.osFileGetSize( filePath )
+
+> OS: Fetch file size.<br/>
+> 
+> <i>@param</i> {string|null} <b>filePath</b> File path generated with <i>$.ioSave*</i> methods or <i>$.ioInputFiles</i><br/>
+> <i>@return</i> {{ int:int, string:string}|null} File size in bytes and as a human-readable string expressed in KiB, MiB, GiB, and TiB<br/>
+
+* * *
+
+#### async $.osFileShow( filePath )
 
 > OS: Show file in folder.<br/>
 > 
-> <i>@param</i> {string} <b>filePath</b> File path<br/>
+> <i>@param</i> {string} <b>filePath</b> File path generated with <i>$.ioSave*</i> methods or <i>$.ioInputFiles</i><br/>
 > <i>@return</i> {boolean}<br/>
 
 It is recommended that you use this method with caution and only with the explicit permission of users, as opening folders may interfere with their activities.
 
-**example-osShowFile.oglama.yaml**
+**example-osFileShow.oglama.yaml**
 ```yaml
 srcStateMachine:
   - key: start
@@ -605,7 +623,7 @@ srcStateMachine:
 
       // Open containing folder (if the user allows it)
       if ($.ioInputBoolean("show-file-after-download")) {
-        await $.osShowFile(filePath);
+        await $.osFileShow(filePath);
       }
 srcFunctions: []
 srcInputs:
@@ -892,7 +910,7 @@ srcOutputs: []
 > <i>@param</i> {string} <b>text</b> Text to save<br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Save options<br/>
 > <i>@param</i> {string} <b>options.extension</b> (optional) File extension; default <i>null</i>; must match one of the extensions declared in output; falls back to first file extension declared in output<br/>
-> <i>@return</i> {string | null} File path on success, null if download failed<br/>
+> <i>@return</i> {string | null} File path on success, <i>null</i> if download failed<br/>
 > <i>@throws</i> {Error} If <i>ioKey</i> is not a valid output files key<br/>
 
 * * *
@@ -939,8 +957,10 @@ srcOutputs: []
 >  - "h264": wider support across devices<br/>
 > <i>@param</i> {boolean} <b>options.dpr</b> (optional) Use Device Pixel Ratio (DPR); default <i>false</i>; output video at true scale, which might be 2:1 instead of 1:1 on MacOS<br/>
 > <i>@param</i> {boolean} <b>options.rwp</b> (optional) Record While Paused; default <i>false</i>; continue recording video even when agent is paused<br/>
-> <i>@return</i> {function(): Promise&lt;(string|null)&gt;} Returns an async function that stops recording; calling this function returns the file path on success or <i>null</i> if video capture failed<br/>
-> <i>@throws</i> {Error} If <i>ioKey</i> is not a valid output files key<br/>
+> <i>@return</i> {function(): Promise&lt;{ path:(string|null), width:int, height:int, duration:int, error: (string|null)}&gt;}<br/>
+> Returns an async function that stops recording the page.<br/>
+> Calling this function returns an object with recording details.<br/>
+> <i>@throws</i> {Error} If <i>ioKey</i> is not a valid output files key OR if trying to record more than one video at a time<br/>
 
 In the following example we're recording smooth scrolling a web page at 150 pixels per second. Note that `$.ioSaveVideo` returns a callback function that stops the recording.
 
@@ -1150,7 +1170,7 @@ srcOutputs:
 > <i>@param</i> {string} <b>options.contains</b> (optional) Text contained by Element (case insensitive); default <i>null</i> for no restrictions<br/>
 > <i>@param</i> {boolean} <b>options.scrollable</b> (optional) Restrict results to elements that have active scrollbars; default <i>false</i><br/>
 > <i>@param</i> {boolean} <b>options.viewportDown</b> (optional) Restrict results to elements placed in the viewport and below it; default <i>false</i><br/>
-> <i>@return</i> {string|null} <i>Element key</i> on null on error<br/>
+> <i>@return</i> {string|null} <i>Element key</i> or <i>null</i> on error<br/>
 
 * * *
 
@@ -1177,7 +1197,7 @@ srcOutputs:
 > <i>@param</i> {string} <b>options.selector</b> (optional) CSS selector for parent element; default <i>null</i> to stop at first ancestor<br/>
 > <i>@param</i> {string} <b>options.contains</b> (optional) Text contained by Element (case insensitive); default <i>null</i> for no restrictions<br/>
 > <i>@param</i> {boolean} <b>options.scrollable</b> (optional) Restrict results to elements that have active scrollbars; default <i>false</i><br/>
-> <i>@return</i> {string|null} <i>Element key</i> on null on error<br/>
+> <i>@return</i> {string|null} <i>Element key</i> or <i>null</i> on error<br/>
 
 * * *
 
@@ -1205,7 +1225,7 @@ srcOutputs:
 > <i>@param</i> {string} <b>options.selector</b> (optional) CSS selector for parent element; default <i>null</i> to stop at first ancestor<br/>
 > <i>@param</i> {string} <b>options.contains</b> (optional) Text contained by Element (case insensitive); default <i>null</i> for no restrictions<br/>
 > <i>@param</i> {boolean} <b>options.scrollable</b> (optional) Restrict results to elements that have active scrollbars; default <i>false</i><br/>
-> <i>@return</i> {string|null} <i>Element key</i> on null on error<br/>
+> <i>@return</i> {string|null} <i>Element key</i> or <i>null</i> on error<br/>
 
 * * *
 
@@ -1582,7 +1602,7 @@ srcOutputs: []
 > Automatically scroll to Element before action.<br/>
 > 
 > <i>@param</i> {string} <b>elKey</b> Element key - obtained with <i>$.doQuery</i><br/>
-> <i>@param</i> {string|string[]} <b>filePaths</b> File path(s)<br/>
+> <i>@param</i> {string|string[]} <b>filePaths</b> File path(s) generated with <i>$.ioSave*</i> methods or <i>$.ioInputFiles</i><br/>
 > <i>@return</i> {boolean} <i>true</i> on success, <i>false</i> on failure<br/>
 
 * * *

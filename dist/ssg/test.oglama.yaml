@@ -9,8 +9,8 @@ srcStateMachine:
 
       // Start testing
       if ($.args.length && $.args[0]) {
-        const videoPath = await stopVideo();
-        if ("string" !== typeof videoPath) {
+        const videoInfo = await stopVideo();
+        if ("string" !== typeof videoInfo?.path) {
           throw new Error("$.ioSaveVideo failed");
         }
         await $.sleep(2000);
