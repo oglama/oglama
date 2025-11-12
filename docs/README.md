@@ -319,6 +319,7 @@ srcOutputs: []
 > 
 > <i>@param</i> {string} <b>prompt</b> Prompt - up to 4096 characters long<br/>
 > <i>@return</i> {string} LLM response<br/>
+> 
 > <i>@throws</i> {Error} If the LLM is not ready<br/>
 
 Oglama provides easy access to a locally running large language model for complex tasks such as text summarization and sentiment analysis. Please note that LLMs are neither accurate nor deterministic.  
@@ -556,6 +557,7 @@ srcOutputs: []
 > <i>@param</i> {int} <b>options.timeout</b> (optional) Request timeout in seconds; default <i>60</i><br/>
 > <i>@param</i> {boolean} <b>options.resData</b> (optional) Parse and return the response data; default <i>true</i><br/>
 > <i>@return</i> {{ ok:boolean, status:number, headers:object, data:mixed}} Response object<br/>
+> 
 > <i>@throws</i> {Error} If request failed<br/>
 
 This method acts like a proxy, bypassing any CORS restrictions.  
@@ -728,10 +730,10 @@ srcOutputs: []
 
 > Environment globals: Set environment variable. Values must be JSON serializable.<br/>
 > These values persit between runs but are reset on module install, fork or release.<br/>
+> The total environment cache size must not exceeded 512kB per agent.<br/>
 > 
 > <i>@param</i> {string} <b>envKey</b> Environment variable key<br/>
 > <i>@param</i> {any|null} <b>envValue</b> Environment variable value; if <i>null</i>, the key is removed<br/>
-> <i>@throws</i> {Error} If total environment cache size exceeded 512kB for this agent<br/>
 > <i>@return</i> {boolean}<br/>
 
 In this example, we're listing and removing all values from the environment cache.
@@ -800,6 +802,7 @@ srcOutputs: []
 > 
 > <i>@param</i> {string} <b>ioKey</b> Integer input key<br/>
 > <i>@return</i> {int | int[]} Integer(s) supplied by user<br/>
+> 
 > <i>@throws</i> {Error} If <i>ioKey</i> is not a valid input integer key<br/>
 
 * * *
@@ -811,6 +814,7 @@ srcOutputs: []
 > 
 > <i>@param</i> {string} <b>ioKey</b> String input key<br/>
 > <i>@return</i> {string | string[]} String(s) supplied by user<br/>
+> 
 > <i>@throws</i> {Error} If <i>ioKey</i> is not a valid input string key<br/>
 
 * * *
@@ -821,6 +825,7 @@ srcOutputs: []
 > 
 > <i>@param</i> {string} <b>ioKey</b> Boolean input key<br/>
 > <i>@return</i> {boolean} Boolean supplied by user<br/>
+> 
 > <i>@throws</i> {Error} If <i>ioKey</i> is not a valid input boolean key<br/>
 
 * * *
@@ -834,6 +839,7 @@ srcOutputs: []
 > <i>@param</i> {string} <b>ioKey</b> Table input key<br/>
 > <i>@param</i> {int} <b>index</b> (optional) Table index; default <i>null</i><br/>
 > <i>@return</i> {Object&lt;string,string&gt; | null} Current row or <i>null</i> if reached the end of the table<br/>
+> 
 > <i>@throws</i> {Error} If <i>ioKey</i> is not a valid input table key<br/>
 
 * * *
@@ -844,6 +850,7 @@ srcOutputs: []
 > 
 > <i>@param</i> {string} <b>ioKey</b> Files input key<br/>
 > <i>@return</i> {string[]} Input file paths<br/>
+> 
 > <i>@throws</i> {Error} If <i>ioKey</i> is not a valid input files key<br/>
 
 * * *
@@ -856,6 +863,7 @@ srcOutputs: []
 > <i>@param</i> {string} <b>ioKey</b> Integer output key<br/>
 > <i>@param</i> {int} <b>int</b> Integer<br/>
 > <i>@return</i> {boolean} <i>true</i> on success, false for invalid integer<br/>
+> 
 > <i>@throws</i> {Error} If <i>ioKey</i> is not a valid output integer key<br/>
 
 * * *
@@ -871,6 +879,7 @@ srcOutputs: []
 > <i>@param</i> {string} <b>ioKey</b> String output key<br/>
 > <i>@param</i> {string} <b>string</b> String<br/>
 > <i>@return</i> {boolean} <i>true</i> on success, false for invalid string<br/>
+> 
 > <i>@throws</i> {Error} If <i>ioKey</i> is not a valid output string key<br/>
 
 * * *
@@ -883,6 +892,7 @@ srcOutputs: []
 > <i>@param</i> {string} <b>ioKey</b> Boolean output key<br/>
 > <i>@param</i> {boolean} <b>boolean</b> Boolean value<br/>
 > <i>@return</i> {boolean} <i>true</i> on success, false for invalid boolean<br/>
+> 
 > <i>@throws</i> {Error} If <i>ioKey</i> is not a valid output boolean key<br/>
 
 * * *
@@ -895,6 +905,7 @@ srcOutputs: []
 > <i>@param</i> {string} <b>ioKey</b> Table output key<br/>
 > <i>@param</i> {Object&lt;string,string&gt;} <b>row</b> Row object<br/>
 > <i>@return</i> {boolean} <i>true</i> on success, false for invalid row object<br/>
+> 
 > <i>@throws</i> {Error} If <i>ioKey</i> is not a valid output table key<br/>
 
 * * *
@@ -911,6 +922,7 @@ srcOutputs: []
 > <i>@param</i> {Object} <b>options</b> (optional) Save options<br/>
 > <i>@param</i> {string} <b>options.extension</b> (optional) File extension; default <i>null</i>; must match one of the extensions declared in output; falls back to first file extension declared in output<br/>
 > <i>@return</i> {string | null} File path on success, <i>null</i> if download failed<br/>
+> 
 > <i>@throws</i> {Error} If <i>ioKey</i> is not a valid output files key<br/>
 
 * * *
@@ -927,18 +939,21 @@ srcOutputs: []
 > <i>@param</i> {int} <b>options.timeout</b> (optional) Download timeout in seconds; default <i>600</i><br/>
 > <i>@param</i> {string} <b>options.extension</b> (optional) File extension; default <i>null</i>; must match one of the extensions declared in output; falls back to first file extension declared in output<br/>
 > <i>@return</i> {string | null} File path on success, <i>null</i> if download failed<br/>
+> 
 > <i>@throws</i> {Error} If <i>ioKey</i> is not a valid output files key<br/>
 
 * * *
 
 #### async $.ioSaveScreenshot( ioKey, options = {} )
 
-> IO: Capture a screenshot of the current page and save it to disk.<br/>
+> IO: Take a screenshot of the current page and save it to disk.<br/>
 > 
 > <i>@param</i> {string} <b>ioKey</b> Files output key<br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Save options<br/>
 > <i>@param</i> {string} <b>options.extension</b> (optional) File extension; default <i>null</i>; must match one of the extensions declared in output; falls back to first file extension declared in output<br/>
-> <i>@return</i> {string | null} File path on success, <i>null</i> if screenshot failed<br/>
+> <i>@param</i> {boolean} <b>options.dpr</b> (optional) Use Device Pixel Ratio (DPR); default <i>false</i>; output video at true scale, which might be 2:1 instead of 1:1 on MacOS<br/>
+> <i>@return</i> {{ path:(string|null), width:int, height:int, error: (string|null)}} Screenshot details<br/>
+> 
 > <i>@throws</i> {Error} If <i>ioKey</i> is not a valid output files key<br/>
 
 * * *
@@ -960,6 +975,7 @@ srcOutputs: []
 > <i>@return</i> {function(): Promise&lt;{ path:(string|null), width:int, height:int, duration:int, error: (string|null)}&gt;}<br/>
 > Returns an async function that stops recording the page.<br/>
 > Calling this function returns an object with recording details.<br/>
+> 
 > <i>@throws</i> {Error} If <i>ioKey</i> is not a valid output files key OR if trying to record more than one video at a time<br/>
 
 In the following example we're recording smooth scrolling a web page at 150 pixels per second. Note that `$.ioSaveVideo` returns a callback function that stops the recording.
@@ -1011,6 +1027,7 @@ srcOutputs:
 > <i>@param</i> {int} <b>options.timeout</b> (optional) Download timeout in seconds; default <i>600</i><br/>
 > <i>@param</i> {string} <b>options.extension</b> (optional) File extension; default <i>null</i>; must match one of the extensions declared in output; falls back to first file extension declared in output<br/>
 > <i>@return</i> {string | null} File path on success, <i>null</i> if download failed<br/>
+> 
 > <i>@throws</i> {Error} If <i>ioKey</i> is not a valid output files key or if <i>url</i> is invalid<br/>
 
 * * *
@@ -1032,6 +1049,7 @@ srcOutputs:
 > <i>@param</i> {int} <b>options.timeout</b> (optional) Request timeout in seconds; default <i>60</i><br/>
 > <i>@param</i> {string} <b>options.extension</b> (optional) File extension; default <i>null</i>; must match one of the extensions declared in output; falls back to first file extension declared in output<br/>
 > <i>@return</i> {string | null} File path on success, <i>null</i> if download failed<br/>
+> 
 > <i>@throws</i> {Error} If <i>ioKey</i> is not a valid output files key or if <i>url</i> is invalid<br/>
 
 This example demonstrates how to save a file with a custom extension. Note that the file extension must first be declared in the output configuration. If the specified extension is not included in the declared list, the first listed extension, "json" in this case, will be used instead.  
@@ -1075,6 +1093,7 @@ srcOutputs:
 > <i>@param</i> {Object} <b>options</b> (optional) Navigation options<br/>
 > <i>@param</i> {int} <b>options.timeout</b> (optional) Navigation timeout in seconds; default <i>60</i><br/>
 > <i>@return</i> {boolean} <i>true</i> on success, <i>false</i> on failure<br/>
+> 
 > <i>@throws</i> {Error} If page load failed<br/>
 
 * * *
@@ -1087,6 +1106,7 @@ srcOutputs:
 > <i>@param</i> {boolean} <b>options.skipCache</b> (optional) Reload skipping the cache; default <i>false</i><br/>
 > <i>@param</i> {int} <b>options.timeout</b> (optional) Reload timeout in seconds; default <i>60</i><br/>
 > <i>@return</i> {boolean} <i>true</i> on success, <i>false</i> on failure<br/>
+> 
 > <i>@throws</i> {Error} If page reload failed<br/>
 
 * * *
@@ -1098,6 +1118,7 @@ srcOutputs:
 > <i>@param</i> {Object} <b>options</b> (optional) Navigation options<br/>
 > <i>@param</i> {int} <b>options.timeout</b> (optional) Navigation timeout in seconds; default <i>60</i><br/>
 > <i>@return</i> {boolean} <i>true</i> on success, <i>false</i> on failure<br/>
+> 
 > <i>@throws</i> {Error} If navigation failed<br/>
 
 * * *
@@ -1109,6 +1130,7 @@ srcOutputs:
 > <i>@param</i> {Object} <b>options</b> (optional) Navigation options<br/>
 > <i>@param</i> {int} <b>options.timeout</b> (optional) Navigation timeout in seconds; default <i>60</i><br/>
 > <i>@return</i> {boolean} <i>true</i> on success, <i>false</i> on failure<br/>
+> 
 > <i>@throws</i> {Error} If navigation failed<br/>
 
 * * *
@@ -1245,6 +1267,7 @@ srcOutputs:
 > <i>@param</i> {int} <b>options.timeout</b> (optional) Request timeout in seconds; default <i>60</i><br/>
 > <i>@param</i> {boolean} <b>options.resData</b> (optional) Parse and return the response data; default <i>true</i><br/>
 > <i>@return</i> {{ ok:boolean, status:number, headers:object, data:mixed}} Response object<br/>
+> 
 > <i>@throws</i> {Error} If request failed<br/>
 
 This example describes how to fetch data in the browser when CORS is an issue.  

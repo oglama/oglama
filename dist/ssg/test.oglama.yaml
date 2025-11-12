@@ -540,14 +540,14 @@ srcFunctions:
   - key: test-io-screenshot
     code: |
       // Grab a PNG screenshot
-      const pngPath = await $.ioSaveScreenshot("images", { extension: "png" });
-      if ("string" !== typeof pngPath || !pngPath.match(/\.png$/g)) {
+      const pngInfo = await $.ioSaveScreenshot("images", { extension: "png" });
+      if ("string" !== typeof pngInfo?.path || !pngInfo.path.match(/\.png$/g)) {
         throw new Error("$.ioSaveScreenshot failed to grab screenshot as PNG");
       }
 
       // Grab a JPEG screenshot
-      const jpegPath = await $.ioSaveScreenshot("images", { extension: "jpeg" });
-      if ("string" !== typeof jpegPath || !jpegPath.match(/\.jpeg/g)) {
+      const jpegInfo = await $.ioSaveScreenshot("images", { extension: "jpeg" });
+      if ("string" !== typeof jpegInfo?.path || !jpegInfo.path.match(/\.jpeg/g)) {
         throw new Error("$.ioSaveScreenshot failed to grab screenshot as JPEG");
       }
   - key: test-requests
