@@ -813,9 +813,11 @@ srcInputs:
     name: Files
     desc: ""
     extensions:
-      - gif
       - png
+      - jpg
       - jpeg
+      - gif
+      - webp
 srcOutputs:
   - key: int
     type: int
