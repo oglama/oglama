@@ -24,7 +24,7 @@ This product uses third party software in accordance with their respective licen
   * **[electron-updater](https://npmjs.com/package/electron-updater)** `v.6.6.2` ⚖️ license: [MIT](./lic/electron-updater.license.md) • author: Vladimir Krivosheev
   * **[fs-extra](https://npmjs.com/package/fs-extra)** `v.10.1.0` ⚖️ license: [MIT](./lic/fs-extra.license.md) • author: JP Richardson <jprichardson@gmail.com>
   * **[graceful-fs](https://npmjs.com/package/graceful-fs)** `v.4.2.11` ⚖️ license: [ISC](./lic/graceful-fs.license.md)
-  * **[js-yaml](https://npmjs.com/package/js-yaml)** `v.4.1.0` ⚖️ license: [MIT](./lic/js-yaml.license.md) • author: Vladimir Zapparov <dervus.grim@gmail.com>
+  * **[js-yaml](https://npmjs.com/package/js-yaml)** `v.4.1.1` ⚖️ license: [MIT](./lic/js-yaml.license.md) • author: Vladimir Zapparov <dervus.grim@gmail.com>
   * **[jsonfile](https://npmjs.com/package/jsonfile)** `v.6.1.0` ⚖️ license: [MIT](./lic/jsonfile.license.md) • author: JP Richardson <jprichardson@gmail.com>
   * **[lazy-val](https://npmjs.com/package/lazy-val)** `v.1.0.5` ⚖️ license: [MIT](./lic/lazy-val.license.md) • author: Vladimir Krivosheev
   * **[lodash.escaperegexp](https://npmjs.com/package/lodash.escaperegexp)** `v.4.1.2` ⚖️ license: [MIT](./lic/lodash.escaperegexp.license.md) • author: John-David Dalton <john.david.dalton@gmail.com> (http://allyoucanleet.com/)

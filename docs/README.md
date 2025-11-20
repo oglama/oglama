@@ -52,7 +52,7 @@ Functions are used to avoid code duplication within state machine states. Unlike
 
 ##### 2.3. Inputs and outputs
 
-Each module can define up to 20 inputs and 20 outputs. This limit is intended to reduce cognitive load.
+Each module can define up to 128 inputs and 128 outputs.
 
 Supported input and output types are: `integer`, `string`, `boolean`,`table` and `files`
 
@@ -951,6 +951,7 @@ srcOutputs: []
 > <i>@param</i> {string} <b>ioKey</b> Files output key<br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Save options<br/>
 > <i>@param</i> {string} <b>options.extension</b> (optional) File extension; default <i>null</i>; must match one of the extensions declared in output; falls back to first file extension declared in output<br/>
+> <i>@param</i> {boolean} <b>options.full</b> (optional) Grab a full-page screenshot; default <i>false</i><br/>
 > <i>@param</i> {boolean} <b>options.dpr</b> (optional) Use Device Pixel Ratio (DPR); default <i>false</i>; output video at true scale, which might be 2:1 instead of 1:1 on MacOS<br/>
 > <i>@return</i> {{ path:(string|null), width:int, height:int, error: (string|null)}} Screenshot details<br/>
 > 

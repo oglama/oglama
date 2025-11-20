@@ -1,6 +1,6 @@
 {
     "name": "oglama",
-    "version": "0.0.75",
+    "version": "0.0.76",
     "description": "Private, community-driven web automation",
     "author": "Oglama (https://oglama.com)",
     "license": "Apache-2.0",
@@ -78,7 +78,7 @@
         "asar": "3.2.0",
         "cross-spawn": "7.0.6",
         "electron": "38.1.0",
-        "electron-builder": "26.0.12",
+        "electron-builder": "26.2.0",
         "eslint": "8.57.1",
         "eslint-config-google": "0.14.0",
         "eslint-config-prettier": "8.10.0",
