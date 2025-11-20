@@ -1,6 +1,7 @@
 # Node artifact files
 /node_modules/
 /out/
+package-lock.json
 
 # Linters
 .eslintcache
