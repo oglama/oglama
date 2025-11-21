@@ -1541,7 +1541,7 @@ srcOutputs: []
 > 
 > <i>@param</i> {int} <b>amount</b> Scroll amount in pixels<br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Scroll options<br/>
-> <i>@param</i> {int} <b>options.speed</b> (optional) Scroll speed in pixels/second; default <i>100</i>; between <i>1</i> and <i>2000</i><br/>
+> <i>@param</i> {int} <b>options.speed</b> (optional) Scroll speed in pixels/second; default <i>100</i>; between <i>1</i> and <i>5000</i><br/>
 > <i>@param</i> {boolean} <b>options.vertical</b> (optional) Vertical or Horizontal scroll; default <i>true</i> for vertical<br/>
 > <i>@return</i> {boolean} <i>true</i> on success, <i>false</i> on failure<br/>
 

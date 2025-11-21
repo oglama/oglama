@@ -81,7 +81,7 @@ srcStateMachine:
 srcFunctions:
   - key: test-navigation
     code: |
-      $.log("Testing $.navLoad, $.navReload, $.jiggle");
+      $.log("Testing $.navLoad, $.navReload");
 
       // Go home
       $.log("Loading about:home");
@@ -588,7 +588,7 @@ srcFunctions:
       }
   - key: test-select
     code: |
-      $.log("Testing $.select");
+      $.log("Testing $.doSelect");
 
       // Select a single value
       const simpleSelect = await $.doQuery("[data-role=select]");
@@ -607,14 +607,14 @@ srcFunctions:
       }
   - key: test-checkbox
     code: |
-      $.log("Testing $.check: MUI and HTML checkboxes");
+      $.log("Testing $.doCheck: MUI and HTML checkboxes");
 
       // MUI checkboxes
       const muiCheckbox = await $.doQuery("input[type=checkbox][name=s1]");
       await $.doCheck(muiCheckbox, [2, 4]);
       const muiCheckboxValue = await $.doGetValue(muiCheckbox);
       if (!Array.isArray(muiCheckboxValue) || "2,4" !== muiCheckboxValue.join(",")) {
-        throw new Error("$.check failed for MUI checkbox");
+        throw new Error("$.doCheck failed for MUI checkbox");
       }
 
       // HTML checkboxes
@@ -622,18 +622,18 @@ srcFunctions:
       await $.doCheck(htmlCheckbox, [2, 4]);
       const htmlCheckboxValue = await $.doGetValue(htmlCheckbox);
       if (!Array.isArray(htmlCheckboxValue) || "2,4" !== htmlCheckboxValue.join(",")) {
-        throw new Error("$.check failed for HTML checkbox");
+        throw new Error("$.doCheck failed for HTML checkbox");
       }
   - key: test-radio
     code: |
-      $.log("Testing $.check: MUI and HTML radios");
+      $.log("Testing $.doCheck: MUI and HTML radios");
 
       // MUI radios
       const muiRadio = await $.doQuery("input[type=radio][name=r1]");
       await $.doCheck(muiRadio, 2);
       const muiRadioValue = await $.doGetValue(muiRadio);
       if ("2" !== muiRadioValue) {
-        throw new Error("$.check failed for MUI radio");
+        throw new Error("$.doCheck failed for MUI radio");
       }
 
       // HTML radios
@@ -641,7 +641,7 @@ srcFunctions:
       await $.doCheck(htmlRadio, 2);
       const htmlRadioValue = await $.doGetValue(htmlRadio);
       if ("2" !== htmlRadioValue) {
-        throw new Error("$.check failed for HTML radio");
+        throw new Error("$.doCheck failed for HTML radio");
       }
   - key: test-await-present
     code: |
