@@ -951,8 +951,9 @@ srcOutputs: []
 > <i>@param</i> {string} <b>ioKey</b> Files output key<br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Save options<br/>
 > <i>@param</i> {string} <b>options.extension</b> (optional) File extension; default <i>null</i>; must match one of the extensions declared in output; falls back to first file extension declared in output<br/>
-> <i>@param</i> {boolean} <b>options.full</b> (optional) Grab a full-page screenshot; default <i>false</i><br/>
+> <i>@param</i> {boolean} <b>options.full</b> (optional) Grab a full-page screenshot; default <i>false</i> to grab a screenshot of the visible viewport<br/>
 > <i>@param</i> {boolean} <b>options.dpr</b> (optional) Use Device Pixel Ratio (DPR); default <i>false</i>; output video at true scale, which might be 2:1 instead of 1:1 on MacOS<br/>
+> <i>@param</i> {int} <b>options.wait</b> (optional) Wait time in milliseconds before grabbing screenshot; default <i>10</i>; [10, 10000]<br/>
 > <i>@return</i> {{ path:(string|null), width:int, height:int, error: (string|null)}} Screenshot details<br/>
 > 
 > <i>@throws</i> {Error} If <i>ioKey</i> is not a valid output files key<br/>
