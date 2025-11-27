@@ -1,7 +1,7 @@
 {
     "name": "Oglama",
     "short_name": "Oglama",
-    "description": "Private, community-driven web automation (v.0.0.87)",
+    "description": "Private, community-driven web automation (v.0.0.88)",
     "id": "/",
     "start_url": "/",
     "display": "minimal-ui",
