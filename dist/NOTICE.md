@@ -1,7 +1,7 @@
 # NOTICE
 
-This product includes software developed by Oglama.
-Copyright © 2024-2025, [Oglama](https://oglama.com).
+This product includes software developed by Oglama™.
+Copyright © 2024-2025, [Oglama™](https://oglama.com).
 
 Licensed under the Apache License, Version 2.0 (the "License").
 You may obtain a copy of the License at:
