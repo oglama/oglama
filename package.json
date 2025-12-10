@@ -4,7 +4,6 @@
     "description": "Private, community-driven web automation",
     "author": "Oglama (https://oglama.com)",
     "license": "Apache-2.0",
-    "private": true,
     "main": "run.js",
     "scripts": {
         "start": "electron ./dist/run.js",
