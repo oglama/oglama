@@ -11,6 +11,8 @@
         "format": "prettier --write \"tools/**/*.js\" \"dist/lib/**/*.js\" \"dist/run.js\"",
         "build": "node tools/build"
     },
+    "repository": "oglama/oglama",
+    "homepage": "https://oglama.com",
     "build": {
         "asar": true,
         "appId": "com.oglama",
