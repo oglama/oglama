@@ -1,14 +1,19 @@
 {
     "name": "Oglama",
     "short_name": "Oglama",
-    "description": "Private, community-driven web automation (v.0.0.91)",
+    "description": "Private, community-driven web automation (v.0.0.92)",
     "id": "/",
     "start_url": "/",
     "display": "minimal-ui",
     "orientation": "any",
     "theme_color": "#f6c028",
     "background_color": "#ebfdff",
-    "categories": ["productivity", "business", "development", "utilities"],
+    "categories": [
+        "productivity",
+        "business",
+        "development",
+        "utilities"
+    ],
     "icons": [
         {
             "src": "/img/logo/64.png",
