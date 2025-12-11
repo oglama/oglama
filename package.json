@@ -13,6 +13,9 @@
     },
     "repository": "oglama/oglama",
     "homepage": "https://oglama.com",
+    "bin": {
+        "oglama": "./dist/bin.js"
+    },
     "build": {
         "asar": true,
         "appId": "com.oglama",
