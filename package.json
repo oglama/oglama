@@ -11,10 +11,13 @@
         "format": "prettier --write \"tools/**/*.js\" \"dist/lib/**/*.js\" \"dist/run.js\"",
         "build": "node tools/build"
     },
-    "repository": "oglama/oglama",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/oglama/oglama.git"
+    },
     "homepage": "https://oglama.com",
     "bin": {
-        "oglama": "./dist/bin.js"
+        "oglama": "dist/bin.js"
     },
     "build": {
         "asar": true,
