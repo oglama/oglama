@@ -1,10 +1,13 @@
 {
     "name": "oglama",
-    "version": "0.0.93",
+    "version": "0.0.94",
     "description": "Modern web automation",
     "homepage": "https://oglama.com/",
     "author": "Oglama",
     "main": "run.js",
+    "bin": {
+        "oglama": "bin.js"
+    },
     "res": true,
     "license": "Apache-2.0"
 }
