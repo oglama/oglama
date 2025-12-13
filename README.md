@@ -8,12 +8,14 @@
 
 ### Installation
 
-#### 🧰 CLI
+#### 🧰 Command-line interface
 
 You can run Oglama from any CI/CD pipeline or command-line interface.
 
-1. Install Oglama from the NPM repository with `npm install oglama`
-2. Learn how to use the CLI tools with `npx oglama --help`
+```bash
+npm install oglama
+npx oglama --help
+```
 
 #### ✨ Latest release
 
@@ -25,9 +27,10 @@ To install an older version, visit the [Releases](https://github.com/oglama/ogla
 
 #### 🌙 Nightly build
 
-To run the latest (unreleased) version of Oglama, clone this repository and run the following commands:
+To run the latest (unreleased) version of Oglama, **clone this repository** and run the following commands:
 
 ```bash
+git clone https://github.com/oglama/oglama.git .
 npm install
 npm start
 ```
@@ -39,5 +42,6 @@ Building Oglama modules is easy:
 1. Visit the [Oglama SDK Reference](https://oglama.com/docs/?ref=github)
 2. Download the sample module and import it into Oglama
 3. Start experimenting with dollar-sign methods - the integrated editor features auto-complete and code hints
+
 
 
