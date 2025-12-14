@@ -5,6 +5,13 @@
     "author": "Oglama (https://oglama.com)",
     "license": "Apache-2.0",
     "main": "run.js",
+    "keywords": [
+        "automation",
+        "cli",
+        "front-end",
+        "testing",
+        "oglama"
+    ],
     "scripts": {
         "start": "electron ./dist/run.js",
         "lint": "eslint --fix --cache \"tools/**/*.js\"",
