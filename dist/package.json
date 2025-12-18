@@ -1,7 +1,7 @@
 {
     "name": "oglama",
-    "version": "0.0.100",
-    "description": "Modern, community-driven web automation",
+    "version": "0.0.101",
+    "description": "Private web automation",
     "homepage": "https://oglama.com/",
     "author": "Oglama",
     "main": "run.js",
