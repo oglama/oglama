@@ -1,4 +1,4 @@
-## Oglama - Modern, community-driven web automation
+## Oglama - Private web automation
 
 <p align="center">
     <a href="https://oglama.com/?ref=github">
@@ -44,6 +44,7 @@ Building Oglama modules is easy:
 1. Visit the [Oglama SDK Reference](https://oglama.com/docs/?ref=github)
 2. Download the sample module and import it into Oglama
 3. Start experimenting with dollar-sign methods - the integrated editor features auto-complete and code hints
+
 
 
 
