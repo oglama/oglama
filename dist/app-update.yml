@@ -1,0 +1,4 @@
+provider: "github"
+owner: "oglama"
+repo: "oglama"
+releaseType: "release"
