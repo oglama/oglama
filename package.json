@@ -3,7 +3,7 @@
     "version": "0.0.103",
     "description": "Private, community-driven web automation",
     "author": "Oglama (https://oglama.com)",
-    "license": "Oglama-Source-Available-1.0",
+    "license": "Oglama-1.0",
     "main": "run.js",
     "keywords": [
         "automation",
